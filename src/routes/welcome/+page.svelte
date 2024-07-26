@@ -5,7 +5,3 @@
 </script>
 
 <p class=" text-foreground-900">Welcome to ThePortfolio</p>
-
-<Icon icon="mdi-light:home" class=" text-foreground-900" />
-<Button>Default</Button>
-<DarkMode />
