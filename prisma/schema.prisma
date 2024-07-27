@@ -21,6 +21,7 @@ model User {
   linkedInUrl String?
   websiteUrl  String?
   Portfolio   Portfolio[]
+  Project     Project[]
 
   @@map("users")
 }
@@ -46,6 +47,8 @@ model Portfolio {
 
 model Project {
   id          String           @id @default(auto()) @map("_id") @db.ObjectId
+  author      User             @relation(fields: [authorId], references: [id])
+  authorId    String           @db.ObjectId
   name        String
   description String?
   contents    ContentSection[]
