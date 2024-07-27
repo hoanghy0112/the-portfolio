@@ -8,10 +8,28 @@ datasource db {
 }
 
 model User {
+  id          String      @id @default(auto()) @map("_id") @db.ObjectId
+  uid         String      @unique
+  email       String      @unique
+  session     String      @unique
+  photo       String?
+  name        String?
+  title       String?
+  description String?
+  githubUrl   String?
+  youtubeUrl  String?
+  linkedInUrl String?
+  websiteUrl  String?
+  Portfolio   Portfolio[]
+
+  @@map("users")
+}
+
+model Portfolio {
   id          String  @id @default(auto()) @map("_id") @db.ObjectId
-  uid         String  @unique
+  author      User    @relation(fields: [authorId], references: [id])
+  authorId    String  @db.ObjectId
   email       String  @unique
-  session     String  @unique
   photo       String?
   name        String?
   title       String?
@@ -21,5 +39,70 @@ model User {
   linkedInUrl String?
   websiteUrl  String?
 
-  @@map("users")
+  achivements Achivement[]
+
+  @@map("portfolios")
+}
+
+model Project {
+  id          String           @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String?
+  contents    ContentSection[]
+  demoUrl     String?
+  repoUrls    RepoUrl[]
+  memberNum   Int?
+  startDate   DateTime?
+  endDate     DateTime?
+  tasks       Task[]
+  skills      Skill[]
+
+  @@map("projects")
+}
+
+type Work {
+  startDate DateTime
+  endDate   DateTime?
+  company   String
+  title     String
+  contents  ContentSection[]
+}
+
+type Education {
+  startDate DateTime
+  endDate   DateTime?
+  school    String
+  major     String?
+  gpa       Float?
+  contents  ContentSection[]
+}
+
+type ContentSection {
+  order       Int
+  title       String
+  description String
+  content     String[]
+}
+
+type Task {
+  content String
+  skills  Skill[]
+}
+
+type Achivement {
+  startDate   DateTime
+  endDate     DateTime?
+  title       String
+  description String?
+  photo       String?
+  url         String?
+}
+
+type Skill {
+  name String
+}
+
+type RepoUrl {
+  name String?
+  url  String
 }
