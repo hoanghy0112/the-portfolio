@@ -1,8 +1,8 @@
-<script>
+<script lang="ts">
+	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { signInWithGoogle } from '$lib/firebase/authentication';
 	import {
-		Avatar,
 		Button,
 		DarkMode,
 		Dropdown,
@@ -13,8 +13,7 @@
 		NavLi,
 		NavUl
 	} from 'flowbite-svelte';
-
-	import { goto } from '$app/navigation';
+	import { fly } from 'svelte/transition';
 	import '../app.css';
 
 	const { data, children } = $props();
@@ -28,6 +27,8 @@
 
 		goto(`/login?token=${token}`, { invalidateAll: true });
 	}
+
+	const a = $page.url;
 </script>
 
 <svelte:head>
@@ -83,6 +84,14 @@
 	</NavUl>
 </Navbar>
 
-<div class=" px-16 py-8">
-	{@render children()}
+<div class=" overflow-hidden">
+	{#key data.pathname}
+		<div
+			in:fly={{ x: -200, duration: 300, delay: 300 }}
+			out:fly={{ x: 200, duration: 300 }}
+			class=" px-16 py-8"
+		>
+			{@render children()}
+		</div>
+	{/key}
 </div>
