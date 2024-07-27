@@ -27,7 +27,7 @@
 <Navbar>
 	<NavBrand href="/">
 		<span class="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
-			Flowbite
+			ThePortfolio
 		</span>
 	</NavBrand>
 	<div class="flex gap-2 md:order-2">
