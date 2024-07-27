@@ -48,7 +48,10 @@ export async function load({ cookies, url }) {
 			return { user: { email, name: displayName, photo } };
 		}
 	} catch (e) {
-		if (e instanceof FirebaseAuthError) error(500, { message: e.message });
+		if (e instanceof FirebaseAuthError) {
+			cookies.delete('session', { path: '/' });
+			error(500, { message: e.message });
+		}
 		if (e instanceof Error) error(500, { message: e.message });
 		error(500, { message: 'Unknown error' });
 	}

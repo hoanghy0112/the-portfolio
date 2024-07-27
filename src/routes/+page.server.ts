@@ -1,5 +1,10 @@
 import { redirect } from '@sveltejs/kit';
 
-export function load() {
-	throw redirect(307, '/welcome');
+export async function load({ parent, cookies }) {
+	const { user } = await parent();
+
+	if (!user) {
+		cookies.delete('session', { path: '/' });
+		throw redirect(307, '/welcome');
+	}
 }

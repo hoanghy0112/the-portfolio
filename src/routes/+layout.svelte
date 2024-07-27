@@ -1,17 +1,32 @@
 <script>
 	import { page } from '$app/stores';
 	import { signInWithGoogle } from '$lib/firebase/authentication';
-	import { Button, DarkMode, Navbar, NavBrand, NavHamburger, NavLi, NavUl } from 'flowbite-svelte';
+	import {
+		Avatar,
+		Button,
+		DarkMode,
+		Dropdown,
+		DropdownItem,
+		Navbar,
+		NavBrand,
+		NavHamburger,
+		NavLi,
+		NavUl
+	} from 'flowbite-svelte';
 
 	import { goto } from '$app/navigation';
 	import '../app.css';
+
+	const { data, children } = $props();
+
+	const user = $derived(data.user);
 
 	const activeUrl = $page.url.pathname;
 
 	async function onSignin() {
 		const { token } = await signInWithGoogle();
 
-		goto(`/login?token=${token}`);
+		goto(`/login?token=${token}`, { invalidateAll: true });
 	}
 </script>
 
@@ -32,7 +47,32 @@
 	</NavBrand>
 	<div class="flex gap-2 md:order-2">
 		<DarkMode />
-		<Button size="sm" onclick={onSignin}>Sign in</Button>
+		{#if user}
+			<div class=" ">
+				<div class="group">
+					<div
+						class=" relative group-hover:scale-90 group-active:scale-75 duration-200 cursor-pointer"
+					>
+						<img class=" w-8 h-8 rounded-full" src={user.photo} alt="User avatar" />
+					</div>
+				</div>
+				<Dropdown>
+					<div class=" px-4 py-2 flex flex-row gap-3 items-center">
+						<img class=" w-8 h-8 rounded-full" src={user.photo} alt="User avatar" />
+						<div class=" flex flex-col gap-0 justify-start">
+							<p class=" w-fit text-foreground-700 text-sm font-semibold">{user.name}</p>
+							<p class=" text-foreground-500 text-sm max-w-[150px] truncate">{user.email}</p>
+						</div>
+					</div>
+					<DropdownItem>Dashboard</DropdownItem>
+					<DropdownItem>Settings</DropdownItem>
+					<DropdownItem>Earnings</DropdownItem>
+					<DropdownItem href="/logout" data-sveltekit-reload slot="footer">Log out</DropdownItem>
+				</Dropdown>
+			</div>
+		{:else}
+			<Button size="sm" onclick={onSignin}>Sign in</Button>
+		{/if}
 		<NavHamburger />
 	</div>
 	<NavUl {activeUrl} class="order-1">
@@ -44,5 +84,5 @@
 </Navbar>
 
 <div class=" px-16 py-8">
-	<slot />
+	{@render children()}
 </div>
