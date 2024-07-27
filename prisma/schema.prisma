@@ -9,7 +9,10 @@ datasource db {
 
 model User {
   id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  uid         String  @unique
   email       String  @unique
+  session     String  @unique
+  photo       String?
   name        String?
   title       String?
   description String?

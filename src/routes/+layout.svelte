@@ -1,10 +1,18 @@
 <script>
 	import { page } from '$app/stores';
-
+	import { signInWithGoogle } from '$lib/firebase/authentication';
 	import { Button, DarkMode, Navbar, NavBrand, NavHamburger, NavLi, NavUl } from 'flowbite-svelte';
+
+	import { goto } from '$app/navigation';
 	import '../app.css';
 
 	const activeUrl = $page.url.pathname;
+
+	async function onSignin() {
+		const { token } = await signInWithGoogle();
+
+		goto(`/login?token=${token}`);
+	}
 </script>
 
 <svelte:head>
@@ -24,7 +32,7 @@
 	</NavBrand>
 	<div class="flex gap-2 md:order-2">
 		<DarkMode />
-		<Button size="sm">Sign in</Button>
+		<Button size="sm" onclick={onSignin}>Sign in</Button>
 		<NavHamburger />
 	</div>
 	<NavUl {activeUrl} class="order-1">
