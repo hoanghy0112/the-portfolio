@@ -8,7 +8,7 @@
 	let errors = $derived(errorStateGenerator(3));
 </script>
 
-<div class=" lg:w-1/2 grid gap-8">
+<div class=" grid gap-8">
 	<div class=" flex flex-col xl:flex-row gap-8">
 		<Input
 			class=" flex-1"

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import Preview from '$lib/components/Preview.svelte';
 	import { PORTFOLIO_STEPS } from '$lib/constants/portfolio-step';
 	import { portfolioFormStore } from '$lib/stores/portfolio-form.svelte.js';
 	import { onMount } from 'svelte';
@@ -25,11 +26,16 @@
 
 <div class=" w-full flex flex-col gap-12">
 	<h1 class=" w-fit font-semibold text-2xl">Create new portfolio</h1>
-	<div class=" grid gap-10">
-		<div class=" grid gap-1">
-			<p class=" text-foreground-500">Step {pageIndex} of 4</p>
-			<p class=" text-foreground-950 text-lg font-medium">{PORTFOLIO_STEPS[pageIndex]}</p>
+	<div class=" grid grid-cols-1 lg:grid-cols-2">
+		<div class=" grid gap-10">
+			<div class=" grid gap-1">
+				<p class=" text-foreground-500">Step {pageIndex} of 4</p>
+				<p class=" text-foreground-950 text-lg font-medium">{PORTFOLIO_STEPS[pageIndex]}</p>
+			</div>
+			{@render children()}
 		</div>
-		{@render children()}
+		<div>
+			<Preview data={portfolioFormStore.data} theme="default" />
+		</div>
 	</div>
 </div>
