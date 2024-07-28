@@ -1,11 +1,15 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import Preview from '$lib/components/Preview.svelte';
+	import Select from '$lib/components/Select.svelte';
 	import { PORTFOLIO_STEPS } from '$lib/constants/portfolio-step';
+	import { TEMPLATES } from '$lib/constants/templates';
 	import { portfolioFormStore } from '$lib/stores/portfolio-form.svelte.js';
 	import { onMount } from 'svelte';
 
 	const { data, children } = $props();
+
+	let theme = $state('default');
 
 	const user = $derived(data.user);
 
@@ -24,9 +28,9 @@
 	});
 </script>
 
-<div class=" w-full flex flex-col gap-12">
-	<h1 class=" w-fit font-semibold text-2xl">Create new portfolio</h1>
-	<div class=" grid grid-cols-1 lg:grid-cols-2">
+<div class="w-full grid grid-cols-1 lg:grid-cols-2 gap-8">
+	<div class=" flex flex-col gap-12">
+		<h1 class=" w-fit font-semibold text-2xl">Create new portfolio</h1>
 		<div class=" grid gap-10">
 			<div class=" grid gap-1">
 				<p class=" text-foreground-500">Step {pageIndex} of 4</p>
@@ -34,8 +38,12 @@
 			</div>
 			{@render children()}
 		</div>
-		<div>
-			<Preview data={portfolioFormStore.data} theme="default" />
-		</div>
+	</div>
+	<div class=" flex flex-col gap-4">
+		<Select
+			bind:selected={theme}
+			items={TEMPLATES.map((v) => ({ id: v.name, title: v.displayName }))}
+		/>
+		<Preview data={portfolioFormStore.data} {theme} />
 	</div>
 </div>
