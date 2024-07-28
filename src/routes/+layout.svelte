@@ -44,7 +44,7 @@
 	/>
 </svelte:head>
 
-<div class=" min-h-svh flex flex-col">
+<div class=" h-svh flex flex-col">
 	<Navbar>
 		<NavBrand href="/">
 			<span class=" lg:pl-12 self-center whitespace-nowrap text-xl font-semibold dark:text-white">
@@ -89,31 +89,33 @@
 		</NavUl>
 	</Navbar>
 
-	<div class=" overflow-hidden flex-1">
-		{#key data.pathname}
-			<div
-				in:fly={{ x: data.isPrev ? -200 : 200, duration: 300, delay: 300 }}
-				out:fly={{ x: data.isPrev ? 200 : -200, duration: 300 }}
-				class=" px-4 lg:px-16 py-8"
-			>
-				{@render children()}
-			</div>
-		{/key}
-	</div>
-
-	<div class=" px-4 lg:px-16 py-8">
-		<Footer>
-			<div class="sm:flex sm:items-center sm:justify-between">
-				<FooterCopyright href="/" by="HoangHy™" year={2024} />
-				<FooterLinkGroup
-					ulClass="flex flex-wrap items-center mt-3 text-sm text-gray-500 dark:text-gray-400 sm:mt-0"
+	<div class=" overflow-x-hidden overflow-y-auto flex flex-col flex-1">
+		<div class=" flex flex-1">
+			{#key data.pathname}
+				<div
+					in:fly={{ x: data.isPrev ? -200 : 200, duration: 300, delay: 300 }}
+					out:fly={{ x: data.isPrev ? 200 : -200, duration: 300 }}
+					class=" px-4 lg:px-16 py-8 flex-1"
 				>
-					<FooterLink href="/">About</FooterLink>
-					<FooterLink href="/">Privacy Policy</FooterLink>
-					<FooterLink href="/">Licensing</FooterLink>
-					<FooterLink href="/">Contact</FooterLink>
-				</FooterLinkGroup>
-			</div>
-		</Footer>
+					{@render children()}
+				</div>
+			{/key}
+		</div>
+
+		<div class=" px-4 lg:px-16 py-8">
+			<Footer>
+				<div class="sm:flex sm:items-center sm:justify-between">
+					<FooterCopyright href="/" by="HoangHy™" year={2024} />
+					<FooterLinkGroup
+						ulClass="flex flex-wrap items-center mt-3 text-sm text-gray-500 dark:text-gray-400 sm:mt-0"
+					>
+						<FooterLink href="/">About</FooterLink>
+						<FooterLink href="/">Privacy Policy</FooterLink>
+						<FooterLink href="/">Licensing</FooterLink>
+						<FooterLink href="/">Contact</FooterLink>
+					</FooterLinkGroup>
+				</div>
+			</Footer>
+		</div>
 	</div>
 </div>

@@ -45,6 +45,7 @@
 		"@prisma/client": "^5.17.0",
 		"firebase": "^10.12.4",
 		"firebase-admin": "^12.3.0",
-		"jsonwebtoken": "^9.0.2"
+		"jsonwebtoken": "^9.0.2",
+		"tailwind-merge": "^2.4.0"
 	}
 }

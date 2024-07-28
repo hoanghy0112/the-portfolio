@@ -2,7 +2,6 @@
 	import { page } from '$app/stores';
 	import { PORTFOLIO_STEPS } from '$lib/constants/portfolio-step';
 	import { portfolioFormStore } from '$lib/stores/portfolio-form.svelte.js';
-	import { GradientButton } from 'flowbite-svelte';
 	import { onMount } from 'svelte';
 
 	const { data, children } = $props();
@@ -17,13 +16,10 @@
 		return parseInt(currentPage.split('-').at(1) || '0') - 1;
 	});
 
-	$effect(() => {
-		console.log({ user });
-	});
-
 	onMount(() => {
-		if (user.name) portfolioFormStore.data.userName = user.name;
-		if (user.email) portfolioFormStore.data.email = user.email;
+		if (!portfolioFormStore.data.user.email) {
+			if (user.name) portfolioFormStore.data.user = user;
+		}
 	});
 </script>
 
