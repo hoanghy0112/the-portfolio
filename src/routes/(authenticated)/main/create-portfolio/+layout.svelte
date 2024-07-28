@@ -21,10 +21,6 @@
 		return parseInt(currentPage.split('-').at(1) || '0') - 1;
 	});
 
-	$effect(() => {
-		console.log({ theme });
-	});
-
 	onMount(() => {
 		if (!portfolioFormStore.data.user.email) {
 			if (user.name) portfolioFormStore.data.user = user;
@@ -43,7 +39,7 @@
 			{@render children()}
 		</div>
 	</div>
-	<div class=" flex flex-col gap-4">
+	<div class=" flex-1 flex flex-col gap-4">
 		<Select
 			bind:selected={theme}
 			items={TEMPLATES.map((v) => ({ id: v.name, title: v.displayName }))}
