@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
+	import FormNextButton from '$lib/components/FormNextButton.svelte';
 	import Input from '$lib/components/Input.svelte';
-	import { portfolioFormStore } from '$lib/stores/portfolio-form.svelte';
-	import { GradientButton } from 'flowbite-svelte';
 	import { errorStateGenerator } from '$lib/stores/error-state-generator.svelte';
+	import { portfolioFormStore } from '$lib/stores/portfolio-form.svelte';
+	import { EMAIL_REGEX } from '$lib/utils/regex';
 
 	let errors = $derived(errorStateGenerator(3));
 </script>
@@ -28,6 +28,9 @@
 	</div>
 	<Input
 		required
+		validate={(value) => {
+			if (!EMAIL_REGEX.test(value)) return 'You must provide a valid email';
+		}}
 		class=""
 		title="Email"
 		bind:value={portfolioFormStore.data.user.email}
@@ -36,18 +39,4 @@
 	/>
 </div>
 
-<div>
-	<GradientButton
-		color="cyanToBlue"
-		onclick={() => {
-			if (errors.every((e) => !e.message)) goto('/main/create-portfolio/stage-2');
-			else {
-				const element = errors.find((e) => e.message)?.element;
-				console.log({ element });
-				if (element) element.focus();
-			}
-		}}
-	>
-		Next step
-	</GradientButton>
-</div>
+<FormNextButton {errors} destinationUrl="/main/create-portfolio/stage-2" />

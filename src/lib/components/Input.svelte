@@ -18,14 +18,14 @@
 		title: string;
 		name: string;
 		error?: { message: string | null; element?: HTMLInputElement };
-		validate?: (value: any) => string | null;
+		validate?: (value: string) => string | null | undefined;
 	} & HTMLInputAttributes = $props();
 
 	let element = $state<HTMLInputElement>();
 
 	function validateValue(value: any): string | null {
 		if (required && !value) return `${title} is required`;
-		return validate(value);
+		return validate(value) || null;
 	}
 
 	$effect(() => {

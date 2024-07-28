@@ -5,7 +5,9 @@ export function errorStateGenerator(quantity: number) {
 			message: ''
 		}));
 
-	const errors = $state<{ message: string; element?: HTMLInputElement }[]>(defaultErrors);
+	const errors = $state<TErrorList>(defaultErrors);
 
 	return errors;
 }
+
+export type TErrorList = { message: string; element?: HTMLInputElement }[];
