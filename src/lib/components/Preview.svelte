@@ -18,7 +18,7 @@
 </script>
 
 {#if Template}
-	<div class=" rounded-xl">
+	<div class=" overflow-hidden rounded-2xl">
 		<svelte:component this={Template} {data} />
 	</div>
 {/if}

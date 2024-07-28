@@ -25,7 +25,7 @@
 		>
 			{data.user.name}
 		</h1>
-		<p>{data.user.title}</p>
+		<p style="font-size: 1rem;">{data.user.title}</p>
 		<div class=" flex gap-2">
 			<a target="_blank" href={`mailto:${data.user.email}`} class=" text-foreground-950">
 				<svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 512 512"
@@ -44,7 +44,7 @@
 		--foreground: #55ad9b;
 	}
 
-	* {
+	#main * {
 		color: var(--foreground);
 	}
 </style>
