@@ -1,12 +1,13 @@
 <script>
+	import { goto } from '$app/navigation';
 	import SectionList from '$lib/components/SectionList.svelte';
 	import { Button, GradientButton } from 'flowbite-svelte';
 </script>
 
 <div>
 	<SectionList title="Your Porfolio">
-		<a href="/main/create-portfolio">
-			<GradientButton color="tealToLime">Create one</GradientButton></a
-		>
+		<GradientButton onclick={() => goto('/main/create-portfolio')} color="tealToLime">
+			Create one
+		</GradientButton>
 	</SectionList>
 </div>

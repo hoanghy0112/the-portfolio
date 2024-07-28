@@ -7,4 +7,6 @@ export async function load({ parent, cookies }) {
 		cookies.delete('session', { path: '/' });
 		throw redirect(307, '/welcome');
 	}
+
+	return { user };
 }

@@ -11,6 +11,7 @@ model User {
   id          String      @id @default(auto()) @map("_id") @db.ObjectId
   uid         String      @unique
   email       String      @unique
+  phone       String      @unique
   session     String      @unique
   photo       String?
   name        String?
@@ -30,7 +31,9 @@ model Portfolio {
   id          String  @id @default(auto()) @map("_id") @db.ObjectId
   author      User    @relation(fields: [authorId], references: [id])
   authorId    String  @db.ObjectId
-  email       String  @unique
+  email       String
+  phone       String
+  userName    String
   photo       String?
   name        String?
   title       String?

@@ -11,7 +11,11 @@
 		NavBrand,
 		NavHamburger,
 		NavLi,
-		NavUl
+		NavUl,
+		Footer,
+		FooterCopyright,
+		FooterLinkGroup,
+		FooterLink
 	} from 'flowbite-svelte';
 	import { fly } from 'svelte/transition';
 	import '../app.css';
@@ -40,58 +44,76 @@
 	/>
 </svelte:head>
 
-<Navbar>
-	<NavBrand href="/">
-		<span class="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
-			ThePortfolio
-		</span>
-	</NavBrand>
-	<div class="flex gap-2 md:order-2">
-		<DarkMode />
-		{#if user}
-			<div class=" ">
-				<div class="group">
-					<div
-						class=" relative group-hover:scale-90 group-active:scale-75 duration-200 cursor-pointer"
-					>
-						<img class=" w-8 h-8 rounded-full" src={user.photo} alt="User avatar" />
-					</div>
-				</div>
-				<Dropdown>
-					<div class=" px-4 py-2 flex flex-row gap-3 items-center">
-						<img class=" w-8 h-8 rounded-full" src={user.photo} alt="User avatar" />
-						<div class=" flex flex-col gap-0 justify-start">
-							<p class=" w-fit text-foreground-700 text-sm font-semibold">{user.name}</p>
-							<p class=" text-foreground-500 text-sm max-w-[150px] truncate">{user.email}</p>
+<div class=" min-h-svh flex flex-col">
+	<Navbar>
+		<NavBrand href="/">
+			<span class=" lg:pl-12 self-center whitespace-nowrap text-xl font-semibold dark:text-white">
+				ThePortfolio
+			</span>
+		</NavBrand>
+		<div class="flex gap-2 md:order-2">
+			<DarkMode />
+			{#if user}
+				<div class=" ">
+					<div class="group">
+						<div
+							class=" relative group-hover:scale-90 group-active:scale-75 duration-200 cursor-pointer"
+						>
+							<img class=" w-8 h-8 rounded-full" src={user.photo} alt="User avatar" />
 						</div>
 					</div>
-					<DropdownItem>Dashboard</DropdownItem>
-					<DropdownItem>Settings</DropdownItem>
-					<DropdownItem>Earnings</DropdownItem>
-					<DropdownItem href="/logout" data-sveltekit-reload slot="footer">Log out</DropdownItem>
-				</Dropdown>
-			</div>
-		{:else}
-			<Button size="sm" onclick={onSignin}>Sign in</Button>
-		{/if}
-		<NavHamburger />
-	</div>
-	<NavUl {activeUrl} class="order-1">
-		<NavLi href="/">Home</NavLi>
-		<NavLi href="/about">About</NavLi>
-		<NavLi href="/contact">Contact</NavLi>
-		<NavLi href="/documentation">Documentation</NavLi>
-	</NavUl>
-</Navbar>
-
-<div class=" overflow-hidden">
-	{#key data.pathname}
-		<div
-			in:fly={{ x: -200, duration: 300, delay: 300 }}
-			out:fly={{ x: 200, duration: 300 }}
-			class=" px-16 py-8"
-		>
-			{@render children()}
+					<Dropdown>
+						<div class=" px-4 py-2 flex flex-row gap-3 items-center">
+							<img class=" w-8 h-8 rounded-full" src={user.photo} alt="User avatar" />
+							<div class=" flex flex-col gap-0 justify-start">
+								<p class=" w-fit text-foreground-700 text-sm font-semibold">{user.name}</p>
+								<p class=" text-foreground-500 text-sm max-w-[150px] truncate">{user.email}</p>
+							</div>
+						</div>
+						<DropdownItem>Dashboard</DropdownItem>
+						<DropdownItem>Settings</DropdownItem>
+						<DropdownItem>Earnings</DropdownItem>
+						<DropdownItem href="/logout" data-sveltekit-reload slot="footer">Log out</DropdownItem>
+					</Dropdown>
+				</div>
+			{:else}
+				<Button size="sm" onclick={onSignin}>Sign in</Button>
+			{/if}
+			<NavHamburger />
 		</div>
-	{/key}
+		<NavUl {activeUrl} class="order-1">
+			<NavLi href="/">Home</NavLi>
+			<NavLi href="/about">About</NavLi>
+			<NavLi href="/contact">Contact</NavLi>
+			<NavLi href="/documentation">Documentation</NavLi>
+		</NavUl>
+	</Navbar>
+
+	<div class=" overflow-hidden flex-1">
+		{#key data.pathname}
+			<div
+				in:fly={{ x: data.isPrev ? -200 : 200, duration: 300, delay: 300 }}
+				out:fly={{ x: data.isPrev ? 200 : -200, duration: 300 }}
+				class=" px-4 lg:px-16 py-8"
+			>
+				{@render children()}
+			</div>
+		{/key}
+	</div>
+
+	<div class=" px-4 lg:px-16 py-8">
+		<Footer>
+			<div class="sm:flex sm:items-center sm:justify-between">
+				<FooterCopyright href="/" by="HoangHy™" year={2024} />
+				<FooterLinkGroup
+					ulClass="flex flex-wrap items-center mt-3 text-sm text-gray-500 dark:text-gray-400 sm:mt-0"
+				>
+					<FooterLink href="/">About</FooterLink>
+					<FooterLink href="/">Privacy Policy</FooterLink>
+					<FooterLink href="/">Licensing</FooterLink>
+					<FooterLink href="/">Contact</FooterLink>
+				</FooterLinkGroup>
+			</div>
+		</Footer>
+	</div>
 </div>
