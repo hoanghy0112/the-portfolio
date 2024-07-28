@@ -1,6 +1,5 @@
 <script lang="ts">
 	import type { Portfolio } from '@prisma/client';
-	import { onMount } from 'svelte';
 
 	type Props = {
 		data: Portfolio;
@@ -11,11 +10,15 @@
 
 	let Template = $state<any>();
 
-	onMount(async () => {
-		Template = (await import(`$lib/templates/${theme}.svelte`)).default;
+	$effect(() => {
+		(async () => {
+			Template = (await import(`$lib/templates/${theme}.svelte`)).default;
+		})();
 	});
 </script>
 
 {#if Template}
-	<svelte:component this={Template} {data} />
+	<div class=" rounded-xl">
+		<svelte:component this={Template} {data} />
+	</div>
 {/if}

@@ -21,6 +21,10 @@
 		return parseInt(currentPage.split('-').at(1) || '0') - 1;
 	});
 
+	$effect(() => {
+		console.log({ theme });
+	});
+
 	onMount(() => {
 		if (!portfolioFormStore.data.user.email) {
 			if (user.name) portfolioFormStore.data.user = user;

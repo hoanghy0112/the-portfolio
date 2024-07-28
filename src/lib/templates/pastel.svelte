@@ -8,9 +8,21 @@
 	const { data }: Props = $props();
 </script>
 
-<div id="main" class=" rounded-xl bg-[#EDF5FC] w-full px-4 py-10 flex flex-col gap-4">
+<svelte:head>
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+	<link
+		href="https://fonts.googleapis.com/css2?family=Playwrite+BE+VLG:wght@100..400&display=swap"
+		rel="stylesheet"
+	/>
+</svelte:head>
+
+<div id="main" class=" bg-[#F1F8E8] w-full px-4 py-10 flex flex-col gap-4">
 	<div class=" flex flex-col items-center gap-4">
-		<h1 class=" font-light text-4xl">
+		<h1
+			style="font-family: 'Playwrite BE VLG', cursive;font-optical-sizing: auto;  font-style: normal;"
+			class=" font-light text-4xl"
+		>
 			{data.user.name}
 		</h1>
 		<p>{data.user.title}</p>
@@ -29,7 +41,7 @@
 
 <style>
 	#main {
-		--foreground: #272d2d;
+		--foreground: #55ad9b;
 	}
 
 	* {
