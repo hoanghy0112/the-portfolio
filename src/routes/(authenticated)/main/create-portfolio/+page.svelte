@@ -3,12 +3,9 @@
 	import Input from '$lib/components/Input.svelte';
 	import { portfolioFormStore } from '$lib/stores/portfolio-form.svelte';
 	import { GradientButton } from 'flowbite-svelte';
+	import { errorStateGenerator } from '$lib/stores/error-state-generator.svelte';
 
-	let errors: { message: string; element: any }[] = $state([
-		{ message: '', element: null },
-		{ message: '', element: null },
-		{ message: '', element: null }
-	]);
+	let errors = $derived(errorStateGenerator(3));
 </script>
 
 <div class=" lg:w-1/2 grid gap-8">
