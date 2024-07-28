@@ -6,6 +6,7 @@
 	import { TEMPLATES } from '$lib/constants/templates';
 	import { portfolioFormStore } from '$lib/stores/portfolio-form.svelte.js';
 	import { onMount } from 'svelte';
+	import { fly } from 'svelte/transition';
 
 	const { data, children } = $props();
 
@@ -28,15 +29,25 @@
 	});
 </script>
 
-<div class="w-full grid grid-cols-1 lg:grid-cols-2 gap-8">
-	<div class=" flex flex-col gap-12">
+<div class="w-full flex-1 flex flex-col lg:flex-row gap-8">
+	<div class=" flex-1 flex flex-col gap-12">
 		<h1 class=" w-fit font-semibold text-2xl">Create new portfolio</h1>
 		<div class=" grid gap-10">
 			<div class=" grid gap-1">
 				<p class=" text-foreground-500">Step {pageIndex} of 4</p>
 				<p class=" text-foreground-950 text-lg font-medium">{PORTFOLIO_STEPS[pageIndex]}</p>
 			</div>
-			{@render children()}
+			<div class=" flex flex-1">
+				{#key data.pathname}
+					<div
+						in:fly={{ x: data.isPrev ? -200 : 200, duration: 300, delay: 300 }}
+						out:fly={{ x: data.isPrev ? 200 : -200, duration: 300 }}
+						class=" flex-1 overflow-auto grid gap-10"
+					>
+						{@render children()}
+					</div>
+				{/key}
+			</div>
 		</div>
 	</div>
 	<div class=" flex-1 flex flex-col gap-4">

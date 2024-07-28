@@ -1,4 +1,5 @@
 import flowbitePlugin from 'flowbite/plugin';
+import plugin from 'tailwindcss/plugin';
 
 const generateColor = (name, colors) => {
 	return colors.reduce((obj, num) => ({ ...obj, [num]: `var(--${name}-${num})` }), {});
@@ -48,5 +49,20 @@ export default {
 			}
 		}
 	},
-	plugins: [flowbitePlugin]
+	variants: {
+		fontSize: ({ after }) => after(['em'])
+	},
+	plugins: [
+		flowbitePlugin,
+		plugin(function ({ addVariant }) {
+			addVariant('em', ({ container }) => {
+				container.walkRules((rule) => {
+					rule.selector = `.em\\:${rule.selector.slice(1)}`;
+					rule.walkDecls((decl) => {
+						decl.value = decl.value.replace('rem', 'em');
+					});
+				});
+			});
+		})
+	]
 };
