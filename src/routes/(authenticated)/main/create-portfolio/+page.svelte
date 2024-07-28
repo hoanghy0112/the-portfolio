@@ -5,7 +5,7 @@
 	import { portfolioFormStore } from '$lib/stores/portfolio-form.svelte';
 	import { EMAIL_REGEX } from '$lib/utils/regex';
 
-	let errors = $derived(errorStateGenerator(3));
+	let errors = $derived(errorStateGenerator(4));
 </script>
 
 <div class=" grid gap-8">
@@ -19,7 +19,6 @@
 			required
 		/>
 		<Input
-			class=""
 			title="Title"
 			bind:value={portfolioFormStore.data.user.title}
 			name="title"
@@ -31,11 +30,16 @@
 		validate={(value) => {
 			if (!EMAIL_REGEX.test(value)) return 'You must provide a valid email';
 		}}
-		class=""
 		title="Email"
 		bind:value={portfolioFormStore.data.user.email}
 		bind:error={errors[2]}
 		name="email"
+	/>
+	<Input
+		title="Description"
+		bind:value={portfolioFormStore.data.user.description}
+		bind:error={errors[3]}
+		name="description"
 	/>
 </div>
 

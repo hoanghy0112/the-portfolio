@@ -95,14 +95,13 @@
 				<div
 					in:fly={{ x: data.isPrev ? -200 : 200, duration: 300, delay: 300 }}
 					out:fly={{ x: data.isPrev ? 200 : -200, duration: 300 }}
-					class=" px-4 lg:px-16 pt-8 flex-1 flex"
 				>
 					{@render children()}
 				</div>
 			{/key}
 		</div>
 
-		<div class=" px-4 lg:px-16 py-8">
+		<div class=" px-4 lg:px-16 pt-12 pb-8">
 			<Footer>
 				<div class="sm:flex sm:items-center sm:justify-between">
 					<FooterCopyright href="/" by="HoangHy™" year={2024} />

@@ -3,6 +3,8 @@
 	import Input from '$lib/components/Input.svelte';
 </script>
 
-<Input class=" mt-5" title="Display name" name="displayName" value="" />
+<div class=" grid gap-10">
+	<Input class=" mt-5" title="Display name" name="displayName" value="" />
 
-<FormBackButton destinationUrl="/main/create-portfolio?prev=true" />
+	<FormBackButton destinationUrl="/main/create-portfolio?prev=true" />
+</div>

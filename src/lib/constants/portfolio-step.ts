@@ -1,1 +1,5 @@
-export const PORTFOLIO_STEPS = ['Update personal information', 'Update education background'];
+export const PORTFOLIO_STEPS = [
+	'Update personal information',
+	'Add your project list',
+	'Update education background'
+];
