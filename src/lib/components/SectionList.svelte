@@ -3,14 +3,20 @@
 
 	type Props = {
 		title: string;
+		description?: string;
 		children?: Snippet;
 	};
 
-	const { title, children }: Props = $props();
+	const { title, description, children }: Props = $props();
 </script>
 
-<div class=" flex flex-col gap-4">
-	<h2 class=" font-semibold text-2xl">{title}</h2>
+<div class=" flex flex-col gap-6">
+	<div class=" grid gap-1">
+		<h2 class=" text-foreground-700 font-semibold text-2xl">{title}</h2>
+		{#if description}
+			<p class=" text-foreground-500">{description}</p>
+		{/if}
+	</div>
 	<div class=" w-full overflow-auto flex flex-row gap-4">
 		{@render children?.()}
 	</div>

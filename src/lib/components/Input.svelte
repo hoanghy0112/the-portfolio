@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { Label } from 'flowbite-svelte';
 	import type { HTMLInputAttributes } from 'svelte/elements';
+	import { fly } from 'svelte/transition';
 	import { twMerge } from 'tailwind-merge';
 
 	let {
@@ -22,6 +23,7 @@
 	} & HTMLInputAttributes = $props();
 
 	let element = $state<HTMLInputElement>();
+	let canCheck = $state(false);
 
 	function validateValue(value: any): string | null {
 		if (required && !value) return `${title} is required`;
@@ -29,10 +31,7 @@
 	}
 
 	$effect(() => {
-		if (error?.message) {
-			error.message = validateValue(value);
-		}
-		if (error && required) {
+		if (error && canCheck) {
 			error.message = validateValue(value);
 		}
 	});
@@ -61,10 +60,14 @@
 		bind:value
 		bind:this={element}
 		onblur={() => {
-			if (error) error.message = validateValue(value);
+			canCheck = true;
 		}}
 	/>
-	{#if error?.message}
-		<p class=" mt-2 text-red-500 font-medium">{error.message}</p>
-	{/if}
+	<div class=" flex">
+		{#if error?.message}
+			<p in:fly={{ y: -100 }} class=" em:h-4 mt-2 text-red-500 font-medium">{error.message}</p>
+		{:else}
+			<p class=" em:h-4 mt-2 text-red-500 font-medium"></p>
+		{/if}
+	</div>
 </div>
