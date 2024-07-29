@@ -19,6 +19,7 @@
 	} from 'flowbite-svelte';
 	import { fly } from 'svelte/transition';
 	import '../app.css';
+	import { onMount } from 'svelte';
 
 	const { data, children } = $props();
 
@@ -32,7 +33,20 @@
 		goto(`/login?token=${token}`, { invalidateAll: true });
 	}
 
-	const a = $page.url;
+	let showNav = $state(true);
+	let lastScrollPosition = $state(0);
+	let scrollY = $state(0);
+
+	$effect(() => {
+		let currentScrollposition = scrollY;
+		if (currentScrollposition > lastScrollPosition) {
+			showNav = false;
+		}
+		if (currentScrollposition < lastScrollPosition) {
+			showNav = true;
+		}
+		lastScrollPosition = currentScrollposition;
+	});
 </script>
 
 <svelte:head>
@@ -42,12 +56,20 @@
 		href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
 		rel="stylesheet"
 	/>
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+	<link href="https://fonts.googleapis.com/css2?family=Yellowtail&display=swap" rel="stylesheet" />
 </svelte:head>
 
-<div class=" h-svh flex flex-col">
-	<Navbar>
+<svelte:window bind:scrollY />
+
+<div class=" relative h-svh flex flex-col">
+	<Navbar class={`!bg-background-default absolute ${showNav ? 'top-0' : '-top-16'} duration-300`}>
 		<NavBrand href="/">
-			<span class=" lg:pl-12 self-center whitespace-nowrap text-xl font-semibold dark:text-white">
+			<span
+				style="font-family: 'Yellowtail', cursive; font-weight: 400; font-style: normal; "
+				class=" lg:pl-12 self-center whitespace-nowrap text-4xl font-semibold dark:text-white"
+			>
 				ThePortfolio
 			</span>
 		</NavBrand>
@@ -89,12 +111,18 @@
 		</NavUl>
 	</Navbar>
 
-	<div class=" overflow-x-hidden overflow-y-auto flex flex-col flex-1">
+	<div
+		onscroll={(e) => {
+			scrollY = e.target?.scrollTop;
+		}}
+		class=" overflow-x-hidden overflow-y-auto flex flex-col flex-1"
+	>
 		<div class=" flex flex-1">
 			{#key data.pathname?.split('/').slice(0, 3).join('')}
 				<div
 					in:fly={{ x: data.isPrev ? -200 : 200, duration: 300, delay: 300 }}
 					out:fly={{ x: data.isPrev ? 200 : -200, duration: 300 }}
+					class=" flex-1 flex"
 				>
 					{@render children()}
 				</div>
