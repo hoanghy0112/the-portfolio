@@ -20,9 +20,7 @@ export async function load({ cookies, url }) {
 
 		if (!email) throw new Error('Email not found');
 
-		console.log('debug');
 		const session = crypto.randomUUID();
-		console.log({ session });
 
 		const user = await prisma.user.findFirst({ where: { uid } });
 		if (user) {
@@ -52,9 +50,9 @@ export async function load({ cookies, url }) {
 	} catch (e) {
 		if (e instanceof FirebaseAuthError) {
 			cookies.delete('session', { path: '/' });
-			error(500, { message: e.message });
+			error(500, { message: `Firebase error: ${e.message}` });
 		}
-		if (e instanceof Error) error(500, { message: e.message });
+		if (e instanceof Error) error(500, { message: `Error: ${e.message}` });
 		error(500, { message: 'Unknown error' });
 	}
 
