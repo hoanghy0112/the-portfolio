@@ -20,7 +20,9 @@ export async function load({ cookies, url }) {
 
 		if (!email) throw new Error('Email not found');
 
+		console.log('debug');
 		const session = crypto.randomUUID();
+		console.log({ session });
 
 		const user = await prisma.user.findFirst({ where: { uid } });
 		if (user) {
