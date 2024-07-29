@@ -52,7 +52,8 @@ export async function load({ cookies, url }) {
 			cookies.delete('session', { path: '/' });
 			error(500, { message: `Firebase error: ${e.message}` });
 		}
-		if (e instanceof Error) error(500, { message: `Error: ${e.message}` });
+		if (e instanceof Error)
+			error(500, { message: `Error: ${e.message} \n Cause: ${e.stack} \n ${e.name} - ${e.cause}` });
 		error(500, { message: 'Unknown error' });
 	}
 
