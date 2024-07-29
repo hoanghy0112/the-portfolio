@@ -64,7 +64,7 @@
 <svelte:window bind:scrollY />
 
 <div class=" relative h-svh flex flex-col">
-	<Navbar class={`!bg-background-default absolute ${showNav ? 'top-0' : '-top-16'} duration-300`}>
+	<Navbar class={`!bg-background-default absolute ${showNav ? 'top-0' : '-top-20'} duration-300`}>
 		<NavBrand href="/">
 			<span
 				style="font-family: 'Yellowtail', cursive; font-weight: 400; font-style: normal; "
@@ -105,7 +105,7 @@
 		</div>
 		<NavUl {activeUrl} class="order-1">
 			<NavLi href="/">Home</NavLi>
-			<NavLi href="/about">About</NavLi>
+			<NavLi href="/welcome">About</NavLi>
 			<NavLi href="/contact">Contact</NavLi>
 			<NavLi href="/documentation">Documentation</NavLi>
 		</NavUl>
@@ -113,9 +113,10 @@
 
 	<div
 		onscroll={(e) => {
+			//@ts-ignore
 			scrollY = e.target?.scrollTop;
 		}}
-		class=" overflow-x-hidden overflow-y-auto flex flex-col flex-1"
+		class=" overflow-x-hidden overflow-y-auto pt-20 flex flex-col flex-1"
 	>
 		<div class=" flex flex-1">
 			{#key data.pathname?.split('/').slice(0, 3).join('')}

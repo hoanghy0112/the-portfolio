@@ -9,18 +9,20 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com" />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
 	<link
-		href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,700;1,700&display=swap"
+		href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400,500,600,700;1,700&display=swap"
 		rel="stylesheet"
 	/>
 </svelte:head>
 
-<div class=" px-4 lg:px-16 flex-1 flex flex-col gap-1">
-	<div class=" h-screen flex flex-col justify-center">
-		<p class=" text-foreground-700 font-medium">Welcome to</p>
+<div class=" px-4 lg:px-16 flex-1 flex flex-col gap-1 -mt-20">
+	<div class=" h-screen flex flex-col justify-center gap-4">
 		<div class=" w-fit flex gap-4">
 			<p id="app-name">The Portfolio</p>
 			<img src={LOGO} alt="App logo" class=" w-14 h-14" />
 		</div>
+		<p class=" text-foreground-600 text-lg">
+			An portfolio generator, cv generator with various template for you
+		</p>
 	</div>
 	<div>
 		<p>
@@ -79,5 +81,11 @@
 			20px 20px 150px #00ff38,
 			-20px -20px 150px #0094ff;
 		-webkit-text-fill-color: transparent;
+	}
+
+	p {
+		font-family: 'Montserrat', sans-serif;
+		font-weight: 500;
+
 	}
 </style>
