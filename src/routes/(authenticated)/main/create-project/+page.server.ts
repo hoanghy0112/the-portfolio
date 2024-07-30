@@ -1,10 +1,16 @@
 import type { Repo } from '$lib/types/repo.js';
-import type { Actions } from '@sveltejs/kit';
 import { Octokit } from 'octokit';
 
 export async function load({ cookies, url }) {
 	const token = cookies.get('github-token');
 	const selectOrganization = url.searchParams.get('organization');
+
+	if (!token) {
+		return {
+			githubUser: null,
+			repos: []
+		};
+	}
 
 	const octokit = new Octokit({
 		auth: token
@@ -16,11 +22,13 @@ export async function load({ cookies, url }) {
 		}
 	});
 
-	const organizations = await octokit.request('GET /user/orgs', {
-		headers: {
-			'X-GitHub-Api-Version': '2022-11-28'
-		}
-	});
+	if (!selectOrganization) {
+		return {
+			githubToken: token,
+			githubUser: user.data,
+			repos: []
+		};
+	}
 
 	const repos = await octokit.request(
 		`${
@@ -38,17 +46,7 @@ export async function load({ cookies, url }) {
 
 	return {
 		githubToken: token,
-		organizations: organizations.data,
 		githubUser: user.data,
 		repos: repos.data as Repo[]
 	};
 }
-
-export const actions = {
-	default: async ({ request, cookies }) => {
-		const data = await request.formData();
-		const token = data.get('token') as string;
-
-		if (token) cookies.set('github-token', token, { path: '/' });
-	}
-} satisfies Actions;

@@ -20,9 +20,8 @@
 		class?: string;
 		title: string;
 		name: string;
-		type?: 'text' | 'number';
 		error?: { message: string | null; element?: HTMLInputElement };
-		validate?: (value: string) => string | null | undefined;
+		validate?: (value: any) => string | null | undefined;
 	} & HTMLInputAttributes = $props();
 
 	let element = $state<HTMLInputElement>();
@@ -75,5 +74,20 @@
 <style>
 	.input::placeholder {
 		-webkit-text-fill-color: var(--foreground-400) !important;
+	}
+
+	::-webkit-calendar-picker-indicator {
+		background-color: #ffffff;
+		padding: 5px;
+		cursor: pointer;
+		border-radius: 4px;
+		transition-duration: 200ms;
+	}
+
+	::-webkit-calendar-picker-indicator:hover {
+		background-color: #c9c9c9;
+		padding: 5px;
+		cursor: pointer;
+		border-radius: 4px;
 	}
 </style>

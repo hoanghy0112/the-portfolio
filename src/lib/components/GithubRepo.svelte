@@ -7,9 +7,17 @@
 
 	type Props = {
 		repo: IProjectRepo;
+		isImported?: boolean;
+		onRemove?: (repo: IProjectRepo) => any;
+		onImport?: (repo: IProjectRepo) => any;
 	};
 
-	const { repo = $bindable() }: Props = $props();
+	const {
+		repo = $bindable(),
+		isImported,
+		onRemove = () => {},
+		onImport = () => {}
+	}: Props = $props();
 </script>
 
 <svelte:head>
@@ -41,16 +49,20 @@
 	</div>
 	<div>
 		<Button
-			onclick={() => (repo.isImported = !repo.isImported)}
+			onclick={() => {
+				if (isImported) {
+					onRemove(repo);
+				} else onImport(repo);
+			}}
 			size="sm"
 			color="none"
 			shadow
-			class=" w-20 duration-200 active:scale-50 {repo.isImported
+			class=" w-20 duration-200 active:scale-50 {isImported
 				? ' !bg-red-600 hover:!bg-red-700'
 				: '!bg-white hover:!bg-slate-300'}"
 		>
-			<p class=" {repo.isImported ? 'text-slate-50' : 'text-slate-900'} font-medium">
-				{repo.isImported ? 'Remove' : 'Import'}
+			<p class=" {isImported ? 'text-slate-50' : 'text-slate-900'} font-medium">
+				{isImported ? 'Remove' : 'Import'}
 			</p>
 		</Button>
 	</div>

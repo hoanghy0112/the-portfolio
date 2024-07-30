@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { IProjectRepo } from '$lib/types/repo';
+	import type { IProjectRepo, Repo } from '$lib/types/repo';
 	import { languageConvert } from '$lib/utils/languageConvert';
 	import { capitalizeFirstLetter, githubNameToDisplayName } from '$lib/utils/string-manipulation';
 	import Icon from '@iconify/svelte';
@@ -7,9 +7,9 @@
 	import { onMount } from 'svelte';
 	import Input from './Input.svelte';
 
-	type Props = { repo: IProjectRepo };
+	type Props = { repo: IProjectRepo; onRemove?: (repo: IProjectRepo) => any };
 
-	const { repo = $bindable() }: Props = $props();
+	const { repo = $bindable(), onRemove = () => {} }: Props = $props();
 
 	onMount(() => {
 		repo.displayName = githubNameToDisplayName(repo.name);
@@ -23,7 +23,7 @@
 	/>
 </svelte:head>
 
-<div class=" border-[0.5px] rounded-lg px-4 py-4 border-foreground-300 grid gap-6">
+<div class=" border-[0.5px] rounded-lg px-4 py-4 pb-6 border-foreground-300 grid gap-6">
 	<div class=" flex flex-col gap-4 md:flex-row md:justify-between">
 		<div class=" flex flex-col md:flex-row items-center gap-4">
 			<a
@@ -46,7 +46,7 @@
 		<div>
 			<Button
 				onclick={() => {
-					repo.isImported = false;
+					onRemove(repo);
 				}}
 				color="alternative"
 				size="sm"

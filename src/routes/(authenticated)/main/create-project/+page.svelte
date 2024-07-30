@@ -1,39 +1,30 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { goto } from '$app/navigation';
-	import { navigating, page } from '$app/stores';
+	import { navigating } from '$app/stores';
 	import FormNextButton from '$lib/components/FormNextButton.svelte';
 	import GithubRepo from '$lib/components/GithubRepo.svelte';
 	import Input from '$lib/components/Input.svelte';
+	import OrganizationSelectInput from '$lib/components/OrganizationSelectInput.svelte';
 	import ProjectDateInput from '$lib/components/ProjectDateInput.svelte';
 	import ProjectRepo from '$lib/components/ProjectRepo.svelte';
 	import RepositoryIcon from '$lib/components/RepositoryIcon.svelte';
-	import Select from '$lib/components/Select.svelte';
 	import TechnologyInput from '$lib/components/TechnologyInput.svelte';
 	import { signInWithGithub } from '$lib/firebase/authentication';
 	import { errorStateGenerator } from '$lib/stores/error-state-generator.svelte';
 	import { projectFormStore } from '$lib/stores/project-form.svelte';
+	import type { IProjectRepo } from '$lib/types/repo.js';
 	import { githubNameToDisplayName } from '$lib/utils/string-manipulation.js';
 	import { Button, GradientButton, ListPlaceholder, Modal } from 'flowbite-svelte';
 	import { onMount } from 'svelte';
 	import { flip } from 'svelte/animate';
-	import { draw, scale } from 'svelte/transition';
+	import { scale } from 'svelte/transition';
 
 	const { data } = $props();
 
-	const defaultSelectedOrganization =
-		$page.url.searchParams.get('organization') || data.githubUser.login;
-	let selectedOrganization = $state(defaultSelectedOrganization);
-
-	const organizations = $derived([
-		{ id: data.githubUser.login, title: data.githubUser.login },
-		...data.organizations.map((v) => ({ id: v.login, title: v.login }))
-	]);
-
 	let isOpen = $state(false);
 
-	let repositories = $state(data.repos.map((v) => ({ ...v, isImported: false })));
-	let importedRepositories = $derived(repositories.filter((r) => r.isImported));
+	let repositories = $derived(data.repos);
+	let importedRepositories = $state<IProjectRepo[]>([]);
 
 	let errors = $derived(errorStateGenerator(4));
 
@@ -70,11 +61,12 @@
 				<h1 class=" w-fit font-semibold text-2xl">Create new project</h1>
 				{#if !data.githubToken}
 					<form
-						action=""
+						action="/login/github"
 						method="post"
 						use:enhance={async ({ formData }) => {
 							const data = await onSigninGithub();
 							formData.set('token', data.token);
+							formData.set('redirect_url', '/main/create-project');
 
 							return async ({ update }) => {
 								await update();
@@ -99,20 +91,22 @@
 						classBody=" bg-background-default"
 					>
 						<div class=" grid gap-8">
-							<Select
-								title="Choose organization"
-								onSelect={({ id }) => {
-									goto(`/main/create-project?organization=${id}`);
-								}}
-								bind:selected={selectedOrganization}
-								items={organizations}
-							/>
+							<OrganizationSelectInput token={data.githubToken} githubUser={data.githubUser} />
 							<div class=" rounded-lg overflow-hidden border-[1px] border-foreground-300">
 								{#if $navigating}
 									<ListPlaceholder divClass=" m-2" />
 								{:else}
 									{#each repositories as repo (repo.id)}
-										<GithubRepo {repo} />
+										<GithubRepo
+											{repo}
+											isImported={importedRepositories.some((v) => v.id === repo.id)}
+											onImport={(repo) => {
+												importedRepositories.push(repo);
+											}}
+											onRemove={(repo) => {
+												importedRepositories = importedRepositories.filter((v) => v.id !== repo.id);
+											}}
+										/>
 									{/each}
 								{/if}
 							</div>
@@ -155,10 +149,27 @@
 						placeholder="Your project homepage"
 						name="projectMemberNum"
 					/>
-					<div class=" grid grid-cols-2 gap-8">
-						<ProjectDateInput title="Start date" name="startDate" />
-						<ProjectDateInput title="End date" name="endDate" />
-					</div>
+					{#key isOpen}
+						<div class=" relative grid grid-cols-2 gap-8">
+							<Input
+								title="Start date"
+								name="startDate"
+								type="date"
+								bind:value={projectFormStore.data.startDate}
+							/>
+							<Input
+								title="End date"
+								name="endDate"
+								type="date"
+								validate={(value: Date) =>
+									new Date(value).getTime() >
+									new Date(projectFormStore.data.startDate || new Date()).getTime()
+										? ''
+										: 'End date must be greater than start date'}
+								bind:value={projectFormStore.data.endDate}
+							/>
+						</div>
+					{/key}
 				</div>
 			</div>
 		</div>
@@ -175,7 +186,12 @@
 							in:scale={{ duration: 300, opacity: 0, start: 0 }}
 							out:scale={{ duration: 300, opacity: 0.2, start: 0.2 }}
 						>
-							<ProjectRepo {repo} />
+							<ProjectRepo
+								{repo}
+								onRemove={(repo) => {
+									importedRepositories = importedRepositories.filter((v) => v.id !== repo.id);
+								}}
+							/>
 						</div>
 					{/each}
 				</div>
