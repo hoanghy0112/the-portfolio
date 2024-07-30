@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import { goto } from '$app/navigation';
 	import { navigating } from '$app/stores';
 	import FormNextButton from '$lib/components/FormNextButton.svelte';
 	import GithubRepo from '$lib/components/GithubRepo.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import OrganizationSelectInput from '$lib/components/OrganizationSelectInput.svelte';
-	import ProjectDateInput from '$lib/components/ProjectDateInput.svelte';
 	import ProjectRepo from '$lib/components/ProjectRepo.svelte';
 	import RepositoryIcon from '$lib/components/RepositoryIcon.svelte';
 	import TechnologyInput from '$lib/components/TechnologyInput.svelte';
@@ -26,7 +26,7 @@
 	let repositories = $derived(data.repos);
 	let importedRepositories = $state<IProjectRepo[]>([]);
 
-	let errors = $derived(errorStateGenerator(4));
+	let errors = $derived(errorStateGenerator(1));
 
 	onMount(async () => {
 		projectFormStore.data.authorId = data.user.id;
@@ -128,14 +128,12 @@
 					<Input
 						title="Description"
 						bind:value={projectFormStore.data.description}
-						bind:error={errors[3]}
 						placeholder="Describe your project"
 						name="projectDescription"
 					/>
 					<Input
 						title="Home page"
 						bind:value={projectFormStore.data.demoUrl}
-						bind:error={errors[3]}
 						placeholder="Your project homepage"
 						name="projectHomePage"
 					/>
@@ -145,7 +143,6 @@
 						title="Members"
 						type="number"
 						bind:value={projectFormStore.data.memberNum}
-						bind:error={errors[3]}
 						placeholder="Your project homepage"
 						name="projectMemberNum"
 					/>
@@ -163,7 +160,9 @@
 								type="date"
 								validate={(value: Date) =>
 									new Date(value).getTime() >
-									new Date(projectFormStore.data.startDate || new Date()).getTime()
+										new Date(projectFormStore.data.startDate || new Date()).getTime() ||
+									!value ||
+									!projectFormStore.data.startDate
 										? ''
 										: 'End date must be greater than start date'}
 								bind:value={projectFormStore.data.endDate}
@@ -213,5 +212,20 @@
 		</div>
 	</div>
 
-	<FormNextButton title="Submit" {errors} destinationUrl="/main/create-portfolio/stage-2" />
+	<form
+		action="/main/create-project/submitted"
+		method="post"
+		use:enhance={async ({ formData, cancel }) => {
+			if (errors.some((e) => e.message)) cancel();
+			else {
+				formData.set('data', JSON.stringify(projectFormStore.data));
+			}
+
+			return async ({ update }) => {
+				await update();
+			};
+		}}
+	>
+		<FormNextButton title="Submit" {errors} />
+	</form>
 </div>

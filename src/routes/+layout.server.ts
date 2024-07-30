@@ -1,4 +1,4 @@
-import prisma from '$lib/prisma.js';
+import prisma from '$lib/prisma';
 
 export async function load({ cookies, url }) {
 	const session = cookies.get('session');

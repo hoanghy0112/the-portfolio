@@ -25,7 +25,7 @@
 	} & HTMLInputAttributes = $props();
 
 	let element = $state<HTMLInputElement>();
-	let canCheck = $state(false);
+	let isDisplayError = $state(false);
 
 	function validateValue(value: any): string | null {
 		if (required && !value) return `${title} is required`;
@@ -33,9 +33,7 @@
 	}
 
 	$effect(() => {
-		if (error && canCheck) {
-			error.message = validateValue(value);
-		}
+		error.message = validateValue(value);
 	});
 
 	$effect(() => {
@@ -54,19 +52,19 @@
 		{name}
 		{...props}
 		{type}
-		style={`box-shadow: none; ${error?.message ? '' : '-webkit-text-fill-color: var(--foreground-900); -webkit-box-shadow: 0 0 0px 1000px var(--background-color) inset;'}'`}
+		style={`box-shadow: none; ${error?.message && isDisplayError ? '' : '-webkit-text-fill-color: var(--foreground-900); -webkit-box-shadow: 0 0 0px 1000px var(--background-color) inset;'}'`}
 		class={twMerge(
 			' input mt-3 w-full p-0 pt-0 pb-1 rounded-none border-0 border-b-2 focus:border-sky-600 focus:border-b-3 text-lg font-medium px-0',
-			error?.message ? ' !bg-red-400' : ' bg-background-default'
+			error?.message && isDisplayError ? ' !bg-red-400' : ' bg-background-default'
 		)}
-		placeholder={error?.message ? '' : placeholder}
+		placeholder={error?.message && isDisplayError ? '' : placeholder}
 		bind:value
 		bind:this={element}
 		onblur={() => {
-			canCheck = true;
+			isDisplayError = true;
 		}}
 	/>
-	{#if error?.message}
+	{#if isDisplayError}
 		<p in:fly={{ y: -100 }} class=" mt-2 text-red-500 font-medium">{error.message}</p>
 	{/if}
 </div>

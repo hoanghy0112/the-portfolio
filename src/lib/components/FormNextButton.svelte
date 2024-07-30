@@ -6,11 +6,12 @@
 
 	type Props = {
 		errors: TErrorList;
-		destinationUrl: string;
+		destinationUrl?: string;
 		title?: string;
+		onCancel?: () => any;
 	};
 
-	const { errors, destinationUrl, title = 'Next step' }: Props = $props();
+	const { errors, destinationUrl, onCancel = () => {}, title = 'Next step' }: Props = $props();
 </script>
 
 <div>
@@ -18,11 +19,14 @@
 		shadow
 		color="cyanToBlue"
 		class="w-fit"
+		type="submit"
 		onclick={() => {
-			if (errors.every((e) => !e.message)) goto(destinationUrl);
-			else {
+			if (errors.every((e) => !e.message)) {
+				if (destinationUrl) goto(destinationUrl);
+			} else {
 				const element = errors.find((e) => e.message)?.element;
 				if (element) element.focus();
+				onCancel();
 			}
 		}}
 	>
