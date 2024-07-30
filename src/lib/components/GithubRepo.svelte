@@ -1,21 +1,15 @@
 <script lang="ts">
-	import type { Repo } from '$lib/types/repo';
+	import type { IProjectRepo } from '$lib/types/repo';
+	import { languageConvert } from '$lib/utils/languageConvert';
 	import { timeDiffString } from '$lib/utils/time-manipulation';
 	import { Button } from 'flowbite-svelte';
+	import { scale } from 'svelte/transition';
 
 	type Props = {
-		repo: Repo;
-		onImport?: (repo: Repo) => any;
+		repo: IProjectRepo;
 	};
 
-	const { repo, onImport = () => {} }: Props = $props();
-
-	function languageConvert(language: string) {
-		const lowerCasedLanguage = language.toLowerCase();
-
-		if (lowerCasedLanguage === 'c++') return 'cplusplus';
-		else return lowerCasedLanguage;
-	}
+	const { repo = $bindable() }: Props = $props();
 </script>
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
@@ -40,11 +34,19 @@
 			</p>
 		</div>
 	</div>
-	<Button
-		onclick={() => onImport(repo)}
-		size="sm"
-		class=" !bg-white hover:!bg-slate-300 duration-200"
-	>
-		<p class=" text-slate-900 font-medium">Import</p>
-	</Button>
+	<div>
+		<Button
+			onclick={() => (repo.isImported = !repo.isImported)}
+			size="sm"
+			color="none"
+			shadow
+			class=" w-20 duration-200 active:scale-50 {repo.isImported
+				? ' !bg-red-600 hover:!bg-red-700'
+				: '!bg-white hover:!bg-slate-300'}"
+		>
+			<p class=" {repo.isImported ? 'text-slate-50' : 'text-slate-900'} font-medium">
+				{repo.isImported ? 'Remove' : 'Import'}
+			</p>
+		</Button>
+	</div>
 </div>

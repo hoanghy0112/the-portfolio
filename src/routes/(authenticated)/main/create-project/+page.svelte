@@ -5,16 +5,17 @@
 	import FormNextButton from '$lib/components/FormNextButton.svelte';
 	import GithubRepo from '$lib/components/GithubRepo.svelte';
 	import Input from '$lib/components/Input.svelte';
+	import ProjectRepo from '$lib/components/ProjectRepo.svelte';
 	import Select from '$lib/components/Select.svelte';
 	import { signInWithGithub } from '$lib/firebase/authentication';
 	import { errorStateGenerator } from '$lib/stores/error-state-generator.svelte';
 	import { projectFormStore } from '$lib/stores/project-form.svelte';
-	import type { Repo } from '$lib/types/repo.js';
 	import { Button, GradientButton, ListPlaceholder, Modal } from 'flowbite-svelte';
 	import { onMount } from 'svelte';
+	import { flip } from 'svelte/animate';
+	import { scale } from 'svelte/transition';
 
 	const { data } = $props();
-	console.log(data.repos);
 
 	const defaultSelectedOrganization =
 		$page.url.searchParams.get('organization') || data.githubUser.login;
@@ -27,6 +28,9 @@
 
 	let isOpen = $state(false);
 
+	let repositories = $state(data.repos.map((v) => ({ ...v, isImported: false })));
+	let importedRepositories = $derived(repositories.filter((r) => r.isImported));
+
 	let errors = $derived(errorStateGenerator(4));
 
 	onMount(async () => {
@@ -37,8 +41,6 @@
 		const data = await signInWithGithub();
 		return data;
 	}
-
-	async function onImport(repo: Repo) {}
 </script>
 
 <svelte:head>
@@ -92,8 +94,8 @@
 							{#if $navigating}
 								<ListPlaceholder divClass=" m-2" />
 							{:else}
-								{#each data.repos as repo (repo.id)}
-									<GithubRepo {onImport} {repo} />
+								{#each repositories as repo (repo.id)}
+									<GithubRepo {repo} />
 								{/each}
 							{/if}
 						</div>
@@ -102,7 +104,7 @@
 			{/if}
 		</div>
 		<div class=" flex-1 overflow-auto grid gap-10">
-			<div class=" grid gap-8">
+			<div class=" flex flex-col gap-8">
 				<div class=" flex flex-col xl:flex-row gap-8">
 					<Input
 						class=" flex-1"
@@ -119,10 +121,28 @@
 					bind:error={errors[3]}
 					name="projectDescription"
 				/>
+				<Input
+					title="Home page"
+					bind:value={projectFormStore.data.demoUrl}
+					bind:error={errors[3]}
+					name="projectHomePage"
+				/>
 			</div>
 		</div>
 	</div>
-	<div class=" flex-1"></div>
+	<div class=" flex-1">
+		<div class=" grid gap-8">
+			{#each importedRepositories as repo (repo.id)}
+				<div
+					animate:flip={{ duration: 200 }}
+					in:scale={{ duration: 200, opacity: 0, start: 0 }}
+					out:scale={{ duration: 200, opacity: 0.2, start: 0.2 }}
+				>
+					<ProjectRepo {repo} />
+				</div>
+			{/each}
+		</div>
+	</div>
 </div>
 
 <FormNextButton {errors} destinationUrl="/main/create-portfolio/stage-2" />
