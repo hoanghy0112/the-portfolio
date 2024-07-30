@@ -53,7 +53,6 @@
 <svelte:window
 	onclick={() => {
 		isOpen = false;
-		inputElement?.focus();
 	}}
 />
 

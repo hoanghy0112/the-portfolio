@@ -78,7 +78,7 @@ model Project {
   startDate        DateTime?
   endDate          DateTime?
   tasks            Task[]
-  skills           Skill[]
+  skills           String[]
   PortfolioProject PortfolioProject[]
 
   @@map("projects")
@@ -110,7 +110,7 @@ type ContentSection {
 
 type Task {
   content String
-  skills  Skill[]
+  skills  String[]
 }
 
 type Achivement {
@@ -120,10 +120,6 @@ type Achivement {
   description String?
   photo       String?
   url         String?
-}
-
-type Skill {
-  name String
 }
 
 type RepoUrl {

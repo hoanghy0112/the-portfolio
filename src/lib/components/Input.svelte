@@ -8,16 +8,19 @@
 		value = $bindable(),
 		error = $bindable({ message: '' }),
 		validate = () => null,
+		type = 'text',
 		required,
 		class: className,
 		title,
 		name,
+		placeholder,
 		...props
 	}: {
 		value?: any;
 		class?: string;
 		title: string;
 		name: string;
+		type?: 'text' | 'number';
 		error?: { message: string | null; element?: HTMLInputElement };
 		validate?: (value: string) => string | null | undefined;
 	} & HTMLInputAttributes = $props();
@@ -51,23 +54,22 @@
 		id={name}
 		{name}
 		{...props}
+		{type}
 		style={`box-shadow: none; ${error?.message ? '' : '-webkit-text-fill-color: var(--foreground-900); -webkit-box-shadow: 0 0 0px 1000px var(--background-color) inset;'}'`}
 		class={twMerge(
-			' input mt-2 w-full p-0 pt-0 pb-1 rounded-none border-0 border-b-2 focus:border-sky-600 focus:border-b-3 text-lg font-medium px-0',
+			' input mt-3 w-full p-0 pt-0 pb-1 rounded-none border-0 border-b-2 focus:border-sky-600 focus:border-b-3 text-lg font-medium px-0',
 			error?.message ? ' !bg-red-400' : ' bg-background-default'
 		)}
-		type="text"
+		placeholder={error?.message ? '' : placeholder}
 		bind:value
 		bind:this={element}
 		onblur={() => {
 			canCheck = true;
 		}}
 	/>
-	<div class=" em:h-4 mt-1 flex">
-		{#if error?.message}
-			<p in:fly={{ y: -100 }} class=" text-red-500 font-medium">{error.message}</p>
-		{/if}
-	</div>
+	{#if error?.message}
+		<p in:fly={{ y: -100 }} class=" mt-2 text-red-500 font-medium">{error.message}</p>
+	{/if}
 </div>
 
 <style>
