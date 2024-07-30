@@ -1,3 +1,4 @@
+import type { Repo } from '$lib/types/repo.js';
 import type { Actions } from '@sveltejs/kit';
 import { Octokit } from 'octokit';
 
@@ -39,7 +40,7 @@ export async function load({ cookies, url }) {
 		githubToken: token,
 		organizations: organizations.data,
 		githubUser: user.data,
-		repos: repos.data
+		repos: repos.data as Repo[]
 	};
 }
 

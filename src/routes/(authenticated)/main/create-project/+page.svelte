@@ -3,17 +3,18 @@
 	import { goto } from '$app/navigation';
 	import { navigating, page } from '$app/stores';
 	import FormNextButton from '$lib/components/FormNextButton.svelte';
+	import GithubRepo from '$lib/components/GithubRepo.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import Select from '$lib/components/Select.svelte';
 	import { signInWithGithub } from '$lib/firebase/authentication';
 	import { errorStateGenerator } from '$lib/stores/error-state-generator.svelte';
 	import { projectFormStore } from '$lib/stores/project-form.svelte';
-	import { timeDiffString } from '$lib/utils/time-manipulation.js';
+	import type { Repo } from '$lib/types/repo.js';
 	import { Button, GradientButton, ListPlaceholder, Modal } from 'flowbite-svelte';
 	import { onMount } from 'svelte';
 
 	const { data } = $props();
-	console.log(data.user);
+	console.log(data.repos);
 
 	const defaultSelectedOrganization =
 		$page.url.searchParams.get('organization') || data.githubUser.login;
@@ -36,6 +37,8 @@
 		const data = await signInWithGithub();
 		return data;
 	}
+
+	async function onImport(repo: Repo) {}
 </script>
 
 <svelte:head>
@@ -90,19 +93,7 @@
 								<ListPlaceholder divClass=" m-2" />
 							{:else}
 								{#each data.repos as repo (repo.id)}
-									<div
-										class=" px-4 py-3 flex justify-between items-center rounded-none border-b-[1px] border-foreground-300 duration-200"
-									>
-										<div class=" grid gap-1">
-											<p class=" font-medium text-foreground-800">{repo.name}</p>
-											<p class=" text-foreground-500">
-												{timeDiffString(new Date(repo.pushed_at))}
-											</p>
-										</div>
-										<Button size="sm" class=" !bg-white">
-											<p class=" text-slate-900 font-medium">Import</p>
-										</Button>
-									</div>
+									<GithubRepo {onImport} {repo} />
 								{/each}
 							{/if}
 						</div>
