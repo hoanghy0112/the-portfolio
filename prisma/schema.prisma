@@ -71,6 +71,7 @@ model Project {
   authorId         String             @db.ObjectId
   name             String
   description      String?
+  photos           String[]
   contents         ContentSection[]
   demoUrl          String?
   repoUrls         RepoUrl[]

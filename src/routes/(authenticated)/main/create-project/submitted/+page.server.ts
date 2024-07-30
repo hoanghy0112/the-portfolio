@@ -1,6 +1,7 @@
 import { redirect, type Actions } from '@sveltejs/kit';
 import prisma from '$lib/prisma';
 import type { Project } from '@prisma/client';
+import { uploadFileToS3 } from '$lib/aws/s3.js';
 
 export async function load({ url }) {
 	const projectId = url.searchParams.get('id');
@@ -18,6 +19,9 @@ export const actions = {
 	default: async ({ request, locals }) => {
 		const response = await request.formData();
 		const data = JSON.parse(response.get('data') as string) as Project;
+		const files = response.getAll('images[]') as File[];
+
+		const fileUrls = await Promise.all(files.map((file) => uploadFileToS3(file)));
 
 		if (!locals.user) redirect(403, '/');
 
@@ -26,6 +30,7 @@ export const actions = {
 				name: data.name,
 				authorId: locals.user.id,
 				description: data.description,
+				photos: fileUrls,
 				demoUrl: data.demoUrl,
 				repoUrls: data.repoUrls,
 				memberNum: data.memberNum,

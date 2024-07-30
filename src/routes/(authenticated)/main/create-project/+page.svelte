@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { goto } from '$app/navigation';
 	import { navigating } from '$app/stores';
+	import FileListUpload from '$lib/components/FileListUpload.svelte';
 	import FormNextButton from '$lib/components/FormNextButton.svelte';
 	import GithubRepo from '$lib/components/GithubRepo.svelte';
 	import Input from '$lib/components/Input.svelte';
@@ -22,6 +22,7 @@
 	const { data } = $props();
 
 	let isOpen = $state(false);
+	let files = $state<File[]>([]);
 
 	let repositories = $derived(data.repos);
 	let importedRepositories = $state<IProjectRepo[]>([]);
@@ -100,24 +101,28 @@
 					>
 						<div class=" grid gap-8">
 							<OrganizationSelectInput token={data.githubToken} githubUser={data.githubUser} />
-							<div class=" rounded-lg overflow-hidden border-[1px] border-foreground-300">
-								{#if $navigating}
-									<ListPlaceholder divClass=" m-2" />
-								{:else}
-									{#each repositories as repo (repo.id)}
-										<GithubRepo
-											{repo}
-											isImported={importedRepositories.some((v) => v.id === repo.id)}
-											onImport={(repo) => {
-												importedRepositories.push(repo);
-											}}
-											onRemove={(repo) => {
-												importedRepositories = importedRepositories.filter((v) => v.id !== repo.id);
-											}}
-										/>
-									{/each}
-								{/if}
-							</div>
+							{#if repositories.length || $navigating}
+								<div class=" rounded-lg overflow-hidden border-[1px] border-foreground-300">
+									{#if $navigating}
+										<ListPlaceholder divClass=" m-2" />
+									{:else}
+										{#each repositories as repo (repo.id)}
+											<GithubRepo
+												{repo}
+												isImported={importedRepositories.some((v) => v.id === repo.id)}
+												onImport={(repo) => {
+													importedRepositories.push(repo);
+												}}
+												onRemove={(repo) => {
+													importedRepositories = importedRepositories.filter(
+														(v) => v.id !== repo.id
+													);
+												}}
+											/>
+										{/each}
+									{/if}
+								</div>
+							{/if}
 						</div>
 					</Modal>
 				{/if}
@@ -177,10 +182,11 @@
 							/>
 						</div>
 					{/key}
+					<FileListUpload {files} />
 				</div>
 			</div>
 		</div>
-		<div class=" flex-1">
+		<div class=" flex-1 flex flex-col gap-10">
 			{#if importedRepositories.length}
 				<div
 					class=" grid gap-8"
@@ -221,12 +227,16 @@
 	</div>
 
 	<form
+		enctype="multipart/form-data"
 		action="/main/create-project/submitted"
 		method="post"
 		use:enhance={async ({ formData, cancel }) => {
 			if (errors.some((e) => e.message)) cancel();
 			else {
 				formData.set('data', JSON.stringify(projectFormStore.data));
+				files.forEach((file) => {
+					formData.append(`images[]`, file);
+				});
 			}
 
 			return async ({ update }) => {

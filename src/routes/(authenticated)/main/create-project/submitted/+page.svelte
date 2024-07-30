@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Button } from 'flowbite-svelte';
+	import { Button, Carousel } from 'flowbite-svelte';
 	import { onMount } from 'svelte';
 	import { draw, fly } from 'svelte/transition';
 	import Icon from '@iconify/svelte';
@@ -78,11 +78,11 @@
 					</a>
 				</div>
 			</div>
-			<div class=" z-0 absolute w-36 h-36 bg-primary-600 blur-[6rem]"></div>
+			<div class=" z-0 absolute w-36 h-36 bg-primary-500 blur-[6rem]"></div>
 		</div>
 		<div
 			in:fly={{ duration: 700, delay: 700, y: -50 }}
-			class=" mb-20 w-full xl:w-fit max-w-[450px] xl:absolute -right-24 top-10 p-6 bg-white shadow-lg paper"
+			class=" mb-20 w-full xl:w-fit max-w-[450px] xl:absolute -right-24 top-10 p-6 bg-white shadow-2xl paper"
 		>
 			<p class=" font-semibold text-xl text-slate-900">{project.name}</p>
 			<p class=" text-sm text-slate-600">{project.description}</p>
@@ -103,13 +103,37 @@
 					<a
 						href={repo.url}
 						target="_blank"
-						class=" text-sm flex items-center text-foreground-900 w-fit px-2 py-1 rounded-md bg-foreground-200 hover:bg-foreground-300 gap-2 duration-200 cursor-pointer"
+						class=" text-sm flex items-center text-white w-fit px-2 py-1 rounded-md bg-slate-800 hover:bg-slate-700 gap-2 duration-200 cursor-pointer"
 					>
 						<Icon icon="ion:logo-github" class=" text-base" />
-						<p class=" text-xs text-white font-medium">{repo.name}</p>
+						<p class=" text-xs font-medium">{repo.name}</p>
 					</a>
 				{/each}
 			</div>
+			{#if project.photos.length}
+				<div class=" mt-6 h-48 overflow-hidden">
+					<Carousel
+						imgClass=" w-full h-48"
+						images={project.photos.map((v) => ({
+							class: ' h-48 object-cover',
+							src: v,
+							alt: 'Preview'
+						}))}
+						duration={1500}
+					/>
+				</div>
+			{/if}
+			{#if project.demoUrl}
+				<p class=" mt-4 font-semibold text-sm text-slate-900">View demo page</p>
+				<a
+					href={project.demoUrl}
+					target="_blank"
+					class=" mt-2 text-sm flex items-center text-black w-fit px-2 py-1 rounded-md bg-slate-200 hover:bg-slate-300 gap-2 duration-200 cursor-pointer"
+				>
+					<Icon icon="ion:link-outline" class=" text-black text-base" />
+					<p class=" text-xs text-black font-medium">{project.demoUrl}</p>
+				</a>
+			{/if}
 		</div>
 	</div>
 {/key}
