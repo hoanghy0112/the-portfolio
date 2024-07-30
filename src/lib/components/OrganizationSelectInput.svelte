@@ -33,7 +33,15 @@
 	});
 </script>
 
-{#await items then items}
+{#await items}
+	<Select
+		title="Choose organization"
+		onSelect={({ id }) => {
+			goto(`/main/create-project?organization=${id}`);
+		}}
+		bind:selected={selectedOrganization}
+	/>
+{:then items}
 	<Select
 		title="Choose organization"
 		onSelect={({ id }) => {

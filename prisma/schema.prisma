@@ -123,6 +123,7 @@ type Achivement {
 }
 
 type RepoUrl {
-  name String?
-  url  String
+  name        String?
+  description String?
+  url         String
 }

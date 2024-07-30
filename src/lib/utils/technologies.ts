@@ -8,3 +8,8 @@ export function searchTechnologies(keyword: string): TechnologyType[] {
 		(v) => v.name.match(regex) || v.altnames.some((altname) => altname.match(regex))
 	);
 }
+
+export function getTechnologyInfo(name: string) {
+	const info = TECHNOLOGIES.find((value) => value.name === name);
+	return info;
+}

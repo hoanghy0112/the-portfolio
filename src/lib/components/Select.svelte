@@ -24,7 +24,7 @@
 	<Button color="alternative">
 		<div class=" flex gap-2">
 			<p class=" text-foreground-700 font-medium">
-				{selected ? items.find((v) => v.id === selected)?.title : title}
+				{selected ? items.find((v) => v.id === selected)?.title || selected : title}
 			</p>
 			<Icon icon="ion:chevron-down-outline" class="mt-[1px]" font-size={18} />
 		</div>

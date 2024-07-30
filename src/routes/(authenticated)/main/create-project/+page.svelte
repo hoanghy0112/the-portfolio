@@ -44,6 +44,14 @@
 		}
 	});
 
+	$effect(() => {
+		projectFormStore.data.repoUrls = importedRepositories.map((v) => ({
+			url: v.html_url,
+			name: v.full_name,
+			description: v.description
+		}));
+	});
+
 	async function onSigninGithub() {
 		const data = await signInWithGithub();
 		return data;
@@ -137,7 +145,7 @@
 						placeholder="Your project homepage"
 						name="projectHomePage"
 					/>
-					<TechnologyInput />
+					<TechnologyInput bind:technologies={projectFormStore.data.skills} />
 					<Input
 						class="w-1/2"
 						title="Members"
