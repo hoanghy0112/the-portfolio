@@ -13,7 +13,9 @@
 	import { Button, GradientButton, ListPlaceholder, Modal } from 'flowbite-svelte';
 	import { onMount } from 'svelte';
 	import { flip } from 'svelte/animate';
-	import { scale } from 'svelte/transition';
+	import { draw, scale } from 'svelte/transition';
+	import Icon from '@iconify/svelte';
+	import { githubNameToDisplayName } from '$lib/utils/string-manipulation.js';
 
 	const { data } = $props();
 
@@ -35,6 +37,18 @@
 
 	onMount(async () => {
 		projectFormStore.data.authorId = data.user.id;
+	});
+
+	$effect(() => {
+		if (!projectFormStore.data.name && importedRepositories.at(0)?.name) {
+			projectFormStore.data.name = githubNameToDisplayName(importedRepositories.at(0)?.name);
+		}
+		if (!projectFormStore.data.description && importedRepositories.at(0)?.description) {
+			projectFormStore.data.description = importedRepositories.at(0)?.description || '';
+		}
+		if (!projectFormStore.data.demoUrl && importedRepositories.at(0)?.homepage) {
+			projectFormStore.data.demoUrl = importedRepositories.at(0)?.homepage || '';
+		}
 	});
 
 	async function onSigninGithub() {
@@ -104,7 +118,7 @@
 			{/if}
 		</div>
 		<div class=" flex-1 overflow-auto grid gap-10">
-			<div class=" flex flex-col gap-8">
+			<div class=" flex flex-col gap-6">
 				<div class=" flex flex-col xl:flex-row gap-8">
 					<Input
 						class=" flex-1"
@@ -131,17 +145,85 @@
 		</div>
 	</div>
 	<div class=" flex-1">
-		<div class=" grid gap-8">
-			{#each importedRepositories as repo (repo.id)}
-				<div
-					animate:flip={{ duration: 200 }}
-					in:scale={{ duration: 200, opacity: 0, start: 0 }}
-					out:scale={{ duration: 200, opacity: 0.2, start: 0.2 }}
+		{#if importedRepositories.length}
+			<div
+				class=" grid gap-8"
+				in:scale={{ duration: 300, opacity: 0, start: 0 }}
+				out:scale={{ duration: 300, opacity: 0.2, start: 0.2 }}
+			>
+				{#each importedRepositories as repo (repo.id)}
+					<div
+						animate:flip={{ duration: 300 }}
+						in:scale={{ duration: 300, opacity: 0, start: 0 }}
+						out:scale={{ duration: 300, opacity: 0.2, start: 0.2 }}
+					>
+						<ProjectRepo {repo} />
+					</div>
+				{/each}
+			</div>
+		{:else}
+			<div
+				in:scale={{ duration: 300, opacity: 0, start: 0, delay: 300 }}
+				out:scale={{ duration: 300, opacity: 0, start: 0 }}
+				class=" flex flex-col items-center gap-4 text-foreground-600"
+			>
+				<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 512 512"
+					><circle
+						in:draw={{ duration: 600, delay: 500 }}
+						cx="160"
+						cy="96"
+						r="48"
+						fill="none"
+						stroke="currentColor"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="32"
+					/><circle
+						in:draw={{ duration: 600, delay: 500 }}
+						cx="160"
+						cy="416"
+						r="48"
+						fill="none"
+						stroke="currentColor"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="32"
+					/><path
+						in:draw={{ duration: 600, delay: 500 }}
+						fill="none"
+						stroke="currentColor"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="32"
+						d="M160 368V144"
+					/><circle
+						in:draw={{ duration: 600, delay: 500 }}
+						cx="352"
+						cy="160"
+						r="48"
+						fill="none"
+						stroke="currentColor"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="32"
+					/><path
+						in:draw={{ duration: 600, delay: 500 }}
+						fill="none"
+						stroke="currentColor"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="32"
+						d="M352 208c0 128-192 48-192 160"
+					/></svg
 				>
-					<ProjectRepo {repo} />
-				</div>
-			{/each}
-		</div>
+				<p class=" mt-4 text-center text-xl text-foreground-600 font-medium">
+					There is no repository selected
+				</p>
+				<Button class=" w-fit " on:click={() => (isOpen = true)} shadow color="alternative">
+					<p class=" text-foreground-600 font-medium">Import repositories from Github now</p>
+				</Button>
+			</div>
+		{/if}
 	</div>
 </div>
 
