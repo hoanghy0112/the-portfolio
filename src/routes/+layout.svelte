@@ -18,6 +18,7 @@
 		FooterLink
 	} from 'flowbite-svelte';
 	import { fly } from 'svelte/transition';
+	import LOGO from '$lib/assets/logo.png';
 	import '../app.css';
 	import { onMount } from 'svelte';
 
@@ -66,9 +67,10 @@
 <div class=" relative h-svh flex flex-col">
 	<Navbar class={`!bg-background-default absolute ${showNav ? 'top-0' : '-top-20'} duration-300`}>
 		<NavBrand href="/">
+			<img src={LOGO} class=" lg:pl-12 me-3 h-6 sm:h-9" alt="The Portfolio Logo" />
 			<span
 				style="font-family: 'Yellowtail', cursive; font-weight: 400; font-style: normal; "
-				class=" lg:pl-12 self-center whitespace-nowrap text-4xl font-semibold dark:text-white"
+				class=" hidden md:block self-center whitespace-nowrap text-4xl font-semibold dark:text-white"
 			>
 				ThePortfolio
 			</span>

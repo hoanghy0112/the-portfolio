@@ -23,7 +23,6 @@
 	let isModalOpen = $state(false);
 
 	$effect(() => {
-		console.log({ frame, a: frame?.contentDocument?.body, Template });
 		if (!frame || !frame?.contentDocument || !Template) return;
 		// frame.onload = (e) => {
 		// 	if (!frame) return;
