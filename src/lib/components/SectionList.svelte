@@ -18,7 +18,7 @@
 		{/if}
 	</div>
 	{#if children}
-		<div class=" w-full overflow-auto flex flex-row gap-4">
+		<div class=" py-14 w-full overflow-auto flex flex-row gap-5">
 			{@render children()}
 		</div>
 	{/if}
