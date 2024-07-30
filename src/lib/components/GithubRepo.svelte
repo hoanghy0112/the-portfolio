@@ -12,7 +12,12 @@
 	const { repo = $bindable() }: Props = $props();
 </script>
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
+<svelte:head>
+	<link
+		rel="stylesheet"
+		href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css"
+	/>
+</svelte:head>
 
 <div
 	class=" px-4 py-3 flex justify-between items-center rounded-none border-b-[1px] border-foreground-300 duration-200"

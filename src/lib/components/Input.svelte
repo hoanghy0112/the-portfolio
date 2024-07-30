@@ -53,7 +53,7 @@
 		{...props}
 		style={`box-shadow: none; ${error?.message ? '' : '-webkit-text-fill-color: var(--foreground-900); -webkit-box-shadow: 0 0 0px 1000px var(--background-color) inset;'}'`}
 		class={twMerge(
-			' mt-2 w-full p-0 pt-0 pb-2 rounded-none border-0 border-b-2 focus:border-sky-600 focus:border-b-3 text-lg font-medium px-0',
+			' input mt-2 w-full p-0 pt-0 pb-1 rounded-none border-0 border-b-2 focus:border-sky-600 focus:border-b-3 text-lg font-medium px-0',
 			error?.message ? ' !bg-red-400' : ' bg-background-default'
 		)}
 		type="text"
@@ -69,3 +69,9 @@
 		{/if}
 	</div>
 </div>
+
+<style>
+	.input::placeholder {
+		-webkit-text-fill-color: var(--foreground-400) !important;
+	}
+</style>

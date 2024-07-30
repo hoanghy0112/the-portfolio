@@ -16,7 +16,12 @@
 	});
 </script>
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
+<svelte:head>
+	<link
+		rel="stylesheet"
+		href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css"
+	/>
+</svelte:head>
 
 <div class=" border-[0.5px] rounded-lg px-4 py-4 border-foreground-300 grid gap-6">
 	<div class=" flex flex-col gap-4 md:flex-row md:justify-between">

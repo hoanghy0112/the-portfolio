@@ -16,6 +16,7 @@
 	import { draw, scale } from 'svelte/transition';
 	import Icon from '@iconify/svelte';
 	import { githubNameToDisplayName } from '$lib/utils/string-manipulation.js';
+	import TechnologyInput from '$lib/components/TechnologyInput.svelte';
 
 	const { data } = $props();
 
@@ -117,7 +118,7 @@
 				</Modal>
 			{/if}
 		</div>
-		<div class=" flex-1 overflow-auto grid gap-10">
+		<div class=" flex-1 grid gap-10">
 			<div class=" flex flex-col gap-6">
 				<div class=" flex flex-col xl:flex-row gap-8">
 					<Input
@@ -126,6 +127,7 @@
 						bind:value={projectFormStore.data.name}
 						name="projectDisplayName"
 						bind:error={errors[0]}
+						placeholder="Desplay name of the project"
 						required
 					/>
 				</div>
@@ -133,14 +135,17 @@
 					title="Description"
 					bind:value={projectFormStore.data.description}
 					bind:error={errors[3]}
+					placeholder="Describe your project"
 					name="projectDescription"
 				/>
 				<Input
 					title="Home page"
 					bind:value={projectFormStore.data.demoUrl}
 					bind:error={errors[3]}
+					placeholder="Your project homepage"
 					name="projectHomePage"
 				/>
+				<TechnologyInput />
 			</div>
 		</div>
 	</div>

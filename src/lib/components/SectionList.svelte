@@ -17,7 +17,9 @@
 			<p class=" text-foreground-500">{description}</p>
 		{/if}
 	</div>
-	<div class=" w-full overflow-auto flex flex-row gap-4">
-		{@render children?.()}
-	</div>
+	{#if children}
+		<div class=" w-full overflow-auto flex flex-row gap-4">
+			{@render children()}
+		</div>
+	{/if}
 </div>
