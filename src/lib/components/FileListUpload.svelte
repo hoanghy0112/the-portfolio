@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Icon from '@iconify/svelte';
-	import { GradientButton, Label } from 'flowbite-svelte';
+	import { Button, GradientButton, Label } from 'flowbite-svelte';
 	import { flip } from 'svelte/animate';
 	import { scale, slide } from 'svelte/transition';
 
@@ -22,18 +22,18 @@
 			</p>
 			<p></p>
 		</div>
-		<GradientButton
+		<Button
 			onclick={() => {
 				inputElement?.click();
 			}}
-			shadow
-			color="purpleToBlue"
+			class=" w-fit "
+			color="dark"
 		>
 			<div class=" flex gap-1 items-center">
 				<Icon icon="fluent:image-24-filled" class=" text-xl" />
-				<p class=" font-semibold text-white">Upload</p>
+				<p class=" text-foreground-100 dark:text-foreground-700 font-medium">Upload images</p>
 			</div>
-		</GradientButton>
+		</Button>
 	</div>
 	<div class=" mt-5 pb-3 {files.length ? ' overflow-x-auto' : 'overflow-x-visible'}">
 		{#if files.length}
