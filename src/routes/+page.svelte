@@ -8,7 +8,7 @@
 	const { data } = $props();
 </script>
 
-<div class=" px-4 lg:px-16 pt-8 flex-1 grid gap-16">
+<div class=" px-4 lg:px-16 pt-8 flex-1 flex flex-col gap-16">
 	<SectionList
 		title="Your Projects"
 		description="All your projects which you have added to your portfolio"

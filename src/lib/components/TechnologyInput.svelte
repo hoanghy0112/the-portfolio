@@ -57,9 +57,11 @@
 />
 
 <div>
-	<Label for="technology-selector" class="block mb-0">Select your project technologies</Label>
+	<Label for="technology-selector" class="block mb-0">
+		<p class=" text-foreground-500">Select your project technologies</p>
+	</Label>
 	<div
-		class=" relative mt-3 w-full flex flex-wrap gap-y-3 p-0 pb-2 rounded-none border-0 border-b-2 border-foreground-500"
+		class=" relative mt-3 w-full flex flex-wrap gap-y-3 p-0 pb-1 rounded-none border-0 border-b-2 border-foreground-500"
 	>
 		{#each technologies as technology (technology)}
 			<div class=" mr-3" transition:slide={{ axis: 'x', duration: 300 }}>
@@ -72,7 +74,7 @@
 			</div>
 		{/each}
 		<input
-			class=" m-1 flex-1 min-w-[200px] placeholder-foreground-500 border-0 rounded-none bg-background-default outline-none"
+			class=" my-1 flex-1 min-w-[200px] placeholder-foreground-500 border-0 rounded-none bg-background-default outline-none"
 			style={`box-shadow: none; -webkit-box-shadow: 0 0 0px 1000px var(--background-color) inset;`}
 			placeholder="Search by technology name"
 			bind:this={inputElement}

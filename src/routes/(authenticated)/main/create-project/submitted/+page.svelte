@@ -82,17 +82,17 @@
 		</div>
 		<div
 			in:fly={{ duration: 700, delay: 700, y: -50 }}
-			class=" mb-20 w-full xl:w-fit max-w-[450px] xl:absolute -right-24 top-10 p-6 bg-white shadow-2xl paper"
+			class=" preview dark:shadow-foreground-700 mb-20 w-full lg:w-fit max-w-[450px] lg:absolute -right-0 top-1/2 p-6 bg-white shadow-2xl"
 		>
 			<p class=" font-semibold text-xl text-slate-900">{project.name}</p>
-			<p class=" text-sm text-slate-600">{project.description}</p>
+			<p class=" mt-1 text-sm text-slate-600">{project.description}</p>
 			<div class=" mt-2 flex flex-wrap gap-2">
 				{#each project.skills as skill (skill)}
 					<div
 						class=" flex items-center gap-1 w-fit px-2 py-1 rounded-md"
 						style="background-color: {getTechnologyInfo(skill)?.color};"
 					>
-						<i class=" devicon-{skill}-plain text-xs"></i>
+						<i class=" devicon-{skill}-plain text-xs text-white"></i>
 						<p class=" text-xs text-white font-semibold">{skill}</p>
 					</div>
 				{/each}
@@ -111,7 +111,7 @@
 				{/each}
 			</div>
 			{#if project.photos.length}
-				<div class=" mt-6 h-48 overflow-hidden">
+				<div class=" up shadow-lg rounded-lg mt-4 lg:mt-16 h-48 overflow-hidden">
 					<Carousel
 						imgClass=" w-full h-48"
 						images={project.photos.map((v) => ({
@@ -124,7 +124,7 @@
 				</div>
 			{/if}
 			{#if project.demoUrl}
-				<p class=" mt-4 font-semibold text-sm text-slate-900">View demo page</p>
+				<p class=" mt-4 lg:mt-12 font-semibold text-sm text-slate-900">View demo page</p>
 				<a
 					href={project.demoUrl}
 					target="_blank"
@@ -140,8 +140,12 @@
 
 <style>
 	@media (min-width: 1024px) {
-		.paper {
-			transform: rotate3d(6, -3, 3, 50deg);
+		.preview {
+			transform: perspective(500px) translateY(-50%) rotate3d(0.5, -1.5, 1, 20deg);
+		}
+
+		.up {
+			transform: perspective(500px) translateY(-10px) translateZ(150px);
 		}
 	}
 </style>

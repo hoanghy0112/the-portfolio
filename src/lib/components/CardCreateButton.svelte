@@ -19,9 +19,9 @@
 	onMount(() => {
 		let timeout1: NodeJS.Timeout, timeout2: NodeJS.Timeout;
 		const interval = setInterval(() => {
-			angle.set(20);
+			angle.set(10);
 			timeout1 = setTimeout(() => {
-				angle.set(-20);
+				angle.set(-15);
 			}, 200);
 			timeout2 = setTimeout(() => {
 				angle.set(0);
@@ -37,7 +37,7 @@
 </script>
 
 <button
-	class=" w-[300px] px-8 rounded-xl bg-foreground-100 hover:bg-foreground-300 active:scale-75 duration-300 cursor-pointer grid place-items-center gap-2"
+	class=" main w-[200px] md:w-[300px] px-8 rounded-xl bg-foreground-100 hover:bg-foreground-200 hover:shadow-lg active:scale-75 duration-300 cursor-pointer grid place-items-center gap-2"
 	{onclick}
 >
 	<div class=" grid gap-4 place-items-center">
@@ -52,3 +52,9 @@
 		</div>
 	</div>
 </button>
+
+<style>
+	.main:hover {
+		transform: perspective(900px) translate3d(0px, -10px, 5px) rotate3d(1, 0, 0, 20deg);
+	}
+</style>

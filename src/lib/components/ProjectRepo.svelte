@@ -57,7 +57,7 @@
 		</div>
 	</div>
 	<div class=" flex flex-col gap-6">
-		<Input title="Name" bind:value={repo.displayName} required name="repoName" />
-		<Input title="Description" bind:value={repo.description} name="repoDescription" />
+		<Input inputClass=" text-base" title="Name" bind:value={repo.displayName} required name="repoName" />
+		<Input inputClass=" text-base" title="Description" bind:value={repo.description} name="repoDescription" />
 	</div>
 </div>

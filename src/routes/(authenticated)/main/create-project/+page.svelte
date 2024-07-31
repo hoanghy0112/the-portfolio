@@ -218,9 +218,11 @@
 					<p class=" mt-4 text-center text-xl text-foreground-600 font-medium">
 						There is no repository selected
 					</p>
-					<Button class=" w-fit " on:click={() => (isOpen = true)} shadow color="alternative">
-						<p class=" text-foreground-600 font-medium">Import repositories from Github now</p>
-					</Button>
+					{#if data.githubUser}
+						<Button class=" w-fit " on:click={() => (isOpen = true)} shadow color="alternative">
+							<p class=" text-foreground-600 font-medium">Import repositories from Github now</p>
+						</Button>
+					{/if}
 				</div>
 			{/if}
 		</div>

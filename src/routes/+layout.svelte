@@ -122,12 +122,12 @@
 		}}
 		class=" overflow-x-hidden overflow-y-auto pt-20 flex flex-col flex-1"
 	>
-		<div class=" flex flex-1">
+		<div class=" flex flex-col flex-1">
 			{#key data.pathname?.split('/').slice(0, 3).join('')}
 				<div
 					in:fly={{ x: data.isPrev ? -200 : 200, duration: 300, delay: 300 }}
 					out:fly={{ x: data.isPrev ? 200 : -200, duration: 300 }}
-					class=" flex-1 flex"
+					class=" flex-1 flex flex-col"
 				>
 					{@render children()}
 				</div>

@@ -10,7 +10,7 @@
 	const { title, description, children }: Props = $props();
 </script>
 
-<div class=" flex flex-col gap-6">
+<div class=" flex-1 flex flex-col gap-6">
 	<div class=" grid gap-1">
 		<h2 class=" text-foreground-700 font-semibold text-2xl">{title}</h2>
 		{#if description}
@@ -18,8 +18,10 @@
 		{/if}
 	</div>
 	{#if children}
-		<div class=" py-14 w-full overflow-auto flex flex-row gap-5">
-			{@render children()}
+		<div class=" -mx-10 p-4 px-10 overflow-x-auto flex flex-col">
+			<div class=" w-fit flex flex-row gap-5">
+				{@render children()}
+			</div>
 		</div>
 	{/if}
 </div>

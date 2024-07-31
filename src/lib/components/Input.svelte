@@ -11,6 +11,7 @@
 		type = 'text',
 		required,
 		class: className,
+		inputClass = '',
 		title,
 		name,
 		placeholder,
@@ -20,6 +21,7 @@
 		class?: string;
 		title: string;
 		name: string;
+		inputClass?: string;
 		error?: { message: string | null; element?: HTMLInputElement };
 		validate?: (value: any) => string | null | undefined;
 	} & HTMLInputAttributes = $props();
@@ -45,7 +47,9 @@
 
 <div class={className ?? ''}>
 	<Label for={name} class="block mb-0">
-		{title} <span>({required ? 'Required' : 'Optional'})</span>
+		<p class=" text-foreground-500">
+			{title} <span>({required ? 'Required' : 'Optional'})</span>
+		</p>
 	</Label>
 	<input
 		id={name}
@@ -54,7 +58,8 @@
 		{type}
 		style={`box-shadow: none; ${error?.message && isDisplayError ? '' : '-webkit-text-fill-color: var(--foreground-900); -webkit-box-shadow: 0 0 0px 1000px var(--background-color) inset;'}'`}
 		class={twMerge(
-			' input mt-3 w-full p-0 pt-0 pb-1 rounded-none border-0 border-b-2 focus:border-sky-600 focus:border-b-3 text-lg font-medium px-0',
+			' input mt-3 w-full p-0 pt-0 pb-1 rounded-none border-0 border-b-2 border-foreground-400 focus:border-sky-600 focus:border-b-3 text-lg font-medium px-0',
+			inputClass,
 			error?.message && isDisplayError ? ' !bg-red-400' : ' bg-background-default'
 		)}
 		placeholder={error?.message && isDisplayError ? '' : placeholder}
