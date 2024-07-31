@@ -62,7 +62,7 @@
 	<title>Create new project - ThePortfolio</title>
 </svelte:head>
 
-<div class=" grid gap-14">
+<div class=" grid gap-14 px-4 py-8 lg:px-8 lg:py-12 rounded-2xl bg-white shadow-lg">
 	<div class="w-full flex flex-col lg:flex-row gap-8">
 		<div class=" flex-1 flex flex-col gap-12">
 			<div class=" flex flex-col gap-4 md:flex-row md:justify-between md:items-center">
@@ -102,7 +102,7 @@
 				<div class=" flex flex-col gap-12">
 					<Input
 						class=" flex-1"
-						inputClass=" text-4xl font-bold"
+						inputClass=" text-2xl md:text-3xl lg:text-4xl font-bold"
 						title="Display name"
 						bind:value={projectFormStore.data.name}
 						name="projectDisplayName"

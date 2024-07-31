@@ -28,3 +28,6 @@
 		</GradientButton>
 	</SectionList>
 </div>
+
+<style>
+</style>

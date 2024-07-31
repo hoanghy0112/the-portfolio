@@ -122,7 +122,7 @@
 			//@ts-ignore
 			scrollY = e.target?.scrollTop;
 		}}
-		class=" overflow-x-hidden overflow-y-auto pt-20 flex flex-col flex-1 bg-[rgb(242,242,248)] dark:bg-background-default"
+		class=" overflow-x-hidden overflow-y-auto pt-20 flex flex-col flex-1 bg-[rgb(244,244,248)] dark:bg-background-default"
 	>
 		<div class=" flex flex-col flex-1">
 			{#key data.pathname?.split('/').slice(0, 3).join('')}

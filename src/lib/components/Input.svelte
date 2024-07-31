@@ -56,12 +56,12 @@
 		{name}
 		{...props}
 		{type}
-		style={`box-shadow: none; ${error?.message && isDisplayError ? '' : '-webkit-box-shadow: 0 0 0px 1000px var(--background-color) inset;'}'`}
+		style={`box-shadow: none; ${error?.message && isDisplayError ? '' : '-webkit-box-shadow: 0 0 0px 1000px transparent inset;'}'`}
 		class={twMerge(
-			' input mt-3 w-full p-0 pt-0 pb-1 rounded-none border-0 border-b-2 border-foreground-400 focus:border-sky-600 focus:border-b-3 text-lg font-medium px-0',
+			' input mt-3 w-full p-0 pt-0 pb-1 bg-transparent rounded-none border-0 border-b-2 border-foreground-400 focus:border-sky-600 focus:border-b-3 text-lg font-medium px-0',
 			value ? ' text-foreground-900' : ' text-foreground-400',
 			inputClass,
-			error?.message && isDisplayError ? ' !bg-red-400' : ' bg-background-default'
+			error?.message && isDisplayError ? ' !bg-red-400' : ' bg-transparent'
 		)}
 		placeholder={error?.message && isDisplayError ? '' : placeholder}
 		bind:value
