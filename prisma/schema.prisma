@@ -80,6 +80,7 @@ model Project {
   endDate          DateTime?
   tasks            Task[]
   skills           String[]
+  features         Feature[]
   PortfolioProject PortfolioProject[]
 
   @@map("projects")
@@ -127,4 +128,11 @@ type RepoUrl {
   name        String?
   description String?
   url         String
+}
+
+type Feature {
+  title       String?
+  description String?
+  photos      String[]
+  demoUrl     String
 }

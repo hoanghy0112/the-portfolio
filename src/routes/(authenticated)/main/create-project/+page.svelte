@@ -4,6 +4,7 @@
 	import FileListUpload from '$lib/components/FileListUpload.svelte';
 	import FormNextButton from '$lib/components/FormNextButton.svelte';
 	import GithubRepo from '$lib/components/GithubRepo.svelte';
+	import GithubRepoSelectModal from '$lib/components/GithubRepoSelectModal.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import OrganizationSelectInput from '$lib/components/OrganizationSelectInput.svelte';
 	import ProjectRepo from '$lib/components/ProjectRepo.svelte';
@@ -90,41 +91,13 @@
 					<Button class=" w-fit " on:click={() => (isOpen = true)} shadow color="alternative">
 						<p class=" text-foreground-800 font-medium">Import repositories</p>
 					</Button>
-					<Modal
-						size="md"
-						placement="top-center"
-						title="Select repositories"
-						bind:open={isOpen}
-						outsideclose
-						classHeader=" !py-2 !bg-background-default"
-						classBody=" bg-background-default"
-					>
-						<div class=" grid gap-8">
-							<OrganizationSelectInput token={data.githubToken} githubUser={data.githubUser} />
-							{#if repositories.length || $navigating}
-								<div class=" rounded-lg overflow-hidden border-[1px] border-foreground-300">
-									{#if $navigating}
-										<ListPlaceholder divClass=" m-2" />
-									{:else}
-										{#each repositories as repo (repo.id)}
-											<GithubRepo
-												{repo}
-												isImported={importedRepositories.some((v) => v.id === repo.id)}
-												onImport={(repo) => {
-													importedRepositories.push(repo);
-												}}
-												onRemove={(repo) => {
-													importedRepositories = importedRepositories.filter(
-														(v) => v.id !== repo.id
-													);
-												}}
-											/>
-										{/each}
-									{/if}
-								</div>
-							{/if}
-						</div>
-					</Modal>
+					<GithubRepoSelectModal
+						githubToken={data.githubToken}
+						githubUser={data.githubUser}
+						{repositories}
+						bind:importedRepositories
+						bind:isOpen
+					/>
 				{/if}
 			</div>
 			<div class=" flex-1 grid gap-10">
