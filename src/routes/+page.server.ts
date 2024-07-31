@@ -9,7 +9,10 @@ export async function load({ parent, cookies }) {
 		throw redirect(307, '/welcome');
 	}
 
-	const projects = await prisma.project.findMany({ where: { authorId: user.id } });
+	const projects = await prisma.project.findMany({
+		where: { authorId: user.id },
+		orderBy: { updatedAt: 'desc' }
+	});
 
 	return { projects };
 }

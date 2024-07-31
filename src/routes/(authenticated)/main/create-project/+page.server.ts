@@ -62,7 +62,6 @@ export const actions = {
 		const description = formData.get('feature-description');
 		const demoUrl = formData.get('feature-demo-url');
 		const files = formData.getAll('images[]') as File[];
-		console.log({ files });
 
 		const photos = await Promise.all(files.map((file) => uploadFileToS3(file)));
 

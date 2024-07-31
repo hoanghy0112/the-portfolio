@@ -82,6 +82,7 @@ model Project {
   skills           String[]
   features         Feature[]
   PortfolioProject PortfolioProject[]
+  updatedAt        DateTime           @default(now())
 
   @@map("projects")
 }
@@ -135,4 +136,5 @@ type Feature {
   description String?
   photos      String[]
   demoUrl     String
+  order       Int      @default(0)
 }

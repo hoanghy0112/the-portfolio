@@ -27,7 +27,7 @@
 		<FeatureItemInput
 			bind:isUploading
 			onSubmit={(feature) => {
-				features.push(feature);
+				features.push({ ...feature, order: features.length } as Feature);
 			}}
 		/>
 		{#if features.length}

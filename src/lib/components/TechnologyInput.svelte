@@ -96,7 +96,7 @@
 					e.stopPropagation();
 				}}
 				transition:slide={{ duration: 300 }}
-				class=" absolute w-full px-4 py-2 flex flex-col gap-1 -bottom-3 rounded-lg shadow-2xl translate-y-full bg-foreground-100 max-h-40 overflow-y-auto"
+				class=" absolute z-20 w-full px-4 py-2 flex flex-col gap-1 -bottom-3 rounded-lg shadow-2xl translate-y-full bg-foreground-50 max-h-40 overflow-y-auto"
 			>
 				{#each technologyList as technology, index (technology.name)}
 					<button
@@ -109,9 +109,9 @@
 						}}
 					>
 						<div
-							class=" h-10 px-2 py-1 flex items-center gap-2 duration-200 hover:bg-foreground-300 rounded-lg {selectedIndex ===
+							class=" h-10 px-2 py-1 flex items-center gap-2 duration-200 hover:bg-foreground-200 rounded-lg {selectedIndex ===
 							index
-								? 'bg-foreground-300'
+								? 'bg-foreground-200'
 								: ''}"
 						>
 							<i class=" devicon-{technology.name}-plain colored"></i>

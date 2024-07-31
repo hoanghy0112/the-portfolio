@@ -4,6 +4,7 @@
 	import ProjectItemPreview from '$lib/components/ProjectItemPreview.svelte';
 	import SectionList from '$lib/components/SectionList.svelte';
 	import { GradientButton } from 'flowbite-svelte';
+	import { flip } from 'svelte/animate';
 
 	const { data } = $props();
 </script>
@@ -18,8 +19,10 @@
 			description="Import your github repo, describe about it"
 			onclick={() => goto('/main/create-project')}
 		/>
-		{#each data.projects as project}
-			<ProjectItemPreview {project} />
+		{#each data.projects as project (project.id)}
+			<div class=" flex" animate:flip={{ duration: 300 }}>
+				<ProjectItemPreview {project} />
+			</div>
 		{/each}
 	</SectionList>
 	<SectionList title="Your Porfolio">

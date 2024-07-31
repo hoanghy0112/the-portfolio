@@ -1,16 +1,23 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
 	import { getTechnologyInfo } from '$lib/utils/technologies';
 	import type { Project } from '@prisma/client';
 	import { Button, Carousel } from 'flowbite-svelte';
+	import { scale } from 'svelte/transition';
 
 	type Props = {
 		project: Project;
 	};
 
 	const { project }: Props = $props();
+
+	let isDeleting = $state(false);
 </script>
 
-<div class="group flex">
+<div
+	class="group flex {isDeleting ? 'blur-md' : 'blur-0'} duration-500"
+	out:scale={{ duration: 300, start: 0.2 }}
+>
 	<div
 		class=" main relative w-72 md:w-96 rounded-xl overflow-hidden flex flex-col bg-white dark:bg-foreground-100 shadow-lg dark:border-[0.5px] dark:border-foreground-400 duration-[600ms]"
 	>
@@ -48,7 +55,19 @@
 		>
 			<Button color="light">Create portfolio</Button>
 			<Button color="light">Edit</Button>
-			<Button outline color="red">Delete</Button>
+			<form
+				use:enhance={() => {
+					isDeleting = true;
+					return async ({ update }) => {
+						await update();
+					};
+				}}
+				class=" w-full flex flex-col"
+				action={`/main/project/${project.id}?/delete`}
+				method="post"
+			>
+				<Button type="submit" outline color="red">Delete</Button>
+			</form>
 		</div>
 	</div>
 </div>
