@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import FeatureListInput from '$lib/components/FeatureListInput.svelte';
 	import FileListUpload from '$lib/components/FileListUpload.svelte';
 	import FormNextButton from '$lib/components/FormNextButton.svelte';
 	import GithubRepoSelectModal from '$lib/components/GithubRepoSelectModal.svelte';
@@ -63,9 +64,9 @@
 </svelte:head>
 
 <div
-	class=" grid gap-14 px-4 py-8 lg:px-8 lg:py-12 rounded-2xl bg-white dark:bg-transparent shadow-lg dark:shadow-none"
+	class=" flex flex-col gap-14 px-4 py-8 lg:px-8 lg:py-12 rounded-2xl bg-white dark:bg-transparent shadow-lg dark:shadow-none"
 >
-	<div class="w-full flex flex-col lg:flex-row gap-8">
+	<div class=" flex-1 grid grid-cols-1 lg:grid-cols-2 gap-8">
 		<div class=" flex-1 flex flex-col gap-12">
 			<div class=" flex flex-col gap-4 md:flex-row md:justify-between md:items-center">
 				<h1 class=" w-fit font-semibold text-2xl">Create new project</h1>
@@ -91,17 +92,10 @@
 					<Button class=" w-fit " on:click={() => (isOpen = true)} color="alternative">
 						<p class=" text-foreground-800 font-medium">Import repositories</p>
 					</Button>
-					<GithubRepoSelectModal
-						githubToken={data.githubToken}
-						githubUser={data.githubUser}
-						{repositories}
-						bind:importedRepositories
-						bind:isOpen
-					/>
 				{/if}
 			</div>
-			<div class=" flex-1 grid gap-10">
-				<div class=" flex flex-col gap-12">
+			<div class=" flex-1 flex flex-col gap-10">
+				<div class=" flex-1 flex flex-col gap-12">
 					<Input
 						class=" flex-1"
 						inputClass=" text-2xl md:text-3xl lg:text-4xl font-bold"
@@ -158,6 +152,7 @@
 						/>
 					</div>
 					<FileListUpload {files} />
+					<FeatureListInput bind:features={projectFormStore.data.features} />
 				</div>
 			</div>
 		</div>
@@ -168,14 +163,14 @@
 					in:scale={{ duration: 300, opacity: 0, start: 0 }}
 					out:scale={{ duration: 300, opacity: 0.2, start: 0.2 }}
 				>
-					{#each importedRepositories as repo (repo.id)}
+					{#each importedRepositories as repo, i (repo.id)}
 						<div
 							animate:flip={{ duration: 300 }}
 							in:scale={{ duration: 300, opacity: 0, start: 0 }}
 							out:scale={{ duration: 300, opacity: 0.2, start: 0.2 }}
 						>
 							<ProjectRepo
-								{repo}
+								bind:repo={importedRepositories[i]}
 								onRemove={(repo) => {
 									importedRepositories = importedRepositories.filter((v) => v.id !== repo.id);
 								}}
@@ -195,7 +190,9 @@
 					</p>
 					{#if data.githubUser}
 						<Button class=" w-fit " on:click={() => (isOpen = true)} color="dark">
-							<p class=" text-foreground-100 dark:text-foreground-700 font-medium">Import repositories from Github now</p>
+							<p class=" text-foreground-100 dark:text-foreground-700 font-medium">
+								Import repositories from Github now
+							</p>
 						</Button>
 					{/if}
 				</div>
@@ -224,3 +221,11 @@
 		<FormNextButton title="Submit" {errors} />
 	</form>
 </div>
+
+<GithubRepoSelectModal
+	githubToken={data.githubToken}
+	githubUser={data.githubUser}
+	{repositories}
+	bind:importedRepositories
+	bind:isOpen
+/>

@@ -1,4 +1,7 @@
+import { uploadFileToS3 } from '$lib/aws/s3';
 import type { Repo } from '$lib/types/repo.js';
+import type { Feature } from '@prisma/client';
+import type { Actions } from '@sveltejs/kit';
 import { Octokit } from 'octokit';
 
 export async function load({ cookies, url }) {
@@ -50,3 +53,19 @@ export async function load({ cookies, url }) {
 		repos: repos.data as Repo[]
 	};
 }
+
+export const actions = {
+	feature: async ({ request }) => {
+		const formData = await request.formData();
+
+		const title = formData.get('feature-title');
+		const description = formData.get('feature-description');
+		const demoUrl = formData.get('feature-demo-url');
+		const files = formData.getAll('images[]') as File[];
+		console.log({ files });
+
+		const photos = await Promise.all(files.map((file) => uploadFileToS3(file)));
+
+		return { title, description, demoUrl, photos } as Feature;
+	}
+} satisfies Actions;

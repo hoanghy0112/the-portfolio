@@ -24,7 +24,7 @@
 						src: v,
 						alt: 'Preview'
 					}))}
-					duration={Math.floor(Math.random() * 500 + 2000)}
+					duration={Math.floor(Math.random() * 500 + 3000)}
 				/>
 			{/if}
 		</div>

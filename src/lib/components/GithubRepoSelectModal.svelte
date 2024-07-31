@@ -5,10 +5,11 @@
 	import { navigating } from '$app/stores';
 	import type { IProjectRepo, Repo } from '$lib/types/repo';
 	import GithubRepo from './GithubRepo.svelte';
+	import { onMount } from 'svelte';
 
 	type Props = {
 		githubToken?: string;
-		githubUser?: GithubUser;
+		githubUser?: GithubUser | null;
 		repositories?: Repo[];
 		importedRepositories?: IProjectRepo[];
 		isOpen?: boolean;

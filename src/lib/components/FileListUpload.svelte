@@ -6,10 +6,11 @@
 
 	type Props = {
 		title?: string;
+		description?: string;
 		files?: File[];
 	};
 
-	let { title = 'Images', files = $bindable([]) }: Props = $props();
+	let { title = 'Images', description, files = $bindable([]) }: Props = $props();
 
 	let inputElement = $state<HTMLInputElement>();
 </script>
@@ -17,10 +18,12 @@
 <div class=" flex flex-col">
 	<div class=" flex items-center justify-between">
 		<div class=" grid gap-1">
-			<p class=" font-semibold">
+			<p class=" font-semibold text-foreground-700">
 				{title}
 			</p>
-			<p></p>
+			{#if description}
+				<p class=" text-sm text-foreground-500">{description}</p>
+			{/if}
 		</div>
 		<Button
 			onclick={() => {

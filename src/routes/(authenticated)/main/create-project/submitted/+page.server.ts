@@ -36,7 +36,8 @@ export const actions = {
 				memberNum: data.memberNum,
 				startDate: data.startDate?.toISOString?.(),
 				endDate: data.endDate?.toISOString?.(),
-				skills: data.skills
+				skills: data.skills,
+				features: data.features
 			}
 		});
 
