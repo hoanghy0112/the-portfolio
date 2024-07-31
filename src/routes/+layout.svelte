@@ -67,7 +67,9 @@
 <svelte:window bind:scrollY />
 
 <div class=" relative h-svh flex flex-col">
-	<Navbar class={`!bg-background-default absolute ${showNav ? 'top-0' : '-top-20'} duration-300`}>
+	<Navbar
+		class={` bg-white shadow-lg dark:shadow-none dark:!bg-background-default  absolute ${showNav ? 'top-0' : '-top-20'} duration-300`}
+	>
 		<NavBrand href="/">
 			<img src={LOGO} class=" lg:pl-12 me-3 h-6 sm:h-9" alt="The Portfolio Logo" />
 			<span
@@ -120,7 +122,7 @@
 			//@ts-ignore
 			scrollY = e.target?.scrollTop;
 		}}
-		class=" overflow-x-hidden overflow-y-auto pt-20 flex flex-col flex-1"
+		class=" overflow-x-hidden overflow-y-auto pt-20 flex flex-col flex-1 bg-[rgb(242,242,248)] dark:bg-background-default"
 	>
 		<div class=" flex flex-col flex-1">
 			{#key data.pathname?.split('/').slice(0, 3).join('')}
@@ -134,7 +136,7 @@
 			{/key}
 		</div>
 
-		<div class=" px-4 lg:px-16 pt-12 pb-8">
+		<div class=" px-4 lg:px-16 pt-12 pb-8 bg-[rgb(242,242,248)] dark:bg-background-default">
 			<Footer>
 				<div class="sm:flex sm:items-center sm:justify-between">
 					<FooterCopyright href="/" by="HoangHy™" year={2024} />

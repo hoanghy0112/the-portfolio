@@ -11,7 +11,7 @@
 </script>
 
 <div
-	class=" w-72 md:w-96 rounded-xl overflow-hidden flex flex-col bg-foreground-100 shadow-lg dark:border-[0.5px] dark:border-foreground-400"
+	class=" w-72 md:w-96 rounded-xl overflow-hidden flex flex-col bg-white dark:bg-foreground-100 shadow-lg dark:border-[0.5px] dark:border-foreground-400"
 >
 	<div class=" w-full h-48 bg-foreground-200">
 		{#if project.photos.length}
