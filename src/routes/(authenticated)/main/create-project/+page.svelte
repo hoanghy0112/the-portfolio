@@ -1,12 +1,9 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { navigating } from '$app/stores';
 	import FileListUpload from '$lib/components/FileListUpload.svelte';
 	import FormNextButton from '$lib/components/FormNextButton.svelte';
-	import GithubRepo from '$lib/components/GithubRepo.svelte';
 	import GithubRepoSelectModal from '$lib/components/GithubRepoSelectModal.svelte';
 	import Input from '$lib/components/Input.svelte';
-	import OrganizationSelectInput from '$lib/components/OrganizationSelectInput.svelte';
 	import ProjectRepo from '$lib/components/ProjectRepo.svelte';
 	import RepositoryIcon from '$lib/components/RepositoryIcon.svelte';
 	import TechnologyInput from '$lib/components/TechnologyInput.svelte';
@@ -15,7 +12,7 @@
 	import { projectFormStore } from '$lib/stores/project-form.svelte';
 	import type { IProjectRepo } from '$lib/types/repo.js';
 	import { githubNameToDisplayName } from '$lib/utils/string-manipulation.js';
-	import { Button, GradientButton, ListPlaceholder, Modal } from 'flowbite-svelte';
+	import { Button, GradientButton } from 'flowbite-svelte';
 	import { onMount } from 'svelte';
 	import { flip } from 'svelte/animate';
 	import { scale } from 'svelte/transition';
@@ -31,6 +28,7 @@
 	let errors = $derived(errorStateGenerator(1));
 
 	onMount(async () => {
+		projectFormStore.reset();
 		projectFormStore.data.authorId = data.user.id;
 	});
 
@@ -104,6 +102,7 @@
 				<div class=" flex flex-col gap-12">
 					<Input
 						class=" flex-1"
+						inputClass=" text-4xl font-bold"
 						title="Display name"
 						bind:value={projectFormStore.data.name}
 						name="projectDisplayName"
@@ -119,42 +118,43 @@
 					/>
 					<Input
 						title="Home page"
+						inputClass=" italic !text-blue-500"
 						bind:value={projectFormStore.data.demoUrl}
 						placeholder="Your project homepage"
 						name="projectHomePage"
 					/>
 					<TechnologyInput bind:technologies={projectFormStore.data.skills} />
-					<Input
-						class="w-1/2"
-						title="Members"
-						type="number"
-						bind:value={projectFormStore.data.memberNum}
-						placeholder="Your project homepage"
-						name="projectMemberNum"
-					/>
-					{#key isOpen}
-						<div class=" relative grid grid-cols-2 gap-8">
-							<Input
-								title="Start date"
-								name="startDate"
-								type="date"
-								bind:value={projectFormStore.data.startDate}
-							/>
-							<Input
-								title="End date"
-								name="endDate"
-								type="date"
-								validate={(value: Date) =>
-									new Date(value).getTime() >
-										new Date(projectFormStore.data.startDate || new Date()).getTime() ||
-									!value ||
-									!projectFormStore.data.startDate
-										? ''
-										: 'End date must be greater than start date'}
-								bind:value={projectFormStore.data.endDate}
-							/>
-						</div>
-					{/key}
+					<div class=" relative flex flex-col md:flex-row gap-8">
+						<Input
+							class=" w-36"
+							title="Members"
+							type="number"
+							bind:value={projectFormStore.data.memberNum}
+							placeholder="Your project homepage"
+							name="projectMemberNum"
+						/>
+						<Input
+							class=" flex-1"
+							title="Start date"
+							name="startDate"
+							type="date"
+							bind:value={projectFormStore.data.startDate}
+						/>
+						<Input
+							class=" flex-1"
+							title="End date"
+							name="endDate"
+							type="date"
+							validate={(value: Date) =>
+								new Date(value).getTime() >
+									new Date(projectFormStore.data.startDate || new Date()).getTime() ||
+								!value ||
+								!projectFormStore.data.startDate
+									? ''
+									: 'End date must be greater than start date'}
+							bind:value={projectFormStore.data.endDate}
+						/>
+					</div>
 					<FileListUpload {files} />
 				</div>
 			</div>

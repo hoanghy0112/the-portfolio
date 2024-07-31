@@ -61,7 +61,7 @@
 		<p class=" text-foreground-500">Select your project technologies</p>
 	</Label>
 	<div
-		class=" relative mt-3 w-full flex flex-wrap gap-y-3 p-0 pb-1 rounded-none border-0 border-b-2 border-foreground-500"
+		class=" relative mt-3 w-full flex flex-wrap gap-y-3 p-0 pb-2 rounded-none border-0 border-b-2 border-foreground-500"
 	>
 		{#each technologies as technology (technology)}
 			<div class=" mr-3" transition:slide={{ axis: 'x', duration: 300 }}>
