@@ -1,26 +1,25 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
+	import LOGO from '$lib/assets/logo.png';
 	import { signInWithGoogle } from '$lib/firebase/authentication';
 	import {
 		Button,
 		DarkMode,
 		Dropdown,
 		DropdownItem,
+		Footer,
+		FooterCopyright,
+		FooterLink,
+		FooterLinkGroup,
 		Navbar,
 		NavBrand,
 		NavHamburger,
 		NavLi,
-		NavUl,
-		Footer,
-		FooterCopyright,
-		FooterLinkGroup,
-		FooterLink
+		NavUl
 	} from 'flowbite-svelte';
 	import { fly } from 'svelte/transition';
-	import LOGO from '$lib/assets/logo.png';
-	import '../app.css';
-	import { onMount } from 'svelte';
+	import '../../app.css';
 
 	const { data, children } = $props();
 
