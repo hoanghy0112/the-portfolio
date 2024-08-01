@@ -55,7 +55,7 @@
 <div id="main" class=" bg-[#f8f8f3] w-full em:px-4 em:py-24 flex flex-col em:gap-4">
 	<div class=" flex flex-col items-center em:gap-16">
 		<div style="--delay:0ms" class=" fly flex flex-col items-center em:gap-3">
-			<h1 class=" font-light em:text-3xl lg:em:text-5xl em:!leading-4">
+			<h1 class=" font-light em:text-4xl lg:em:text-5xl em:!leading-4">
 				{data.user.name}
 			</h1>
 			<Text isDisplayed={!!data.user.title} class=" em:text-base lg:em:text-lg font-light">
@@ -164,14 +164,14 @@
 						<div class=" mx-auto w-fit text-center em:p-2 lg:em:px-8 lg:em:py-4 rounded-xl">
 							<Link
 								href="/"
-								class=" cursor-pointer text-slate-900 text-2xl font-medium flex gap-2 w-fit mx-auto"
+								class=" cursor-pointer text-slate-900 em:text-xl font-medium flex mx-auto"
 							>
 								{project.name}
 							</Link>
-							<p class=" mt-1 font-light text-slate-700">{project.description}</p>
+							<p class=" em:mt-1 font-light text-slate-700">{project.description}</p>
 						</div>
 						<div
-							class=" mx-auto mt-4 lg:max-w-[700px] h-auto bg-[#f8f8f3] flex flex-col items-center gap-4"
+							class=" mx-auto em:mt-4 lg:max-w-[700px] h-auto bg-[#f8f8f3] flex flex-col items-center gap-4"
 						>
 							<div class=" w-full shadow-2xl rounded-xl">
 								<Carousel
@@ -192,8 +192,8 @@
 								{#each project.photos as photo, i (photo)}
 									<button
 										class={twMerge(
-											' rounded-lg overflow-hidden cursor-pointer shadow-lg border-4 hover:scale-110',
-											index === i ? 'border-[#A39BA8]' : 'border-transparent'
+											' rounded-lg overflow-hidden cursor-pointer shadow-lg border-none hover:scale-110',
+											index === i ? ' shadow-xl' : ' shadow-none'
 										)}
 										onclick={() => (index = i)}
 									>
