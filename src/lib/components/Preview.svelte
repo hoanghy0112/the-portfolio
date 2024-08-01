@@ -7,9 +7,10 @@
 	type Props = {
 		data: Portfolio;
 		theme?: string | null;
+		isToggleFullScreen?: boolean;
 	};
 
-	const { data, theme = 'default' }: Props = $props();
+	const { data, theme = 'default', isToggleFullScreen = true }: Props = $props();
 
 	let Template = $state<any>();
 
@@ -56,14 +57,21 @@
 {#if Template && projects}
 	<div class="group relative w-full flex">
 		<div class=" paper w-full flex flex-col shadow-lg rounded-2xl overflow-hidden">
-			<svelte:component this={Template} {data} {projects} --font-size="14px" />
+			<svelte:component
+				this={Template}
+				{data}
+				{projects}
+				--font-size={isToggleFullScreen ? '14px' : '16px'}
+			/>
 		</div>
-		<button
-			onclick={() => (isModalOpen = true)}
-			class=" lg:opacity-0 group-hover:opacity-100 duration-200 absolute top-2 right-2 p-2 bg-[#46464649] hover:bg-[#46464669] active:bg-[#46464689] rounded-lg"
-		>
-			<Icon icon="ion:scan" class=" text-foreground-100 text-xl" />
-		</button>
+		{#if isToggleFullScreen}
+			<button
+				onclick={() => (isModalOpen = true)}
+				class=" lg:opacity-0 group-hover:opacity-100 duration-200 absolute top-2 right-2 p-2 bg-[#46464649] hover:bg-[#46464669] active:bg-[#46464689] rounded-lg"
+			>
+				<Icon icon="ion:scan" class=" text-foreground-100 text-xl" />
+			</button>
+		{/if}
 		<Modal
 			classBackdrop="p-0"
 			class="p-0"

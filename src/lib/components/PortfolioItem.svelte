@@ -15,7 +15,7 @@
 </script>
 
 <div
-	class="group flex {isDeleting ? 'blur-md' : 'blur-0'} duration-500"
+	class="group w-full flex flex-col {isDeleting ? 'blur-md' : 'blur-0'} duration-500"
 	out:scale={{ duration: 300, start: 0.2 }}
 >
 	<div

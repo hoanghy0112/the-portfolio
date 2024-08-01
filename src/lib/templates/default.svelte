@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Anchor from '$lib/components/Anchor.svelte';
+	import Link from '$lib/components/Link.svelte';
 	import Text from '$lib/components/Text.svelte';
 	import Icon from '@iconify/svelte';
 	import type { Portfolio, Project } from '@prisma/client';
@@ -51,7 +52,7 @@
 	}
 </script>
 
-<div id="main" class=" bg-[#f8f8f3] w-full em:px-4 em:py-20 flex flex-col em:gap-4">
+<div id="main" class=" bg-[#f8f8f3] w-full em:px-4 em:py-24 flex flex-col em:gap-4">
 	<div class=" flex flex-col items-center em:gap-16">
 		<div style="--delay:0ms" class=" fly flex flex-col items-center em:gap-3">
 			<h1 class=" font-light em:text-3xl lg:em:text-5xl em:!leading-4">
@@ -153,18 +154,20 @@
 		>
 			{data.user.description}
 		</Text>
-		<div style="--delay:400ms" class=" fly w-full flex flex-col em:gap-14 items-center">
-			<h2 class=" font-medium em:text-xl lg:em:text-3xl underline underline-offset-8">Project</h2>
+		<div style="--delay:400ms" class=" fly w-full flex flex-col em:gap-10 items-center">
+			<h2 class=" font-medium em:text-xl lg:em:text-3xl underline underline-offset-8">
+				My Project
+			</h2>
 			<div class="sections w-full flex flex-col em:gap-20">
 				{#each projects as project (project.id)}
 					<div class="">
 						<div class=" mx-auto w-fit text-center em:p-2 lg:em:px-8 lg:em:py-4 rounded-xl">
-							<a
+							<Link
 								href="/"
 								class=" cursor-pointer text-slate-900 text-2xl font-medium flex gap-2 w-fit mx-auto"
-								>{project.name}
-								<span> <Icon icon="ion:arrow-up-right-box-outline" class=" text-sm" /></span></a
 							>
+								{project.name}
+							</Link>
 							<p class=" mt-1 font-light text-slate-700">{project.description}</p>
 						</div>
 						<div
@@ -224,7 +227,7 @@
 		font-size: var(--font-size);
 	}
 
-	.fly {
+	:global(.fly) {
 		position: relative;
 		top: -100px;
 		opacity: 0;
@@ -233,7 +236,7 @@
 
 	@keyframes fly {
 		from {
-			top: -80px;
+			top: -200px;
 			opacity: 0;
 		}
 		to {

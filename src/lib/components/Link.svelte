@@ -14,10 +14,10 @@
 
 <a
 	target="_blank"
-	class={twMerge(' flex gap-2 font-medium text-foreground-800 cursor-pointer', className)}
+	class={twMerge(' w-fit relative flex gap-2 font-medium text-foreground-800 cursor-pointer', className)}
 	data-sveltekit-preload-data="hover"
 	{href}
 >
 	{@render children?.()}
-	<Icon icon="ion:arrow-up-right-box-outline" />
+	<Icon icon="ion:arrow-up-right-box-outline" class="text-lg absolute -right-2 top-0 translate-x-full" />
 </a>
