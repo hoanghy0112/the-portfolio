@@ -29,10 +29,12 @@
 	});
 </script>
 
-<div class="w-full flex-1 flex flex-col lg:flex-row gap-8">
-	<div class=" flex-1 flex flex-col gap-12">
+<div
+	class="w-full flex-1 grid grid-cols-1 lg:grid-cols-2 gap-8 px-4 py-8 lg:px-8 lg:py-12 rounded-2xl bg-white dark:bg-transparent shadow-lg dark:shadow-none"
+>
+	<div class=" flex flex-col gap-12">
 		<h1 class=" w-fit font-semibold text-2xl">Create new portfolio</h1>
-		<div class=" grid gap-10">
+		<div class=" flex flex-col gap-10">
 			<div class=" grid gap-1">
 				<p class=" text-foreground-500">Step {pageIndex} of 4</p>
 				<p class=" text-foreground-950 text-lg font-medium">{PORTFOLIO_STEPS[pageIndex]}</p>
@@ -42,7 +44,7 @@
 					<div
 						in:fly={{ x: data.isPrev ? -200 : 200, duration: 300, delay: 300 }}
 						out:fly={{ x: data.isPrev ? 200 : -200, duration: 300 }}
-						class=" flex-1 overflow-auto grid gap-10"
+						class=" flex-1 overflow-visible flex flex-col gap-10"
 					>
 						{@render children()}
 					</div>
@@ -50,11 +52,19 @@
 			</div>
 		</div>
 	</div>
-	<div class=" flex-1 flex flex-col gap-4">
+	<div class=" flex flex-col gap-4">
 		<Select
 			bind:selected={theme}
 			items={TEMPLATES.map((v) => ({ id: v.name, title: v.displayName }))}
 		/>
-		<Preview data={portfolioFormStore.data} {theme} />
+		<div class=" paper flex flex-col shadow-lg rounded-2xl overflow-hidden">
+			<Preview data={portfolioFormStore.data} {theme} />
+		</div>
 	</div>
 </div>
+
+<style>
+	.paper {
+		transform: perspective(900px) rotateX(10deg) rotateY(-20deg);
+	}
+</style>

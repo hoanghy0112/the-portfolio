@@ -80,7 +80,11 @@
 						</Button>
 					</a>
 				</div>
-				<a in:fly={{ duration: 700, delay: 1200, y: -50 }} class=" mt-6" href={redirectUrl}>
+				<a
+					in:fly={{ duration: 700, delay: 1200, y: -50 }}
+					class=" mt-6"
+					href={`${redirectUrl}?back=true`}
+				>
 					<Button size="xs" color="alternative" outline class=" group duration-200">
 						<div class=" flex gap-2 items-center">
 							<Icon

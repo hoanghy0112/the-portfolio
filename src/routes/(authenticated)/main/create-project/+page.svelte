@@ -17,6 +17,7 @@
 	import { onMount } from 'svelte';
 	import { flip } from 'svelte/animate';
 	import { scale } from 'svelte/transition';
+	import { page } from '$app/stores';
 
 	const { data } = $props();
 
@@ -202,7 +203,9 @@
 
 	<form
 		enctype="multipart/form-data"
-		action="/main/create-project/submitted"
+		action="/main/create-project/submitted?redirect-url={$page.url.searchParams.get(
+			'redirect-url'
+		) || '/'}"
 		method="post"
 		use:enhance={async ({ formData, cancel }) => {
 			if (errors.some((e) => e.message)) cancel();

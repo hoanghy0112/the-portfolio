@@ -44,7 +44,7 @@
 </script>
 
 {#if Template}
-	<div class="group relative w-full flex overflow-hidden rounded-2xl">
+	<div class="group relative w-full flex overflow-hidden">
 		<svelte:component this={Template} {data} --font-size="14px" />
 		<button
 			onclick={() => (isModalOpen = true)}

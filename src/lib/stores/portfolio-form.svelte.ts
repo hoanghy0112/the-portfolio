@@ -1,28 +1,34 @@
 import type { Portfolio } from '@prisma/client';
 
-function createStore() {
-	let _data = $state<Portfolio>({
-		id: '',
-		authorId: '',
+const getDefaultValue = () => ({
+	id: '',
+	authorId: '',
+	name: null,
+	userId: '',
+	user: {
+		email: '',
+		phone: '',
+		session: '',
+		photo: null,
 		name: null,
-		userId: '',
-		user: {
-			email: '',
-			phone: '',
-			session: '',
-			photo: null,
-			name: null,
-			title: null,
-			description: null,
-			githubUrl: null,
-			youtubeUrl: null,
-			linkedInUrl: null,
-			websiteUrl: null
-		},
-		achivements: []
-	});
+		title: null,
+		description: null,
+		githubUrl: null,
+		youtubeUrl: null,
+		linkedInUrl: null,
+		websiteUrl: null
+	},
+	achivements: [],
+	projectIds: []
+});
+
+function createStore() {
+	let _data = $state<Portfolio>(getDefaultValue());
 
 	return {
+		reset() {
+			_data = getDefaultValue();
+		},
 		get data() {
 			return _data;
 		},

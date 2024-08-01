@@ -42,47 +42,35 @@ type PortfolioUser {
 }
 
 model Portfolio {
-  id       String        @id @default(auto()) @map("_id") @db.ObjectId
-  author   User          @relation(fields: [authorId], references: [id])
-  authorId String        @db.ObjectId
-  user     PortfolioUser
-  name     String?
-
-  achivements      Achivement[]
-  userId           String             @db.ObjectId
-  portfolioProject PortfolioProject[]
+  id          String        @id @default(auto()) @map("_id") @db.ObjectId
+  author      User          @relation(fields: [authorId], references: [id])
+  authorId    String        @db.ObjectId
+  user        PortfolioUser
+  name        String?
+  achivements Achivement[]
+  userId      String        @db.ObjectId
+  projectIds  String[]
 
   @@map("portfolios")
 }
 
-model PortfolioProject {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-
-  portfolio   Portfolio @relation(fields: [portfolioId], references: [id])
-  portfolioId String    @db.ObjectId
-
-  project   Project @relation(fields: [projectId], references: [id])
-  projectId String  @db.ObjectId
-}
-
 model Project {
-  id               String             @id @default(auto()) @map("_id") @db.ObjectId
-  author           User               @relation(fields: [authorId], references: [id])
-  authorId         String             @db.ObjectId
-  name             String
-  description      String?
-  photos           String[]
-  contents         ContentSection[]
-  demoUrl          String?
-  repoUrls         RepoUrl[]
-  memberNum        Int?
-  startDate        DateTime?
-  endDate          DateTime?
-  tasks            Task[]
-  skills           String[]
-  features         Feature[]
-  PortfolioProject PortfolioProject[]
-  updatedAt        DateTime           @default(now())
+  id          String           @id @default(auto()) @map("_id") @db.ObjectId
+  author      User             @relation(fields: [authorId], references: [id])
+  authorId    String           @db.ObjectId
+  name        String
+  description String?
+  photos      String[]
+  contents    ContentSection[]
+  demoUrl     String?
+  repoUrls    RepoUrl[]
+  memberNum   Int?
+  startDate   DateTime?
+  endDate     DateTime?
+  tasks       Task[]
+  skills      String[]
+  features    Feature[]
+  updatedAt   DateTime         @default(now())
 
   @@map("projects")
 }

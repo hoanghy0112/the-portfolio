@@ -16,7 +16,7 @@ export async function load({ url }) {
 }
 
 export const actions = {
-	default: async ({ request, locals }) => {
+	default: async ({ request, locals, url }) => {
 		const response = await request.formData();
 		const data = JSON.parse(response.get('data') as string) as Project;
 		const files = response.getAll('images[]') as File[];
@@ -41,6 +41,9 @@ export const actions = {
 			}
 		});
 
-		redirect(303, `/main/create-project/submitted?id=${project.id}`);
+		redirect(
+			303,
+			`/main/create-project/submitted?id=${project.id}&redirect-url=${url.searchParams.get('redirect-url')}`
+		);
 	}
 } satisfies Actions;

@@ -5,13 +5,13 @@
 	import { type TErrorList } from '$lib/stores/error-state-generator.svelte';
 
 	type Props = {
-		errors: TErrorList;
+		errors?: TErrorList;
 		destinationUrl?: string;
 		title?: string;
 		onCancel?: () => any;
 	};
 
-	const { errors, destinationUrl, onCancel = () => {}, title = 'Next step' }: Props = $props();
+	const { errors = [], destinationUrl, onCancel = () => {}, title = 'Next step' }: Props = $props();
 </script>
 
 <div>
