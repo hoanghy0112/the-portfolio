@@ -57,14 +57,6 @@
 			bind:selected={theme}
 			items={TEMPLATES.map((v) => ({ id: v.name, title: v.displayName }))}
 		/>
-		<div class=" paper flex flex-col shadow-lg rounded-2xl overflow-hidden">
-			<Preview data={portfolioFormStore.data} {theme} />
-		</div>
+		<Preview data={portfolioFormStore.data} {theme} />
 	</div>
 </div>
-
-<style>
-	.paper {
-		transform: perspective(900px) rotateX(10deg) rotateY(-20deg);
-	}
-</style>

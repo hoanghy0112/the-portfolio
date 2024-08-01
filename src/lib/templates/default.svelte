@@ -1,16 +1,51 @@
 <script lang="ts">
-	import type { Portfolio } from '@prisma/client';
+	import type { Portfolio, Project } from '@prisma/client';
 
 	type Props = {
 		data: Portfolio;
+		projects: Project[];
 	};
 
-	const { data }: Props = $props();
+	const { data, projects }: Props = $props();
+
+	const sections = document.querySelectorAll('.section');
+
+	let config = {
+		rootMargin: '0px',
+		threshold: 0.5
+	};
+
+	let observer = new IntersectionObserver((entries) => {
+		console.log(entries);
+		entries.forEach((entry) => {
+			if (entry.isIntersecting) {
+				intersectionHandler(entry);
+			}
+		});
+	}, config);
+
+	sections.forEach((section) => {
+		observer.observe(section);
+	});
+
+	function intersectionHandler(entry: any) {
+		const current = document.querySelector('.section.active');
+		const next = entry.target;
+		const header = next.querySelector('.section--header');
+
+		if (current) {
+			current.classList.remove('active');
+		}
+		if (next) {
+			next.classList.add('active');
+			document.body.style.setProperty('--color-bg', next.dataset.bgcolor);
+		}
+	}
 </script>
 
 <div id="main" class=" bg-[#EDF5FC] w-full em:px-4 em:py-20 flex flex-col em:gap-4">
-	<div class=" flex flex-col items-center em:gap-12">
-		<div class=" flex flex-col items-center em:gap-3">
+	<div class=" flex flex-col items-center em:gap-16">
+		<div style="--delay:0ms" class=" fly flex flex-col items-center em:gap-3">
 			<h1 class=" font-light em:text-5xl em:!leading-4">
 				{data.user.name}
 			</h1>
@@ -42,7 +77,23 @@
 				{/if}
 			</div>
 		</div>
-		<p class=" mx-auto em:px-16 em:max-w-3xl em:text-base text-center italic">{data.user.description}</p>
+		<p
+			style="--delay:200ms"
+			class=" fly mx-auto em:px-16 em:max-w-3xl em:text-base text-center italic"
+		>
+			{data.user.description}
+		</p>
+		<div style="--delay:400ms" class=" fly flex flex-col em:gap-8 items-center">
+			<h2 class=" font-semibold em:text-3xl">Project</h2>
+			<div class="sections">
+				{#each projects as project (project.id)}
+					<div>
+						<p>{project.name}</p>
+						<p>{project.description}</p>
+					</div>
+				{/each}
+			</div>
+		</div>
 	</div>
 </div>
 
@@ -51,5 +102,87 @@
 		--foreground: #272d2d;
 		color: var(--foreground);
 		font-size: var(--font-size);
+	}
+
+	.fly {
+		position: relative;
+		top: -100px;
+		opacity: 0;
+		animation: fly 600ms var(--delay) 1 forwards;
+	}
+
+	@keyframes fly {
+		from {
+			top: -80px;
+			opacity: 0;
+		}
+		to {
+			top: 0px;
+			opacity: 1;
+		}
+	}
+
+	.sections {
+		position: relative;
+		display: block;
+		/* padding: 0 6vmax; */
+	}
+
+	.section {
+		position: relative;
+		min-height: 100vh;
+	}
+
+	.section--image {
+		display: block;
+		position: relative;
+		max-width: 100%;
+		margin: 10vh 0 30vh auto;
+		opacity: 0;
+		transition: opacity 0.3s;
+
+		.active & {
+			opacity: 1;
+		}
+
+		img {
+			display: block;
+			position: relative;
+			max-width: 90%;
+			max-height: 100vh;
+			margin: 0 0 0 auto;
+		}
+	}
+
+	.section--header {
+		font-size: calc(var(--fontsize-text));
+		font-family: var(--font-text);
+		position: fixed;
+		bottom: 5vmax;
+		left: 0;
+		padding-left: 5vmax;
+		z-index: 1000;
+		line-height: 1;
+		font-weight: 300;
+		opacity: 0;
+		animation-duration: 0.65s;
+		animation-fill-mode: both;
+
+		.active & {
+			animation-name: fadeInUp;
+		}
+	}
+
+	@keyframes fadeInUp {
+		0% {
+			transform: translate3d(0, 55%, 0);
+			opacity: 0;
+			transform: translate3d(0, 55%, 0);
+		}
+		to {
+			transform: translateZ(0);
+			opacity: 1;
+			transform: translateZ(0);
+		}
 	}
 </style>

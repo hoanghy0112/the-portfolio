@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Icon from '@iconify/svelte';
-	import type { Portfolio } from '@prisma/client';
+	import { type Portfolio, type Project } from '@prisma/client';
 	import { Modal } from 'flowbite-svelte';
 	import { mount, unmount } from 'svelte';
 
@@ -21,6 +21,16 @@
 
 	let frame = $state<HTMLIFrameElement>();
 	let isModalOpen = $state(false);
+
+	let projects = $state<Project[] | undefined>();
+
+	$effect(() => {
+		(async () => {
+			projects = (await Promise.all(
+				data.projectIds.map(async (id) => (await fetch(`/main/project/${id}`)).json())
+			)) as Project[];
+		})();
+	});
 
 	$effect(() => {
 		if (!frame || !frame?.contentDocument || !Template) return;
@@ -43,9 +53,11 @@
 	});
 </script>
 
-{#if Template}
-	<div class="group relative w-full flex overflow-hidden">
-		<svelte:component this={Template} {data} --font-size="14px" />
+{#if Template && projects}
+	<div class="group relative w-full flex">
+		<div class=" paper w-full flex flex-col shadow-lg rounded-2xl overflow-hidden">
+			<svelte:component this={Template} {data} {projects} --font-size="14px" />
+		</div>
 		<button
 			onclick={() => (isModalOpen = true)}
 			class=" opacity-0 group-hover:opacity-100 duration-200 absolute top-2 right-2 p-2 bg-[#46464649] hover:bg-[#46464669] active:bg-[#46464689] rounded-lg"
@@ -53,8 +65,15 @@
 			<Icon icon="ion:scan" class=" text-foreground-100 text-xl" />
 		</button>
 		<Modal size="xl" bind:open={isModalOpen} outsideclose>
-			<svelte:component this={Template} {data} --font-size="18px" />
+			{#key isModalOpen}
+				<svelte:component this={Template} {data} {projects} --font-size="18px" />
+			{/key}
 		</Modal>
-		<!-- <iframe class=" w-full min-h-[300px] flex-1" bind:this={frame} title="Portfolio preview"></iframe> -->
 	</div>
 {/if}
+
+<style>
+	.paper {
+		transform: perspective(900px) rotateX(10deg) rotateY(-20deg);
+	}
+</style>
