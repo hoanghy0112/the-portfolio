@@ -1,17 +1,20 @@
 import prisma from '$lib/prisma';
 import type { Portfolio } from '@prisma/client';
-import { redirect, type Actions } from '@sveltejs/kit';
+import { error, redirect, type Actions } from '@sveltejs/kit';
 
 export async function load({ url }) {
-	const projectId = url.searchParams.get('id');
+	const portfolioId = url.searchParams.get('id');
 
-	if (!projectId) throw redirect(303, '/');
+	if (!portfolioId) throw redirect(303, '/');
 
-	const project = await prisma.project.findFirst({ where: { id: projectId } });
+	const portfolio = await prisma.portfolio.findFirst({ where: { id: portfolioId } });
 
-	if (!project) throw redirect(303, '/');
+	if (!portfolio)
+		throw error(404, {
+			message: 'Portfolio not found'
+		});
 
-	return { project };
+	return { portfolio };
 }
 
 export const actions = {
@@ -19,7 +22,7 @@ export const actions = {
 		const response = await request.formData();
 		const data = JSON.parse(response.get('data') as string) as Portfolio;
 
-		if (!locals.user) redirect(403, '/');
+		if (!locals.user) return redirect(403, '/');
 
 		const portfolio = await prisma.portfolio.create({
 			data: {
@@ -39,6 +42,6 @@ export const actions = {
 			}
 		});
 
-		redirect(303, `/main/create-portfolio/submitted?id=${portfolio.id}`);
+		return redirect(303, `/main/create-portfolio/submitted?id=${portfolio.id}`);
 	}
 } satisfies Actions;
