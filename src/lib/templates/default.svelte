@@ -1,5 +1,8 @@
 <script lang="ts">
+	import Icon from '@iconify/svelte';
 	import type { Portfolio, Project } from '@prisma/client';
+	import { Carousel, Thumbnails } from 'flowbite-svelte';
+	import { twMerge } from 'tailwind-merge';
 
 	type Props = {
 		data: Portfolio;
@@ -7,6 +10,9 @@
 	};
 
 	const { data, projects }: Props = $props();
+
+	let index = $state(0);
+	let forward = true;
 
 	const sections = document.querySelectorAll('.section');
 
@@ -43,19 +49,19 @@
 	}
 </script>
 
-<div id="main" class=" bg-[#EDF5FC] w-full em:px-4 em:py-20 flex flex-col em:gap-4">
+<div id="main" class=" bg-[#f8f8f3] w-full em:px-4 em:py-20 flex flex-col em:gap-4">
 	<div class=" flex flex-col items-center em:gap-16">
 		<div style="--delay:0ms" class=" fly flex flex-col items-center em:gap-3">
-			<h1 class=" font-light em:text-5xl em:!leading-4">
+			<h1 class=" font-light em:text-3xl lg:em:text-5xl em:!leading-4">
 				{data.user.name}
 			</h1>
-			<p class=" em:text-lg">{data.user.title}</p>
+			<p class=" em:text-base lg:em:text-lg font-light">{data.user.title}</p>
 			<div class=" flex items-center em:gap-2">
 				{#if data.user.email}
 					<a
 						target="_blank"
 						href={`mailto:${data.user.email}`}
-						class=" em:text-2xl text-foreground-950"
+						class=" lg:em:text-2xl text-foreground-950"
 					>
 						<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 512 512"
 							><path
@@ -66,7 +72,7 @@
 					</a>
 				{/if}
 				{#if data.user.githubUrl}
-					<a target="_blank" href={data.user.githubUrl} class=" em:text-2xl text-foreground-950">
+					<a target="_blank" href={data.user.githubUrl} class=" lg:em:text-2xl text-foreground-950">
 						<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 512 512"
 							><path
 								fill="currentColor"
@@ -79,17 +85,71 @@
 		</div>
 		<p
 			style="--delay:200ms"
-			class=" fly mx-auto em:px-16 em:max-w-3xl em:text-base text-center italic"
+			class=" fly mx-auto lg:em:px-16 em:max-w-3xl em:text-base text-center font-light italic"
 		>
 			{data.user.description}
 		</p>
-		<div style="--delay:400ms" class=" fly flex flex-col em:gap-8 items-center">
-			<h2 class=" font-semibold em:text-3xl">Project</h2>
-			<div class="sections">
+		<div style="--delay:400ms" class=" fly w-full flex flex-col em:gap-14 items-center">
+			<h2 class=" font-medium em:text-xl lg:em:text-3xl underline underline-offset-8">Project</h2>
+			<div class="sections w-full flex flex-col em:gap-20">
 				{#each projects as project (project.id)}
-					<div>
-						<p>{project.name}</p>
-						<p>{project.description}</p>
+					<div class="">
+						<div class=" mx-auto w-fit text-center em:p-2 lg:em:px-8 lg:em:py-4 rounded-xl">
+							<a href="/" class=" cursor-pointer text-slate-900 text-2xl font-medium flex gap-2 w-fit mx-auto"
+								>{project.name}
+								<span> <Icon icon="ion:arrow-up-right-box-outline" class=" text-sm" /></span></a
+							>
+							<p class=" mt-1 font-light text-slate-700">{project.description}</p>
+						</div>
+						<div
+							class=" mx-auto mt-4 lg:max-w-[700px] h-auto bg-[#f8f8f3] flex flex-col items-center gap-4"
+						>
+							<div class=" w-full shadow-2xl rounded-xl">
+								<Carousel
+									let:Controls
+									imgClass=" object-cover shadow-2xl "
+									images={project.photos.map((v) => ({
+										class: ' h-48 object-cover',
+										src: v,
+										alt: 'Preview'
+									}))}
+									bind:index
+									duration={Math.floor(Math.random() * 500 + 3000)}
+								>
+									<Controls />
+								</Carousel>
+							</div>
+							<div class=" w-fit flex justify-center gap-4">
+								{#each project.photos as photo, i (photo)}
+									<button
+										class={twMerge(
+											' rounded-lg overflow-hidden cursor-pointer shadow-lg border-4 hover:scale-110',
+											index === i ? 'border-[#A39BA8]' : 'border-transparent'
+										)}
+										onclick={() => (index = i)}
+									>
+										<img
+											src={photo}
+											alt="project preview"
+											class={twMerge(
+												' w-36 h-20 object-cover hover:opacity-90',
+												index === i ? 'opacity-100' : 'opacity-35'
+											)}
+										/>
+									</button>
+								{/each}
+								<!-- <Thumbnails
+									imgClass=" w-36 h-20 object-cover"
+									images={project.photos.map((v) => ({
+										class: '',
+										src: v,
+										alt: 'Preview'
+									}))}
+									{forward}
+									bind:index
+								/> -->
+							</div>
+						</div>
 					</div>
 				{/each}
 			</div>
@@ -98,6 +158,10 @@
 </div>
 
 <style>
+	* {
+		transition-duration: 300ms;
+	}
+
 	#main {
 		--foreground: #272d2d;
 		color: var(--foreground);
@@ -124,7 +188,6 @@
 
 	.sections {
 		position: relative;
-		display: block;
 		/* padding: 0 6vmax; */
 	}
 

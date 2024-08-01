@@ -60,20 +60,34 @@
 		</div>
 		<button
 			onclick={() => (isModalOpen = true)}
-			class=" opacity-0 group-hover:opacity-100 duration-200 absolute top-2 right-2 p-2 bg-[#46464649] hover:bg-[#46464669] active:bg-[#46464689] rounded-lg"
+			class=" lg:opacity-0 group-hover:opacity-100 duration-200 absolute top-2 right-2 p-2 bg-[#46464649] hover:bg-[#46464669] active:bg-[#46464689] rounded-lg"
 		>
 			<Icon icon="ion:scan" class=" text-foreground-100 text-xl" />
 		</button>
-		<Modal size="xl" bind:open={isModalOpen} outsideclose>
-			{#key isModalOpen}
-				<svelte:component this={Template} {data} {projects} --font-size="18px" />
-			{/key}
+		<Modal
+			classBackdrop="p-0"
+			class="p-0"
+			classDialog="p-0"
+			classBody=" p-0"
+			classFooter="p-0"
+			classHeader="p-0"
+			size="xl"
+			bind:open={isModalOpen}
+			outsideclose
+		>
+			<div class=" md:-m-0">
+				{#key isModalOpen}
+					<svelte:component this={Template} {data} {projects} --font-size="16px" />
+				{/key}
+			</div>
 		</Modal>
 	</div>
 {/if}
 
 <style>
-	.paper {
-		transform: perspective(900px) rotateX(10deg) rotateY(-20deg);
+	@media (min-width: 1024px) {
+		.paper {
+			/* transform: perspective(900px) rotateX(0deg) rotateY(-10deg); */
+		}
 	}
 </style>
