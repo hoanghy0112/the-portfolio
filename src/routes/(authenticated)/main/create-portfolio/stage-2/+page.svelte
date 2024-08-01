@@ -1,11 +1,12 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
 	import FormBackButton from '$lib/components/FormBackButton.svelte';
 	import FormNextButton from '$lib/components/FormNextButton.svelte';
-	import { flip } from 'svelte/animate';
 	import PortfolioProjectItem from '$lib/components/PortfolioProjectItem.svelte';
-	import { twMerge } from 'tailwind-merge';
 	import { portfolioFormStore } from '$lib/stores/portfolio-form.svelte';
 	import { Button } from 'flowbite-svelte';
+	import { flip } from 'svelte/animate';
+	import { twMerge } from 'tailwind-merge';
 
 	const { data } = $props();
 </script>
@@ -64,7 +65,19 @@
 
 	<div class=" flex justify-between">
 		<FormBackButton destinationUrl="/main/create-portfolio?prev=true" />
-		<FormNextButton destinationUrl="/main/create-portfolio/stage-3" />
+		<form
+			action="/main/create-portfolio/submitted"
+			method="post"
+			use:enhance={async ({ formData, cancel }) => {
+				formData.set('data', JSON.stringify(portfolioFormStore.data));
+
+				return async ({ update }) => {
+					await update();
+				};
+			}}
+		>
+			<FormNextButton title="Submit"/>
+		</form>
 	</div>
 </div>
 

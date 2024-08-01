@@ -41,6 +41,18 @@
 		bind:error={errors[3]}
 		name="description"
 	/>
+	<Input title="Phone number" bind:value={portfolioFormStore.data.user.phone} name="phone" />
+	<Input title="Github url" bind:value={portfolioFormStore.data.user.githubUrl} name="github-url" />
+	<Input
+		title="LinkedIn url"
+		bind:value={portfolioFormStore.data.user.linkedInUrl}
+		name="linkedin-url"
+	/>
+	<Input
+		title="Youtube url"
+		bind:value={portfolioFormStore.data.user.youtubeUrl}
+		name="youtube-url"
+	/>
 </div>
 
 <FormNextButton {errors} destinationUrl="/main/create-portfolio/stage-2" />

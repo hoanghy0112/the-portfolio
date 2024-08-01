@@ -29,7 +29,6 @@ model User {
 
 type PortfolioUser {
   email       String
-  session     String
   phone       String?
   photo       String?
   name        String?
@@ -48,7 +47,6 @@ model Portfolio {
   user        PortfolioUser
   name        String?
   achivements Achivement[]
-  userId      String        @db.ObjectId
   projectIds  String[]
 
   @@map("portfolios")

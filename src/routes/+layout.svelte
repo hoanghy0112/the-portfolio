@@ -68,7 +68,7 @@
 
 <div class=" relative h-svh flex flex-col">
 	<Navbar
-		class={` bg-white shadow-lg dark:shadow-none dark:!bg-background-default  absolute ${showNav ? 'top-0' : '-top-20'} duration-300`}
+		class={` z-20 bg-white shadow-lg dark:shadow-none dark:!bg-background-default  absolute ${showNav ? 'top-0' : '-top-20'} duration-300`}
 	>
 		<NavBrand href="/">
 			<img src={LOGO} class=" lg:pl-12 me-3 h-6 sm:h-9" alt="The Portfolio Logo" />
