@@ -4,8 +4,11 @@
 	import { draw, fly } from 'svelte/transition';
 	import Icon from '@iconify/svelte';
 	import { getTechnologyInfo } from '$lib/utils/technologies.js';
+	import { page } from '$app/stores';
 
 	const { data } = $props();
+
+	const redirectUrl = $derived($page.url.searchParams.get('redirect-url') || '/');
 
 	const project = data.project;
 
@@ -77,6 +80,17 @@
 						</Button>
 					</a>
 				</div>
+				<a in:fly={{ duration: 700, delay: 1200, y: -50 }} class=" mt-6" href={redirectUrl}>
+					<Button size="xs" color="alternative" outline class=" group duration-200">
+						<div class=" flex gap-2 items-center">
+							<Icon
+								class=" text-foreground-800 text-lg group-hover:text-white dark:text-foreground-600 duration-200"
+								icon="ion:arrow-undo-outline"
+							/>
+							<p class=" font-medium">Back to previous</p>
+						</div>
+					</Button>
+				</a>
 			</div>
 			<div class=" z-0 absolute w-36 h-36 bg-primary-500 blur-[6rem]"></div>
 		</div>
