@@ -14,5 +14,10 @@ export async function load({ parent, cookies }) {
 		orderBy: { updatedAt: 'desc' }
 	});
 
-	return { projects };
+	const portfolios = await prisma.portfolio.findMany({
+		where: { authorId: user.id },
+		orderBy: { updatedAt: 'desc' }
+	});
+
+	return { projects, portfolios };
 }

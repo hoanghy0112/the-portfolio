@@ -48,6 +48,7 @@ model Portfolio {
   name        String?
   achivements Achivement[]
   projectIds  String[]
+  updatedAt   DateTime      @default(now())
 
   @@map("portfolios")
 }

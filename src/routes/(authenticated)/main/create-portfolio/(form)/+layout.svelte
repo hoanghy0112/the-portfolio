@@ -4,7 +4,7 @@
 	import Select from '$lib/components/Select.svelte';
 	import { PORTFOLIO_STEPS } from '$lib/constants/portfolio-step';
 	import { TEMPLATES } from '$lib/constants/templates';
-	import { portfolioFormStore } from '$lib/stores/portfolio-form.svelte.js';
+	import { portfolioFormStore } from '$lib/stores/portfolio-form.svelte';
 	import { onMount } from 'svelte';
 	import { fly } from 'svelte/transition';
 

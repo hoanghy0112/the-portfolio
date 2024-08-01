@@ -13,7 +13,9 @@
 	});
 
 	let ready = $state(false);
-	onMount(() => (ready = true));
+	onMount(() => {
+		ready = true;
+	});
 </script>
 
 {#key ready}

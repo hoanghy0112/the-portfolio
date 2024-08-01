@@ -2,6 +2,7 @@
 	import { goto } from '$app/navigation';
 	import CardCreateButton from '$lib/components/CardCreateButton.svelte';
 	import ProjectItemPreview from '$lib/components/ProjectItemPreview.svelte';
+	import PortfolioItem from '$lib/components/PortfolioItem.svelte';
 	import SectionList from '$lib/components/SectionList.svelte';
 	import { GradientButton } from 'flowbite-svelte';
 	import { flip } from 'svelte/animate';
@@ -29,6 +30,11 @@
 		<GradientButton onclick={() => goto('/main/create-portfolio')} color="tealToLime">
 			Create one
 		</GradientButton>
+		{#each data.portfolios as portfolio (portfolio.id)}
+			<div class=" flex" animate:flip={{ duration: 300 }}>
+				<PortfolioItem {portfolio} />
+			</div>
+		{/each}
 	</SectionList>
 </div>
 
