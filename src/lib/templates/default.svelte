@@ -217,7 +217,7 @@
 </div>
 
 <style>
-	* {
+	#main * {
 		transition-duration: 300ms;
 	}
 

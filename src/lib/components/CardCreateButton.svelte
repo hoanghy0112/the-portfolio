@@ -11,7 +11,7 @@
 </script>
 
 <button
-	class=" main w-[200px] md:w-[300px] px-8 py-20 rounded-xl shadow-md dark:shadow-none bg-white dark:bg-foreground-100 hover:bg-foreground-50 dark:hover:bg-foreground-200 hover:shadow-lg active:scale-75 duration-300 cursor-pointer grid place-items-center gap-2"
+	class=" flex-none main w-[200px] md:w-[300px] px-8 py-20 rounded-xl shadow-md dark:shadow-none bg-white dark:bg-foreground-100 hover:bg-foreground-50 dark:hover:bg-foreground-200 hover:shadow-lg active:scale-75 duration-300 cursor-pointer grid place-items-center gap-2"
 	{onclick}
 >
 	<div class=" grid gap-4 place-items-center">

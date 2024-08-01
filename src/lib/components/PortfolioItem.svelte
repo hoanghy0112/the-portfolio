@@ -1,12 +1,8 @@
 <script lang="ts">
+	import { timeDiffString } from '$lib/utils/time-manipulation';
 	import type { Portfolio } from '@prisma/client';
-	import { Card } from 'flowbite-svelte';
-	import { enhance } from '$app/forms';
-	import { getTechnologyInfo } from '$lib/utils/technologies';
-	import { Button, Carousel } from 'flowbite-svelte';
 	import { scale } from 'svelte/transition';
 	import Link from './Link.svelte';
-	import { timeDiffString } from '$lib/utils/time-manipulation';
 
 	type Props = { portfolio: Portfolio };
 
@@ -20,7 +16,7 @@
 	out:scale={{ duration: 300, start: 0.2 }}
 >
 	<div
-		class=" w-full px-4 py-6 rounded-xl overflow-hidden flex flex-col gap-10 bg-white dark:bg-foreground-100 shadow-lg dark:border-[0.5px] dark:border-foreground-400 duration-[600ms]"
+		class=" w-full px-6 py-6 rounded-xl overflow-hidden flex flex-col gap-10 bg-white dark:bg-foreground-100 shadow-lg dark:border-[0.5px] dark:border-foreground-400 duration-[600ms]"
 	>
 		<div class=" h-full bg-white dark:bg-foreground-100 flex flex-col gap-2">
 			<Link href="/portfolio/{portfolio.id}" class=" text-foreground-900 text-lg font-semibold">
@@ -29,7 +25,6 @@
 			<p class=" text-foreground-600">Updated {timeDiffString(new Date(portfolio.updatedAt))}</p>
 		</div>
 		<div>
-			<iframe src="http://localhost:5173/" title="W3Schools Free Online Web Tutorials"></iframe>
 		</div>
 		<!-- <div
 			class=" back px-20 flex flex-col justify-center items-stretch gap-4 opacity-0 delay-[200ms] scale-105 z-20 rounded-xl group-hover:opacity-100 absolute w-full h-full top-0 left-0 bg-background-default"
