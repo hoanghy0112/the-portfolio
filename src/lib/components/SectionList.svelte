@@ -5,9 +5,10 @@
 		title: string;
 		description?: string;
 		children?: Snippet;
+		direction?: 'vertical' | 'horizontal';
 	};
 
-	const { title, description, children }: Props = $props();
+	const { title, description, children, direction = 'horizontal' }: Props = $props();
 </script>
 
 <div class=" flex-1 flex flex-col gap-6">
@@ -18,8 +19,8 @@
 		{/if}
 	</div>
 	{#if children}
-		<div class=" -mx-10 p-4 px-10 overflow-x-auto flex flex-col">
-			<div class=" w-fit flex flex-row gap-5">
+		<div class=" flex-1 -mx-10 p-4 px-10 overflow-x-auto flex flex-col">
+			<div class=" flex {direction === 'horizontal' ? 'flex-row' : 'flex-col'} gap-5">
 				{@render children()}
 			</div>
 		</div>

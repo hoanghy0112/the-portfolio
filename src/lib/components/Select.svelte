@@ -1,17 +1,17 @@
 <script lang="ts">
 	import Icon from '@iconify/svelte';
-	import { Button, Dropdown, GradientButton, Search } from 'flowbite-svelte';
+	import { Button, Dropdown, Search } from 'flowbite-svelte';
 
 	type Props = {
 		title?: string;
-		selected?: string;
+		selected?: string | null;
 		onSelect?: (value: { id: string; title: string }) => any;
 		items?: { id: string; title: string }[];
 	};
 
 	let {
 		title = 'Select theme',
-		selected = $bindable(),
+		selected = $bindable('default'),
 		onSelect = () => {},
 		items = []
 	}: Props = $props();

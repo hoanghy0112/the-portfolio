@@ -5,6 +5,7 @@ const getDefaultValue = () => ({
 	authorId: '',
 	name: null,
 	userId: '',
+	theme: 'default',
 	user: {
 		email: '',
 		phone: '',
@@ -18,6 +19,7 @@ const getDefaultValue = () => ({
 		linkedInUrl: null,
 		websiteUrl: null
 	},
+	updatedAt: new Date(),
 	achivements: [],
 	projectIds: []
 });

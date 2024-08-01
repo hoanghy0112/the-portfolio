@@ -5,6 +5,7 @@
 	import { getTechnologyInfo } from '$lib/utils/technologies';
 	import { Button, Carousel } from 'flowbite-svelte';
 	import { scale } from 'svelte/transition';
+	import Link from './Link.svelte';
 
 	type Props = { portfolio: Portfolio };
 
@@ -18,9 +19,14 @@
 	out:scale={{ duration: 300, start: 0.2 }}
 >
 	<div
-		class=" main relative w-72 md:w-96 rounded-xl overflow-hidden flex flex-col bg-white dark:bg-foreground-100 shadow-lg dark:border-[0.5px] dark:border-foreground-400 duration-[600ms]"
+		class=" w-full rounded-xl overflow-hidden flex flex-col bg-white dark:bg-foreground-100 shadow-lg dark:border-[0.5px] dark:border-foreground-400 duration-[600ms]"
 	>
-		<div
+		<div class=" h-full bg-white dark:bg-foreground-100 flex flex-col gap-2 px-4 py-6">
+			<Link href="/portfolio/{portfolio.id}" class=" text-foreground-900 text-lg font-semibold">
+				{portfolio.name || 'Untitle portfolio'}
+			</Link>
+		</div>
+		<!-- <div
 			class=" back px-20 flex flex-col justify-center items-stretch gap-4 opacity-0 delay-[200ms] scale-105 z-20 rounded-xl group-hover:opacity-100 absolute w-full h-full top-0 left-0 bg-background-default"
 		>
 			<Button color="light">Create portfolio</Button>
@@ -38,18 +44,9 @@
 			>
 				<Button type="submit" outline color="red">Delete</Button>
 			</form>
-		</div>
+		</div> -->
 	</div>
 </div>
 
 <style>
-	div:hover .main {
-		/* transform: perspective(900px) translate3d(0px, -10px, -80px) rotate3d(1, 0, 0, 20deg); */
-		transform: perspective(900px) translate3d(0px, -0px, -100px) rotate3d(0, 1, 0, 180deg);
-	}
-
-	div:hover .back {
-		/* transform: perspective(900px) translate3d(0px, -10px, -80px) rotate3d(1, 0, 0, 20deg); */
-		transform: perspective(900px) rotate3d(0, 1, 0, 180deg);
-	}
 </style>

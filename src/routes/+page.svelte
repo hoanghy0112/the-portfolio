@@ -26,9 +26,13 @@
 			</div>
 		{/each}
 	</SectionList>
-	<SectionList title="Your Porfolio">
-		<GradientButton onclick={() => goto('/main/create-portfolio')} color="tealToLime">
-			Create one
+	<SectionList
+		title="Your Porfolios"
+		direction="vertical"
+		description="All portfolios created by you, click to view its detail information"
+	>
+		<GradientButton shadow onclick={() => goto('/main/create-portfolio')} color="cyanToBlue" class=" w-fit">
+			Create new portfolio
 		</GradientButton>
 		{#each data.portfolios as portfolio (portfolio.id)}
 			<div class=" flex" animate:flip={{ duration: 300 }}>

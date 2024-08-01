@@ -54,9 +54,9 @@
 	</div>
 	<div class=" flex flex-col gap-4">
 		<Select
-			bind:selected={theme}
+			bind:selected={portfolioFormStore.data.theme}
 			items={TEMPLATES.map((v) => ({ id: v.name, title: v.displayName }))}
 		/>
-		<Preview data={portfolioFormStore.data} {theme} />
+		<Preview data={portfolioFormStore.data} theme={portfolioFormStore.data.theme} />
 	</div>
 </div>

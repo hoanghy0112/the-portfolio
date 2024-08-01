@@ -6,15 +6,21 @@
 	import { EMAIL_REGEX } from '$lib/utils/regex';
 
 	let errors = $derived(errorStateGenerator(4));
+
+	$effect(() => {
+		if (portfolioFormStore.data.user.title) {
+			portfolioFormStore.data.name = `${portfolioFormStore.data.user.title} portfolio`;
+		}
+	});
 </script>
 
 <div class=" grid gap-8">
 	<div class=" flex flex-col xl:flex-row gap-8">
 		<Input
 			class=" flex-1"
-			title="Display name"
+			title="Your fullname name"
 			bind:value={portfolioFormStore.data.user.name}
-			name="displayName"
+			name="fullname"
 			bind:error={errors[0]}
 			required
 		/>
@@ -25,6 +31,12 @@
 			bind:error={errors[1]}
 		/>
 	</div>
+	<Input
+		class=" flex-1"
+		title="Portfolio name"
+		bind:value={portfolioFormStore.data.name}
+		name="portfolio-name"
+	/>
 	<Input
 		required
 		validate={(value) => {

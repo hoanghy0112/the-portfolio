@@ -6,7 +6,7 @@
 
 	type Props = {
 		data: Portfolio;
-		theme: string;
+		theme?: string | null;
 	};
 
 	const { data, theme = 'default' }: Props = $props();
