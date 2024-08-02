@@ -54,7 +54,9 @@
 			class=" back px-20 flex flex-col justify-center items-stretch gap-4 opacity-0 delay-[200ms] scale-105 z-20 rounded-xl group-hover:opacity-100 absolute w-full h-full top-0 left-0 bg-background-default"
 		>
 			<Button color="light">Create portfolio</Button>
-			<Button color="light">Edit</Button>
+			<a class=" w-full" href="/main/create-project?id={project.id}">
+				<Button class="w-full" type="submit" color="light">Edit</Button>
+			</a>
 			<form
 				use:enhance={() => {
 					isDeleting = true;

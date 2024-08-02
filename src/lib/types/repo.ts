@@ -1,5 +1,5 @@
 export interface Repo {
-	id: string;
+	id: number;
 	description: string | null;
 	default_branch: string;
 	full_name: string;

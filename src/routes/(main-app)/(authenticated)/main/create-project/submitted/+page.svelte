@@ -5,8 +5,11 @@
 	import Icon from '@iconify/svelte';
 	import { getTechnologyInfo } from '$lib/utils/technologies.js';
 	import { page } from '$app/stores';
+	import Confetti from '$lib/components/Confetti.svelte';
 
 	const { data } = $props();
+
+	const isEdit = !!$page.url.searchParams.get('isEdit');
 
 	const redirectUrl = $derived($page.url.searchParams.get('redirect-url') || '/');
 
@@ -53,7 +56,7 @@
 				in:fly={{ duration: 700, delay: 400, y: -50 }}
 				class=" z-10 text-center text-4xl font-bold"
 			>
-				Create portfolio project successfully
+				{isEdit ? 'Update portfolio project successfully' : 'Create portfolio project successfully'}
 			</h1>
 			<div class=" z-10 flex flex-col items-center gap-8">
 				<h2 in:fly={{ duration: 700, delay: 700, y: -50 }} class=" text-center text-lg font-medium">
@@ -155,6 +158,8 @@
 		</div>
 	</div>
 {/key}
+
+<Confetti />
 
 <style>
 	@media (min-width: 1024px) {

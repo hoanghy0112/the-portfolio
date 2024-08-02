@@ -25,6 +25,23 @@ export const actions = {
 
 		if (!locals.user) redirect(403, '/');
 
+		if (url.searchParams.get('isEdit')) {
+			const { id, ...updatedData } = data;
+			const project = await prisma.project.update({
+				where: { id },
+				data: {
+					...updatedData,
+					startDate: updatedData.startDate?.toISOString?.(),
+					endDate: updatedData.endDate?.toISOString?.()
+				}
+			});
+
+			redirect(
+				303,
+				`/main/create-project/submitted?isEdit=true&id=${project.id}&redirect-url=${url.searchParams.get('redirect-url')}`
+			);
+		}
+
 		const project = await prisma.project.create({
 			data: {
 				name: data.name,

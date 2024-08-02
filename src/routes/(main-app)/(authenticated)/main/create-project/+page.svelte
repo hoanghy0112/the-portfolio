@@ -21,16 +21,23 @@
 
 	const { data } = $props();
 
+	const isEdit = !!data.project;
+
 	let isOpen = $state(false);
 	let files = $state<File[]>([]);
 
 	let repositories = $derived(data.repos);
-	let importedRepositories = $state<IProjectRepo[]>([]);
+	let importedRepositories = $state<IProjectRepo[]>(
+		data.repos?.filter((repo) => data.project?.repoUrls.some((r) => r.url === repo.html_url)) || []
+	);
 
 	let errors = $derived(errorStateGenerator(1));
 
 	onMount(async () => {
-		projectFormStore.reset();
+		if (data.project) {
+			projectFormStore.data = data.project;
+		} else projectFormStore.reset();
+
 		projectFormStore.data.authorId = data.user.id;
 	});
 
@@ -61,7 +68,11 @@
 </script>
 
 <svelte:head>
-	<title>Create new project - ThePortfolio</title>
+	{#if isEdit}
+		<title>{data.project?.name} - ThePortfolio</title>
+	{:else}
+		<title>Create new project - ThePortfolio</title>
+	{/if}
 </svelte:head>
 
 <div
@@ -70,7 +81,9 @@
 	<div class=" flex-1 grid grid-cols-1 lg:grid-cols-2 gap-8">
 		<div class=" flex-1 flex flex-col gap-12">
 			<div class=" flex flex-col gap-4 md:flex-row md:justify-between md:items-center">
-				<h1 class=" w-fit font-semibold text-2xl">Create new project</h1>
+				<h1 class=" w-fit font-semibold text-2xl">
+					{isEdit ? 'Update project' : 'Create new project'}
+				</h1>
 				{#if !data.githubToken}
 					<form
 						action="/login/github"
@@ -203,9 +216,9 @@
 
 	<form
 		enctype="multipart/form-data"
-		action="/main/create-project/submitted?redirect-url={$page.url.searchParams.get(
-			'redirect-url'
-		) || '/'}"
+		action="/main/create-project/submitted?{isEdit
+			? 'isEdit=true'
+			: ''}&redirect-url={$page.url.searchParams.get('redirect-url') || '/'}"
 		method="post"
 		use:enhance={async ({ formData, cancel }) => {
 			if (errors.some((e) => e.message)) cancel();

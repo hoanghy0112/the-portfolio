@@ -68,7 +68,10 @@
 			<OptionButton
 				bind:isDeleting
 				options={[
-					{ title: 'Edit', icon: 'solar:pen-broken' },
+					{
+						title: 'Edit',
+						icon: 'solar:pen-broken'
+					},
 					{
 						title: 'Delete',
 						icon: 'solar:trash-bin-minimalistic-2-broken',
