@@ -10,7 +10,7 @@ datasource db {
 model User {
   id          String      @id @default(auto()) @map("_id") @db.ObjectId
   uid         String      @unique
-  email       String      @unique
+  email       String?
   session     String      @unique
   phone       String?
   photo       String?
@@ -28,7 +28,7 @@ model User {
 }
 
 type PortfolioUser {
-  email       String
+  email       String?
   phone       String?
   photo       String?
   name        String?

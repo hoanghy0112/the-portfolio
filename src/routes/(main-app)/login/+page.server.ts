@@ -18,8 +18,6 @@ export async function load({ cookies, url }) {
 		const displayName = googleUser.displayName;
 		const photo = googleUser.photoURL || '';
 
-		if (!email) throw new Error('Email not found');
-
 		const session = crypto.randomUUID();
 
 		const user = await prisma.user.findFirst({ where: { uid } });

@@ -1,8 +1,8 @@
 <script>
 	import { goto } from '$app/navigation';
 	import CardCreateButton from '$lib/components/CardCreateButton.svelte';
-	import ProjectItemPreview from '$lib/components/ProjectItemPreview.svelte';
 	import PortfolioItem from '$lib/components/PortfolioItem.svelte';
+	import ProjectItemPreview from '$lib/components/ProjectItemPreview.svelte';
 	import SectionList from '$lib/components/SectionList.svelte';
 	import { GradientButton } from 'flowbite-svelte';
 	import { flip } from 'svelte/animate';
@@ -31,7 +31,12 @@
 		direction="vertical"
 		description="All portfolios created by you, click to view its detail information"
 	>
-		<GradientButton shadow onclick={() => goto('/main/create-portfolio')} color="cyanToBlue" class=" w-fit">
+		<GradientButton
+			shadow
+			onclick={() => goto('/main/create-portfolio')}
+			color="cyanToBlue"
+			class=" w-fit"
+		>
 			Create new portfolio
 		</GradientButton>
 		{#each data.portfolios as portfolio (portfolio.id)}
