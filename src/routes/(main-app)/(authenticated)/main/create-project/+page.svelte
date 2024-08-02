@@ -18,6 +18,7 @@
 	import { flip } from 'svelte/animate';
 	import { scale } from 'svelte/transition';
 	import { page } from '$app/stores';
+	import { getFileFromUrl } from '$lib/utils/urlToFile.js';
 
 	const { data } = $props();
 
@@ -165,7 +166,7 @@
 							bind:value={projectFormStore.data.endDate}
 						/>
 					</div>
-					<FileListUpload {files} />
+					<FileListUpload {files} bind:fileUrls={projectFormStore.data.photos} />
 					<FeatureListInput bind:features={projectFormStore.data.features} />
 				</div>
 			</div>
