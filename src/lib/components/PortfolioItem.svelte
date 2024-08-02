@@ -25,26 +25,8 @@
 			<p class=" text-foreground-600">Updated {timeDiffString(new Date(portfolio.updatedAt))}</p>
 		</div>
 		<div>
+			
 		</div>
-		<!-- <div
-			class=" back px-20 flex flex-col justify-center items-stretch gap-4 opacity-0 delay-[200ms] scale-105 z-20 rounded-xl group-hover:opacity-100 absolute w-full h-full top-0 left-0 bg-background-default"
-		>
-			<Button color="light">Create portfolio</Button>
-			<Button color="light">Edit</Button>
-			<form
-				use:enhance={() => {
-					isDeleting = true;
-					return async ({ update }) => {
-						await update();
-					};
-				}}
-				class=" w-full flex flex-col"
-				action={`/main/portfolio/${portfolio.id}?/delete`}
-				method="post"
-			>
-				<Button type="submit" outline color="red">Delete</Button>
-			</form>
-		</div> -->
 	</div>
 </div>
 

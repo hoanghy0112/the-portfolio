@@ -126,3 +126,16 @@ type Feature {
   demoUrl     String
   order       Int      @default(0)
 }
+
+model View {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  clientId    String?  @db.ObjectId
+  ip          String
+  projectId   String?  @db.ObjectId
+  portfolioId String?  @db.ObjectId
+  time        BigInt   @default(0)
+  endAt       DateTime @default(now())
+  updatedAt   DateTime @default(now())
+
+  @@map("views")
+}
