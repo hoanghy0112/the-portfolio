@@ -70,13 +70,14 @@
 				options={[
 					{
 						title: 'Edit',
-						icon: 'solar:pen-broken'
+						icon: 'solar:pen-broken',
+						href: `/main/create-portfolio?id=${portfolio.id}`
 					},
 					{
 						title: 'Delete',
 						icon: 'solar:trash-bin-minimalistic-2-broken',
 						textClass: ' text-red-500',
-						href: `/portfolio/${portfolio.id}?/delete`
+						action: `/portfolio/${portfolio.id}?/delete`
 					}
 				]}
 			/>

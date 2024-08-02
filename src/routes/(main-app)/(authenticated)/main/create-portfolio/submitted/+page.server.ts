@@ -18,11 +18,21 @@ export async function load({ url }) {
 }
 
 export const actions = {
-	default: async ({ request, locals }) => {
+	default: async ({ request, url, locals }) => {
 		const response = await request.formData();
 		const data = JSON.parse(response.get('data') as string) as Portfolio;
 
 		if (!locals.user) return redirect(403, '/');
+
+		if (url.searchParams.get('isEdit')) {
+			const { id, ...updatedData } = data;
+			const portfolio = await prisma.portfolio.update({
+				where: { id },
+				data: { ...updatedData, updatedAt: new Date() }
+			});
+
+			return redirect(303, `/main/create-portfolio/submitted?isEdit=true&id=${portfolio.id}`);
+		}
 
 		const portfolio = await prisma.portfolio.create({
 			data: {

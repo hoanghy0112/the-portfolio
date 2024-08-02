@@ -9,6 +9,8 @@
 	import { twMerge } from 'tailwind-merge';
 
 	const { data } = $props();
+
+	const isEdit = !!data.portfolio;
 </script>
 
 <div class="flex flex-col gap-10">
@@ -22,7 +24,7 @@
 		{/if}
 		{#each data.projects as project (project.id)}
 			<button
-				animate:flip={{duration: 300}}
+				animate:flip={{ duration: 300 }}
 				class={twMerge(
 					' item duration-300 cursor-pointer border-[3px] border-transparent bg-foreground-100 hover:bg-foreground-200 rounded-xl',
 					portfolioFormStore.data.projectIds.includes(project.id) ? ' border-sky-500' : ''
@@ -66,7 +68,7 @@
 	<div class=" flex justify-between">
 		<FormBackButton destinationUrl="/main/create-portfolio?prev=true" />
 		<form
-			action="/main/create-portfolio/submitted"
+			action="/main/create-portfolio/submitted?{isEdit ? 'isEdit=true' : ''}"
 			method="post"
 			use:enhance={async ({ formData, cancel }) => {
 				formData.set('data', JSON.stringify(portfolioFormStore.data));
@@ -76,7 +78,7 @@
 				};
 			}}
 		>
-			<FormNextButton title="Submit"/>
+			<FormNextButton title="Submit" />
 		</form>
 	</div>
 </div>

@@ -5,6 +5,8 @@
 	import { portfolioFormStore } from '$lib/stores/portfolio-form.svelte';
 	import { EMAIL_REGEX } from '$lib/utils/regex';
 
+	const { data } = $props();
+
 	let errors = $derived(errorStateGenerator(4));
 
 	$effect(() => {
@@ -67,4 +69,4 @@
 	/>
 </div>
 
-<FormNextButton {errors} destinationUrl="/main/create-portfolio/stage-2" />
+<FormNextButton {errors} destinationUrl="/main/create-portfolio/stage-2?id={data.portfolio?.id}" />

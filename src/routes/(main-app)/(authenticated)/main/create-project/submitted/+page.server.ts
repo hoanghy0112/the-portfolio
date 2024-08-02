@@ -36,7 +36,7 @@ export const actions = {
 				}
 			});
 
-			redirect(
+			return redirect(
 				303,
 				`/main/create-project/submitted?isEdit=true&id=${project.id}&redirect-url=${url.searchParams.get('redirect-url')}`
 			);

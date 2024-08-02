@@ -12,6 +12,7 @@
 			textClass?: string;
 			title?: string;
 			href?: string;
+			action?: string;
 			onclick?: () => any;
 		}[];
 	};
@@ -27,6 +28,17 @@
 		{#each options as option (option.title)}
 			<div class=" w-full" transition:slide|global={{ duration: 200 }}>
 				{#if option.href}
+					<a
+						href={option.href}
+						class={twMerge(
+							' text-foreground-900 flex gap-3 items-center font-medium w-full text-start px-4 py-1 hover:bg-foreground-100 duration-200',
+							option.textClass
+						)}
+					>
+						<Icon icon={option.icon || ''} class=" text-lg" />
+						{option.title}
+					</a>
+				{:else if option.action}
 					<form
 						use:enhance={() => {
 							isDeleting = true;
@@ -35,7 +47,7 @@
 							};
 						}}
 						class=" w-full flex flex-col"
-						action={option.href}
+						action={option.action}
 						method="post"
 					>
 						<button

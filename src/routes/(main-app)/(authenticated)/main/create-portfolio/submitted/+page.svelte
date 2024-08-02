@@ -5,8 +5,11 @@
 	import { draw, fly } from 'svelte/transition';
 	import { Button, Carousel } from 'flowbite-svelte';
 	import Icon from '@iconify/svelte';
+	import { page } from '$app/stores';
 
 	const { data } = $props();
+
+	const isEdit = $page.url.searchParams.get('isEdit');
 
 	onMount(() => {
 		portfolioFormStore.reset();
@@ -48,7 +51,7 @@
 				in:fly={{ duration: 700, delay: 400, y: -50 }}
 				class=" z-10 text-center text-4xl font-bold"
 			>
-				Create portfolio successfully
+				{isEdit ? 'Update portfolio successfully' : 'Create portfolio successfully'}
 			</h1>
 			<div class=" z-10 flex flex-col items-center gap-4">
 				<h2 in:fly={{ duration: 700, delay: 700, y: -50 }} class=" text-center text-lg font-medium">

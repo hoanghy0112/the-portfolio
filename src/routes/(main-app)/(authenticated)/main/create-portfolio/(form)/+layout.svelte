@@ -10,13 +10,11 @@
 
 	const { data, children } = $props();
 
-	let theme = $state('default');
+	const isEdit = !!data.portfolio;
 
 	const user = $derived(data.user);
-
 	const url = $derived($page.url.pathname);
 	const currentPage = $derived(url.split('/').at(3));
-
 	const pageIndex = $derived.by(() => {
 		if (!currentPage) return 0;
 		return parseInt(currentPage.split('-').at(1) || '0') - 1;
@@ -26,6 +24,12 @@
 		if (!portfolioFormStore.data.user.email) {
 			if (user.name) portfolioFormStore.data.user = user;
 		}
+
+		if (data.portfolio) {
+			portfolioFormStore.data = data.portfolio;
+		}
+
+		portfolioFormStore.data.authorId = data.user.id;
 	});
 </script>
 
@@ -33,7 +37,9 @@
 	class="w-full flex-1 grid grid-cols-1 lg:grid-cols-2 gap-8 px-4 py-8 lg:px-8 lg:py-12 rounded-2xl bg-white dark:bg-transparent shadow-lg dark:shadow-none"
 >
 	<div class=" flex flex-col gap-12">
-		<h1 class=" w-fit font-semibold text-2xl">Create new portfolio</h1>
+		<h1 class=" w-fit font-semibold text-2xl">
+			{isEdit ? 'Update portfolio' : 'Create new portfolio'}
+		</h1>
 		<div class=" flex flex-col gap-10">
 			<div class=" grid gap-1">
 				<p class=" text-foreground-500">Step {pageIndex} of 4</p>
