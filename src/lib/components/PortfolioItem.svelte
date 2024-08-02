@@ -6,6 +6,7 @@
 	import { onMount } from 'svelte';
 	import StatisticField from './StatisticField.svelte';
 	import type { PortfolioStatistic } from '$lib/types/portfolio-statistic';
+	import OptionButton from './OptionButton.svelte';
 
 	type Props = { portfolio: Portfolio };
 
@@ -62,6 +63,18 @@
 					primaryClass=" text-cyan-600 dark:text-cyan-100"
 				/>
 			{/await}
+		</div>
+		<div class=" absolute top-5 right-5">
+			<OptionButton
+				options={[
+					{ title: 'Edit', icon: 'solar:pen-broken' },
+					{
+						title: 'Delete',
+						icon: 'solar:trash-bin-minimalistic-2-broken',
+						textClass: ' text-red-500'
+					}
+				]}
+			/>
 		</div>
 	</div>
 </div>
