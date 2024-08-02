@@ -22,7 +22,7 @@
 		{/if}
 		{#each data.projects as project (project.id)}
 			<button
-				animate:flip
+				animate:flip={{duration: 300}}
 				class={twMerge(
 					' item duration-300 cursor-pointer border-[3px] border-transparent bg-foreground-100 hover:bg-foreground-200 rounded-xl',
 					portfolioFormStore.data.projectIds.includes(project.id) ? ' border-sky-500' : ''

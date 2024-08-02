@@ -66,12 +66,14 @@
 		</div>
 		<div class=" absolute top-5 right-5">
 			<OptionButton
+				bind:isDeleting
 				options={[
 					{ title: 'Edit', icon: 'solar:pen-broken' },
 					{
 						title: 'Delete',
 						icon: 'solar:trash-bin-minimalistic-2-broken',
-						textClass: ' text-red-500'
+						textClass: ' text-red-500',
+						href: `/portfolio/${portfolio.id}?/delete`
 					}
 				]}
 			/>

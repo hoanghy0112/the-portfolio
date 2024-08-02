@@ -1,10 +1,12 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
 	import Icon from '@iconify/svelte';
 	import { Button, Dropdown, DropdownItem } from 'flowbite-svelte';
 	import { slide } from 'svelte/transition';
 	import { twMerge } from 'tailwind-merge';
 
 	type Props = {
+		isDeleting?: boolean;
 		options?: {
 			icon?: string;
 			textClass?: string;
@@ -14,7 +16,7 @@
 		}[];
 	};
 
-	const { options = [] }: Props = $props();
+	let { isDeleting = $bindable(false), options = [] }: Props = $props();
 </script>
 
 <div>
@@ -25,16 +27,27 @@
 		{#each options as option (option.title)}
 			<div class=" w-full" transition:slide|global={{ duration: 200 }}>
 				{#if option.href}
-					<a
-						class={twMerge(
-							' flex gap-3 items-center font-medium w-full text-start px-4 py-1 hover:bg-foreground-100 duration-200',
-							option.textClass
-						)}
-						href={option.href}
+					<form
+						use:enhance={() => {
+							isDeleting = true;
+							return async ({ update }) => {
+								await update();
+							};
+						}}
+						class=" w-full flex flex-col"
+						action={option.href}
+						method="post"
 					>
-						<Icon icon={option.icon || ''} class=" text-lg" />
-						{option.title}
-					</a>
+						<button
+							class={twMerge(
+								' flex gap-3 items-center font-medium w-full text-start px-4 py-1 hover:bg-foreground-100 duration-200',
+								option.textClass
+							)}
+						>
+							<Icon icon={option.icon || ''} class=" text-lg" />
+							{option.title}
+						</button>
+					</form>
 				{:else}
 					<button
 						class={twMerge(
