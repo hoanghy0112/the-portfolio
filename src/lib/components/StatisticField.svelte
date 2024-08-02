@@ -16,7 +16,7 @@
 
 <div
 	class={twMerge(
-		'min-w-[250px] flex flec gap-4 items-center pl-4 pr-6 py-6 shadow-lg rounded-lg shadow-foreground-300 dark:shadow-none dark:border-[1px] dark:border-foreground-300'
+		'min-w-[250px] flex gap-4 items-center px-4 py-3 border-[1px] border-foreground-300 shadow-lg rounded-lg shadow-foreground-300 dark:shadow-none dark:border-[1px] dark:border-foreground-300'
 	)}
 >
 	<div class={twMerge(' p-3 bg-red-100 rounded-full', backgroundClass)}>
