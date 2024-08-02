@@ -1,11 +1,8 @@
 <script lang="ts">
 	import type { Feature } from '@prisma/client';
 	import { flip } from 'svelte/animate';
-	import { scale, slide } from 'svelte/transition';
-	import FeatureItemInput from './FeatureItemInput.svelte';
-	import Icon from '@iconify/svelte';
-	import { Button } from 'flowbite-svelte';
 	import FeatureItem from './FeatureItem.svelte';
+	import FeatureItemInput from './FeatureItemInput.svelte';
 
 	type Props = {
 		features?: Feature[];
@@ -23,18 +20,22 @@
 			<p></p>
 		</div>
 	</div>
-	<div class=" mt-5 pb-3 {features.length ? ' overflow-x-auto' : 'overflow-x-visible'}">
-		<FeatureItemInput
-			bind:isUploading
-			onSubmit={(feature) => {
-				features.push({ ...feature, order: features.length } as Feature);
-			}}
-		/>
+	<div
+		class=" mt-5 pb-3 flex flex-col gap-4 {features.length
+			? ' overflow-x-auto'
+			: 'overflow-x-visible'}"
+	>
 		{#if features.length}
 			<div class=" flex flex-col flex-initial gap-5">
-				{#each features as feature, i (feature.title)}
+				{#each features as feature, i (i)}
 					<div animate:flip={{ duration: 300 }}>
-						<FeatureItem bind:isUploading bind:feature={features[i]} />
+						<FeatureItem
+							bind:isUploading
+							bind:feature={features[i]}
+							onRemove={() => {
+								features.splice(i, 1);
+							}}
+						/>
 					</div>
 				{/each}
 			</div>
@@ -43,5 +44,11 @@
 				<p class=" text-foreground-500">You have not describe any features yet</p>
 			</div>
 		{/if}
+		<FeatureItemInput
+			bind:isUploading
+			onSubmit={(feature) => {
+				features.push({ ...feature, order: features.length } as Feature);
+			}}
+		/>
 	</div>
 </div>

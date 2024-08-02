@@ -31,6 +31,7 @@ export const actions = {
 				where: { id },
 				data: {
 					...updatedData,
+					photos: [...data.photos, ...fileUrls],
 					startDate: updatedData.startDate?.toISOString?.(),
 					endDate: updatedData.endDate?.toISOString?.()
 				}

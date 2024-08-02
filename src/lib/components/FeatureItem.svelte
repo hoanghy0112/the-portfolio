@@ -21,13 +21,28 @@
 
 	let isOpen = $state(false);
 	let files = $state<File[]>([]);
+
+	let title = $state(feature.title);
+	let description = $state(feature.description);
+	let demoUrl = $state(feature.demoUrl);
+	let photos = $state(feature.photos);
+
+	$effect(() => {
+		if (isOpen) {
+			title = feature.title;
+			description = feature.description;
+			demoUrl = feature.demoUrl;
+			photos = feature.photos;
+			files = [];
+		}
+	});
 </script>
 
 <div>
 	<div
 		in:scale={{ duration: 300 }}
-		out:slide={{ duration: 300, axis: 'x' }}
-		class=" group flex-1 flex flex-col relative group bg-foreground-100 px-4 py-2 rounded-xl"
+		out:slide={{ duration: 300, axis: 'y' }}
+		class=" group flex-1 flex flex-col relative group bg-foreground-100 px-4 py-2 pb-4 rounded-xl"
 	>
 		<p class=" text-lg font-semibold text-foreground-900">{feature.title}</p>
 		{#if feature.description}
@@ -37,34 +52,47 @@
 			<a
 				href={feature.demoUrl}
 				target="_blank"
-				class=" mt-2 text-sm flex items-center text-black w-fit px-2 py-1 rounded-md bg-slate-200 hover:bg-slate-300 gap-2 duration-200 cursor-pointer"
+				class=" mt-2 text-sm flex items-center text-foreground-900 w-fit px-2 py-1 rounded-md bg-foreground-200 hover:bg-foreground-300 gap-2 duration-200 cursor-pointer"
 			>
-				<Icon icon="ion:link-outline" class=" text-black text-base" />
-				<p class=" text-xs text-black font-medium">{feature.demoUrl}</p>
+				<Icon icon="ion:link-outline" class=" text-base" />
+				<p class=" text-xs font-medium">{feature.demoUrl}</p>
 			</a>
 		{/if}
-		<div class=" mt-2 hidden justify-end gap-4 group-hover:flex">
-			<Button class=" duration-300" outline color="dark" onclick={() => {}}>Edit</Button>
+		<div class=" hidden justify-end gap-4 group-hover:flex">
+			<Button
+				class=" duration-300"
+				outline
+				color="dark"
+				onclick={() => {
+					isOpen = true;
+				}}>Edit</Button
+			>
 			<Button
 				class=" text-red-500 hover:bg-red-500 duration-300"
 				outline
 				color="red"
-				onclick={() => {}}>Remove</Button
+				onclick={onRemove}>Remove</Button
 			>
 		</div>
 	</div>
 	<form
 		action="/main/create-project?/feature"
 		method="post"
+		enctype="multipart/form-data"
 		use:enhance={({ formData }) => {
 			isOpen = false;
 			isUploading = true;
 			files.forEach((file) => {
 				formData.append(`images[]`, file);
 			});
+			feature.title = title;
+			feature.description = description;
+			feature.demoUrl = demoUrl;
+			feature.photos = photos;
+
 			return async ({ update, result }) => {
 				isUploading = false;
-				if (result.type === 'success') feature.photos = (result.data as Feature).photos;
+				if (result.type === 'success') feature.photos.push(...(result.data as Feature).photos);
 				await update();
 			};
 		}}
@@ -76,10 +104,15 @@
 			outsideclose
 		>
 			<div class=" flex flex-col gap-8">
-				<Input bind:value={feature.title} title="Title" name="feature-title" required />
-				<Input bind:value={feature.description} title="Description" name="feature-description" />
-				<Input bind:value={feature.demoUrl} title="Demo url" name="feature-demo-url" />
-				<FileListUpload bind:files title="Images" description="Your feature preview images" />
+				<Input bind:value={title} title="Title" name="feature-title" required />
+				<Input bind:value={description} title="Description" name="feature-description" />
+				<Input bind:value={demoUrl} title="Demo url" name="feature-demo-url" />
+				<FileListUpload
+					bind:files
+					bind:fileUrls={photos}
+					title="Images"
+					description="Your feature preview images"
+				/>
 			</div>
 			<svelte:fragment slot="footer">
 				<div class=" flex gap-4">

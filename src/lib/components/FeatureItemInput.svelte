@@ -14,6 +14,12 @@
 
 	let isOpen = $state(false);
 	let files = $state<File[]>([]);
+
+	$effect(() => {
+		if (isOpen) {
+			files = [];
+		}
+	});
 </script>
 
 <div>

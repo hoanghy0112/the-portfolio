@@ -39,7 +39,7 @@
 				<p>Loading...</p>
 			{:then data}
 				<StatisticField
-					title="viewed users"
+					title="visitors"
 					number={data.users}
 					unit=""
 					icon="solar:user-rounded-broken"
@@ -55,7 +55,7 @@
 					primaryClass=" text-green-600 dark:text-green-100"
 				/>
 				<StatisticField
-					title="average view time"
+					title="average visit time"
 					number={(data.averageAccessTime / 1000).toFixed(1)}
 					unit="s"
 					icon="solar:clock-circle-broken"

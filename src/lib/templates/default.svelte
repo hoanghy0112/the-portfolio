@@ -183,7 +183,7 @@
 										alt: 'Preview'
 									}))}
 									bind:index
-									duration={Math.floor(Math.random() * 500 + 3000)}
+									duration={6000}
 								>
 									<Controls />
 								</Carousel>
