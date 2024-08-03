@@ -29,7 +29,15 @@
 
 	let repositories = $derived(data.repos);
 	let importedRepositories = $state<IProjectRepo[]>(
-		data.repos?.filter((repo) => data.project?.repoUrls.some((r) => r.url === repo.html_url)) || []
+		(
+			data.repos?.filter((repo) => data.project?.repoUrls.some((r) => r.url === repo.html_url)) ||
+			[]
+		).map((v) => {
+			if (!data.project) return v;
+
+			const repo = data.project.repoUrls.find((r) => r.url === v.html_url);
+			return { ...v, full_name: repo?.name || '', description: repo?.description || '' };
+		})
 	);
 
 	let errors = $derived(errorStateGenerator(1));

@@ -59,7 +59,7 @@
 						<Text class=" w-fit text-slate-900 em:text-xl font-medium text-center flex mx-auto">
 							{feature.title}
 						</Text>
-						<p class=" em:mt-1 font-light text-slate-700">{feature.description}</p>
+						<p class=" em:mt-1 md:em:mx-4 lg:em:mx-10 font-light text-slate-700">{feature.description}</p>
 					</div>
 					{#if feature.photos.length > 1}
 						<div
@@ -68,7 +68,7 @@
 						>
 							<div class=" marquee flex items-stretch em:gap-4">
 								{#each feature.photos as photo (photo)}
-									<div class=" h-full w-[300px] md:w-[400px] lg:em:w-[800px]">
+									<div class=" h-full w-[300px] md:w-[400px] lg:em:w-[600px]">
 										<img
 											class=" h-full w-full object-cover shadow-xl rounded-xl"
 											src={photo}
@@ -79,7 +79,7 @@
 							</div>
 							<div class=" marquee flex items-stretch em:gap-4">
 								{#each feature.photos as photo (photo)}
-									<div class=" h-full w-[300px] md:w-[400px] lg:em:w-[800px]">
+									<div class=" h-full w-[300px] md:w-[400px] lg:em:w-[600px]">
 										<img
 											class=" h-full w-full object-cover shadow-xl rounded-xl"
 											src={photo}
