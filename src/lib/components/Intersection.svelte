@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount, type Snippet } from 'svelte';
+	import { onMount, untrack, type Snippet } from 'svelte';
 
 	type Props = {
 		intersecting?: boolean;
@@ -38,11 +38,13 @@
 	}
 
 	$effect(() => {
-		if (intersectOnce) onIntersectOnce();
+		if (intersectOnce) untrack(onIntersectOnce);
 	});
 
 	$effect(() => {
-		if (intersectOnce && !intersecting) onEscape();
+		if (intersectOnce && !intersecting) {
+			untrack(onEscape);
+		}
 	});
 
 	$effect(() => {
@@ -52,7 +54,7 @@
 			([entry]) => {
 				ratio = entry.intersectionRatio;
 				if (entry.isIntersecting && ratio > defaultRatio) {
-					onIntersect(ratio);
+					if (!intersecting) untrack(() => onIntersect(ratio));
 					intersectOnce = true;
 					intersecting = true;
 				} else {

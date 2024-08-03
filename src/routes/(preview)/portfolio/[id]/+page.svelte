@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Preview from '$lib/components/Preview.svelte';
+	import { recordAccessTime } from '$lib/utils/record-access-time.js';
 	import { onMount } from 'svelte';
 
 	const { data } = $props();
@@ -7,31 +8,11 @@
 	const portfolio = $derived(data.portfolio);
 
 	onMount(() => {
-		let timer = 0;
-		let focusTime = new Date();
+		const unsubscribe = recordAccessTime((time) => {
+			fetch('', { method: 'post', body: JSON.stringify({ time }), keepalive: true });
+		});
 
-		const onFocus = () => {
-			focusTime = new Date();
-		};
-
-		const onBlur = () => {
-			timer += new Date().getTime() - focusTime.getTime();
-		};
-
-		const unload = () => {
-			timer += new Date().getTime() - focusTime.getTime();
-			fetch('', { method: 'put', body: JSON.stringify({ time: timer }), keepalive: true });
-		};
-
-		window.addEventListener('focus', onFocus);
-		window.addEventListener('blur', onBlur);
-		window.addEventListener('beforeunload', unload);
-
-		return () => {
-			window.removeEventListener('focus', onFocus);
-			window.removeEventListener('blur', onBlur);
-			window.removeEventListener('beforeunload', unload);
-		};
+		return unsubscribe;
 	});
 </script>
 

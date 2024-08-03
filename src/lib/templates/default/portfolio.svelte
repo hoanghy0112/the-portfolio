@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Anchor from '$lib/components/Anchor.svelte';
 	import Link from '$lib/components/Link.svelte';
+	import ProjectItemAnalytic from '$lib/components/ProjectItemAnalytic.svelte';
 	import Text from '$lib/components/Text.svelte';
 	import type { Portfolio, Project } from '@prisma/client';
 	import { Carousel } from 'flowbite-svelte';
@@ -14,41 +15,6 @@
 	const { data, projects }: Props = $props();
 
 	let index = $state(data.projectIds.map(() => 0));
-	let forward = true;
-
-	const sections = document.querySelectorAll('.section');
-
-	let config = {
-		rootMargin: '0px',
-		threshold: 0.5
-	};
-
-	let observer = new IntersectionObserver((entries) => {
-		console.log(entries);
-		entries.forEach((entry) => {
-			if (entry.isIntersecting) {
-				intersectionHandler(entry);
-			}
-		});
-	}, config);
-
-	sections.forEach((section) => {
-		observer.observe(section);
-	});
-
-	function intersectionHandler(entry: any) {
-		const current = document.querySelector('.section.active');
-		const next = entry.target;
-		const header = next.querySelector('.section--header');
-
-		if (current) {
-			current.classList.remove('active');
-		}
-		if (next) {
-			next.classList.add('active');
-			document.body.style.setProperty('--color-bg', next.dataset.bgcolor);
-		}
-	}
 </script>
 
 <div
@@ -162,56 +128,58 @@
 			</h2>
 			<div class=" w-full flex flex-col em:gap-20">
 				{#each projects as project, projectIndex (project.id)}
-					<div class=" snap-center snap-always">
-						<div class=" mx-auto w-fit text-center em:p-2 lg:em:px-8 lg:em:py-4 rounded-xl">
-							<Link
-								href="/portfolio/{data.id}/project/{project.id}"
-								class=" cursor-pointer text-slate-900 em:text-xl font-medium flex mx-auto"
-							>
-								{project.name}
-							</Link>
-							<p class=" em:mt-1 font-light text-slate-700">{project.description}</p>
-						</div>
-						<div
-							class=" mx-auto em:mt-4 lg:max-w-[700px] h-auto bg-[#f8f8f3] flex flex-col items-center gap-4"
-						>
-							<div class=" w-full shadow-2xl rounded-xl">
-								<Carousel
-									let:Controls
-									imgClass=" object-cover shadow-2xl "
-									images={project.photos.map((v) => ({
-										class: ' h-48 object-cover',
-										src: v,
-										alt: 'Preview'
-									}))}
-									bind:index={index[projectIndex]}
-									duration={6000}
+					<ProjectItemAnalytic portfolioId={data.id} projectId={project.id}>
+						<div class=" snap-center snap-always">
+							<div class=" mx-auto w-fit text-center em:p-2 lg:em:px-8 lg:em:py-4 rounded-xl">
+								<Link
+									href="/portfolio/{data.id}/project/{project.id}"
+									class=" cursor-pointer text-slate-900 em:text-xl font-medium flex mx-auto"
 								>
-									<Controls />
-								</Carousel>
+									{project.name}
+								</Link>
+								<p class=" em:mt-1 font-light text-slate-700">{project.description}</p>
 							</div>
-							<div class=" w-fit flex justify-center gap-4">
-								{#each project.photos as photo, i (photo)}
-									<button
-										class={twMerge(
-											' rounded-lg overflow-hidden cursor-pointer shadow-lg border-none hover:scale-110',
-											index[projectIndex] === i ? ' shadow-xl' : ' shadow-none'
-										)}
-										onclick={() => (index[projectIndex] = i)}
+							<div
+								class=" mx-auto em:mt-4 lg:max-w-[700px] h-auto bg-[#f8f8f3] flex flex-col items-center gap-4"
+							>
+								<div class=" w-full shadow-2xl rounded-xl">
+									<Carousel
+										let:Controls
+										imgClass=" object-cover shadow-2xl "
+										images={project.photos.map((v) => ({
+											class: ' h-48 object-cover',
+											src: v,
+											alt: 'Preview'
+										}))}
+										bind:index={index[projectIndex]}
+										duration={6000}
 									>
-										<img
-											src={photo}
-											alt="project preview"
+										<Controls />
+									</Carousel>
+								</div>
+								<div class=" w-fit flex justify-center gap-4">
+									{#each project.photos as photo, i (photo)}
+										<button
 											class={twMerge(
-												' w-36 h-20 object-cover hover:opacity-90',
-												index[projectIndex] === i ? 'opacity-100' : 'opacity-35'
+												' rounded-lg overflow-hidden cursor-pointer shadow-lg border-none hover:scale-110',
+												index[projectIndex] === i ? ' shadow-xl' : ' shadow-none'
 											)}
-										/>
-									</button>
-								{/each}
+											onclick={() => (index[projectIndex] = i)}
+										>
+											<img
+												src={photo}
+												alt="project preview"
+												class={twMerge(
+													' w-36 h-20 object-cover hover:opacity-90',
+													index[projectIndex] === i ? 'opacity-100' : 'opacity-35'
+												)}
+											/>
+										</button>
+									{/each}
+								</div>
 							</div>
 						</div>
-					</div>
+					</ProjectItemAnalytic>
 				{/each}
 			</div>
 		</div>
@@ -244,56 +212,6 @@
 		to {
 			top: 0px;
 			opacity: 1;
-		}
-	}
-
-	.sections {
-		position: relative;
-		/* padding: 0 6vmax; */
-	}
-
-	.section {
-		position: relative;
-		min-height: 100vh;
-	}
-
-	.section--image {
-		display: block;
-		position: relative;
-		max-width: 100%;
-		margin: 10vh 0 30vh auto;
-		opacity: 0;
-		transition: opacity 0.3s;
-
-		.active & {
-			opacity: 1;
-		}
-
-		img {
-			display: block;
-			position: relative;
-			max-width: 90%;
-			max-height: 100vh;
-			margin: 0 0 0 auto;
-		}
-	}
-
-	.section--header {
-		font-size: calc(var(--fontsize-text));
-		font-family: var(--font-text);
-		position: fixed;
-		bottom: 5vmax;
-		left: 0;
-		padding-left: 5vmax;
-		z-index: 1000;
-		line-height: 1;
-		font-weight: 300;
-		opacity: 0;
-		animation-duration: 0.65s;
-		animation-fill-mode: both;
-
-		.active & {
-			animation-name: fadeInUp;
 		}
 	}
 

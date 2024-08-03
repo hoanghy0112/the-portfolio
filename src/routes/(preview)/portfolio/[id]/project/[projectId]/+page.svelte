@@ -1,4 +1,6 @@
 <script lang="ts">
+	import ProjectItemAnalytic from '$lib/components/ProjectItemAnalytic.svelte';
+
 	const { data } = $props();
 
 	const project = $derived(data.project);
@@ -14,7 +16,9 @@
 </script>
 
 {#if Template}
-	<div class=" w-full h-auto flex flex-col">
-		<svelte:component this={Template} data={project} --font-size="16px" />
-	</div>
+	<ProjectItemAnalytic projectId={project.id} portfolioId={portfolio.id}>
+		<div class=" w-full h-auto flex flex-col">
+			<svelte:component this={Template} data={project} --font-size="16px" />
+		</div>
+	</ProjectItemAnalytic>
 {/if}
