@@ -14,7 +14,7 @@
 </script>
 
 {#if Template}
-	<div class=" w-screen h-auto flex flex-col">
+	<div class=" w-full h-auto flex flex-col">
 		<svelte:component this={Template} data={project} --font-size="16px" />
 	</div>
 {/if}
