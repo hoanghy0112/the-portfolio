@@ -16,7 +16,6 @@
 
 	onMount(() => {
 		const unload = () => {
-			console.log({ timer });
 			if (intersecting) timer += new Date().getTime() - focusTime.getTime();
 			if (intersectOnce) onUnLoad(timer);
 		};
