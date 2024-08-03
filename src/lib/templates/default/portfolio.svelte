@@ -51,9 +51,12 @@
 	}
 </script>
 
-<div id="main" class=" bg-[#f8f8f3] w-full em:px-4 em:py-24 flex flex-col em:gap-4">
+<div
+	id="main"
+	class=" bg-[#f8f8f3] w-full h-screen overflow-auto snap-y snap-mandatory em:px-4 em:py-24 flex flex-col em:gap-4"
+>
 	<div class=" flex flex-col items-center em:gap-16">
-		<div style="--delay:0ms" class=" fly flex flex-col items-center em:gap-3">
+		<div style="--delay:0ms" class=" snap-center fly flex flex-col items-center em:gap-3">
 			<h1 class=" font-light em:text-4xl lg:em:text-5xl em:!leading-4">
 				{data.user.name}
 			</h1>
@@ -154,12 +157,12 @@
 			{data.user.description}
 		</Text>
 		<div style="--delay:400ms" class=" fly w-full flex flex-col em:gap-10 items-center">
-			<h2 class=" font-medium em:text-xl lg:em:text-3xl underline underline-offset-8">
+			<h2 class=" snap-center font-medium em:text-xl lg:em:text-3xl underline underline-offset-8">
 				My Project
 			</h2>
-			<div class="sections w-full flex flex-col em:gap-20">
+			<div class=" w-full flex flex-col em:gap-20">
 				{#each projects as project (project.id)}
-					<div class="">
+					<div class=" snap-center snap-always">
 						<div class=" mx-auto w-fit text-center em:p-2 lg:em:px-8 lg:em:py-4 rounded-xl">
 							<Link
 								href="/portfolio/{data.id}/project/{project.id}"
