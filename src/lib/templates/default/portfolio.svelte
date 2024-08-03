@@ -13,7 +13,7 @@
 
 	const { data, projects }: Props = $props();
 
-	let index = $state(0);
+	let index = $state(data.projectIds.map(() => 0));
 	let forward = true;
 
 	const sections = document.querySelectorAll('.section');
@@ -161,7 +161,7 @@
 				My Project
 			</h2>
 			<div class=" w-full flex flex-col em:gap-20">
-				{#each projects as project (project.id)}
+				{#each projects as project, projectIndex (project.id)}
 					<div class=" snap-center snap-always">
 						<div class=" mx-auto w-fit text-center em:p-2 lg:em:px-8 lg:em:py-4 rounded-xl">
 							<Link
@@ -184,7 +184,7 @@
 										src: v,
 										alt: 'Preview'
 									}))}
-									bind:index
+									bind:index={index[projectIndex]}
 									duration={6000}
 								>
 									<Controls />
@@ -195,16 +195,16 @@
 									<button
 										class={twMerge(
 											' rounded-lg overflow-hidden cursor-pointer shadow-lg border-none hover:scale-110',
-											index === i ? ' shadow-xl' : ' shadow-none'
+											index[projectIndex] === i ? ' shadow-xl' : ' shadow-none'
 										)}
-										onclick={() => (index = i)}
+										onclick={() => (index[projectIndex] = i)}
 									>
 										<img
 											src={photo}
 											alt="project preview"
 											class={twMerge(
 												' w-36 h-20 object-cover hover:opacity-90',
-												index === i ? 'opacity-100' : 'opacity-35'
+												index[projectIndex] === i ? 'opacity-100' : 'opacity-35'
 											)}
 										/>
 									</button>
