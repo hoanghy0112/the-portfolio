@@ -117,7 +117,7 @@
 			<svelte:fragment slot="footer">
 				<div class=" flex gap-4">
 					<Button type="submit" shadow color="dark">Submit</Button>
-					<Button color="alternative">Cancel</Button>
+					<Button onclick={() => (isOpen = false)} color="alternative">Cancel</Button>
 				</div>
 			</svelte:fragment>
 		</Modal>

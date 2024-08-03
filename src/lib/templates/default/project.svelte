@@ -41,11 +41,11 @@
 						<span class=" text-center text-base">{repo.name}</span>
 					</Anchor>
 					<Tooltip>
-                        <div class=" flex flex-col gap-1">
-                            <p class=" font-semibold">{repo.name}</p>
-                            <p class="">{repo.description}</p>
-                        </div>
-                    </Tooltip>
+						<div class=" flex flex-col gap-1">
+							<p class=" font-semibold">{repo.name}</p>
+							<p class="">{repo.description}</p>
+						</div>
+					</Tooltip>
 				</div>
 			{/each}
 		</div>
@@ -59,14 +59,16 @@
 						<Text class=" w-fit text-slate-900 em:text-xl font-medium text-center flex mx-auto">
 							{feature.title}
 						</Text>
-						<p class=" em:mt-1 md:em:mx-4 lg:em:mx-10 font-light text-slate-700">{feature.description}</p>
+						<p class=" em:mt-1 md:em:mx-4 lg:em:mx-10 font-light text-slate-700">
+							{feature.description}
+						</p>
 					</div>
 					{#if feature.photos.length > 1}
 						<div
 							style="--time: {feature.photos.length * 4}s"
-							class=" marquee-wrapper em:mt-4 pb-8 flex em:gap-4 w-full overflow-hidden"
+							class=" marquee-wrapper em:mt-4 pb-8 flex em:gap-4 lg:em:gap-6 w-full overflow-hidden"
 						>
-							<div class=" marquee flex items-stretch em:gap-4">
+							<div class=" marquee flex items-stretch em:gap-4 lg:em:gap-6">
 								{#each feature.photos as photo (photo)}
 									<div class=" h-full w-[300px] md:w-[400px] lg:em:w-[600px]">
 										<img
@@ -77,7 +79,18 @@
 									</div>
 								{/each}
 							</div>
-							<div class=" marquee flex items-stretch em:gap-4">
+							<div class=" marquee flex items-stretch em:gap-4 lg:em:gap-6">
+								{#each feature.photos as photo (photo)}
+									<div class=" h-full w-[300px] md:w-[400px] lg:em:w-[600px]">
+										<img
+											class=" h-full w-full object-cover shadow-xl rounded-xl"
+											src={photo}
+											alt="feature preview"
+										/>
+									</div>
+								{/each}
+							</div>
+							<div class=" marquee flex items-stretch em:gap-4 lg:em:gap-6">
 								{#each feature.photos as photo (photo)}
 									<div class=" h-full w-[300px] md:w-[400px] lg:em:w-[600px]">
 										<img

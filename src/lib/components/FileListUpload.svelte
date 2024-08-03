@@ -58,6 +58,7 @@
 					>
 						<img class=" h-36 rounded-lg object-cover shadow-lg" src={fileUrl} alt="preview" />
 						<button
+							type="button"
 							onclick={() => {
 								fileUrls = fileUrls.filter((v) => v !== fileUrl);
 							}}
@@ -86,6 +87,7 @@
 							onclick={() => {
 								files = files.filter((v) => v !== file);
 							}}
+							type="button"
 							class=" opacity-0 group-hover:opacity-100 grid absolute top-0 w-full h-full place-items-center cursor-pointer bg-[#26262676] duration-200"
 						>
 							<Icon
