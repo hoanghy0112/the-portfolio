@@ -2,9 +2,8 @@
 	import Anchor from '$lib/components/Anchor.svelte';
 	import Link from '$lib/components/Link.svelte';
 	import Text from '$lib/components/Text.svelte';
-	import Icon from '@iconify/svelte';
 	import type { Portfolio, Project } from '@prisma/client';
-	import { Carousel, Thumbnails } from 'flowbite-svelte';
+	import { Carousel } from 'flowbite-svelte';
 	import { twMerge } from 'tailwind-merge';
 
 	type Props = {
@@ -163,7 +162,7 @@
 					<div class="">
 						<div class=" mx-auto w-fit text-center em:p-2 lg:em:px-8 lg:em:py-4 rounded-xl">
 							<Link
-								href="/"
+								href="/portfolio/{data.id}/project/{project.id}"
 								class=" cursor-pointer text-slate-900 em:text-xl font-medium flex mx-auto"
 							>
 								{project.name}

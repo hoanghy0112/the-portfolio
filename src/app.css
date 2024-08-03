@@ -134,3 +134,28 @@ button:focus:not(:focus-visible) {
 	width: 1px;
 	white-space: nowrap;
 }
+
+/* width */
+::-webkit-scrollbar {
+	width: 8px;
+	height: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	opacity: 0;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: var(--foreground-400);
+	border-radius: 20px;
+	/* opacity: 0.5; */
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	cursor: pointer;
+	background: var(--foreground-500);
+	opacity: 1;
+}

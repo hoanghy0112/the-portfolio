@@ -31,7 +31,7 @@
 						src: v,
 						alt: 'Preview'
 					}))}
-					duration={Math.floor(Math.random() * 500 + 3000)}
+					duration={Math.floor(Math.random() * 5000 + 5000)}
 				/>
 			{/if}
 		</div>
@@ -51,11 +51,13 @@
 			</div>
 		</div>
 		<div
-			class=" back px-20 flex flex-col justify-center items-stretch gap-4 opacity-0 delay-[200ms] scale-105 z-20 rounded-xl group-hover:opacity-100 absolute w-full h-full top-0 left-0 bg-background-default"
+			class=" back px-20 flex flex-col justify-center items-stretch gap-4 opacity-0 delay-[200ms] scale-105 z-20 rounded-xl group-hover:opacity-100 absolute w-full h-full top-0 left-0 bg-foreground-50"
 		>
-			<Button color="light">Create portfolio</Button>
-			<a class=" w-full" href="/main/create-project?id={project.id}">
-				<Button class="w-full" type="submit" color="light">Edit</Button>
+			<a
+				class=" w-full text-center font-medium hover:no-underline border-[1px] border-foreground-300 bg-foreground-50 rounded-lg p-2 text-foreground-900 hover:bg-foreground-200 duration-200"
+				href="/main/create-project?id={project.id}"
+			>
+				Edit
 			</a>
 			<form
 				use:enhance={() => {
@@ -68,7 +70,11 @@
 				action={`/main/project/${project.id}?/delete`}
 				method="post"
 			>
-				<Button type="submit" outline color="red">Delete</Button>
+				<button
+					type="submit"
+					class=" w-full text-red-500 font-medium border-[1px] border-red-500 p-2 rounded-lg hover:text-foreground-50 dark:hover:text-foreground-900 hover:bg-red-500 duration-200"
+					>Delete</button
+				>
 			</form>
 		</div>
 	</div>

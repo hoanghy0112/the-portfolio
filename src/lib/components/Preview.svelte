@@ -16,7 +16,7 @@
 
 	$effect(() => {
 		(async () => {
-			Template = (await import(`$lib/templates/${theme}.svelte`)).default;
+			Template = (await import(`$lib/templates/${theme}/portfolio.svelte`)).default;
 		})();
 	});
 
