@@ -19,7 +19,7 @@
 	class=" snap-y snap-mandatory h-screen overflow-auto bg-[#f8f8f3] w-full em:pb-24 flex flex-col em:gap-16"
 >
 	<div
-		class=" flex-none snap-end w-full h-screen flex flex-col justify-center items-center em:gap-3"
+		class=" flex-none snap-center w-full h-screen flex flex-col justify-center items-center em:gap-3"
 	>
 		<h1 style="--delay:0ms" class="fly font-light em:text-4xl lg:em:text-5xl em:!leading-4">
 			{data.name}
@@ -59,85 +59,82 @@
 		</div>
 	</div>
 
-	<div class=" snap-end w-full flex flex-col em:gap-10 items-center">
-		<h2 class=" font-medium em:text-xl lg:em:text-3xl underline underline-offset-8">Feature</h2>
-		<div class="sections w-full flex flex-col em:gap-8 snap-y snap-mandatory">
-			{#each data.features as feature (feature.title)}
-				<Intersection defaultRatio={0.7}>
-					{#snippet children({ intersectOnce, ratio })}
-						{#key intersectOnce}
+	{#each data.features as feature (feature.title)}
+		<Intersection defaultRatio={0.7}>
+			{#snippet children({ intersectOnce, ratio })}
+				{#key intersectOnce}
+					<div
+						in:fly={{ duration: 500, x: -500, opacity: 0 }}
+						class={twMerge(
+							intersectOnce ? '' : 'opacity-0',
+							' snap-center snap-always flex-none w-screen h-screen flex flex-col justify-center items-center'
+						)}
+					>
+						<div class=" mx-auto w-fit text-center em:p-2 lg:em:px-8 lg:em:py-4 rounded-xl">
+							<Text class=" w-fit text-slate-900 em:text-xl font-medium text-center flex mx-auto">
+								{feature.title}
+							</Text>
+							<p class=" em:mt-1 md:em:mx-4 lg:em:mx-10 font-light text-slate-700">
+								{feature.description}
+							</p>
+						</div>
+						{#if feature.photos.length > 1}
 							<div
-								in:fly={{ duration: 500, x: -500, opacity: 0 }}
-								class={twMerge(
-									intersectOnce ? '' : 'opacity-0',
-									' w-screen h-screen flex flex-col justify-center items-center'
-								)}
+								style="--time: {feature.photos.length * 4}s"
+								class=" marquee-wrapper em:mt-4 pb-8 flex em:gap-4 lg:em:gap-6 w-full overflow-hidden"
 							>
-								<div class=" mx-auto w-fit text-center em:p-2 lg:em:px-8 lg:em:py-4 rounded-xl">
-									<Text
-										class=" w-fit text-slate-900 em:text-xl font-medium text-center flex mx-auto"
-									>
-										{feature.title}
-									</Text>
-									<p class=" em:mt-1 md:em:mx-4 lg:em:mx-10 font-light text-slate-700">
-										{feature.description}
-									</p>
+								<div class=" marquee flex items-stretch em:gap-4 lg:em:gap-6">
+									{#each feature.photos as photo (photo)}
+										<div class=" h-full em:w-[300px] md:em:w-[400px] lg:em:w-[600px]">
+											<img
+												class=" h-full w-full object-cover shadow-xl rounded-xl"
+												src={photo}
+												alt="feature preview"
+											/>
+										</div>
+									{/each}
 								</div>
-								{#if feature.photos.length > 1}
-									<div
-										style="--time: {feature.photos.length * 4}s"
-										class=" marquee-wrapper em:mt-4 pb-8 flex em:gap-4 lg:em:gap-6 w-full overflow-hidden"
-									>
-										<div class=" marquee flex items-stretch em:gap-4 lg:em:gap-6">
-											{#each feature.photos as photo (photo)}
-												<div class=" h-full em:w-[300px] md:em:w-[400px] lg:em:w-[600px]">
-													<img
-														class=" h-full w-full object-cover shadow-xl rounded-xl"
-														src={photo}
-														alt="feature preview"
-													/>
-												</div>
-											{/each}
+								<div class=" marquee flex items-stretch em:gap-4 lg:em:gap-6">
+									{#each feature.photos as photo (photo)}
+										<div class=" h-full w-[300px] md:w-[400px] lg:em:w-[600px]">
+											<img
+												class=" h-full w-full object-cover shadow-xl rounded-xl"
+												src={photo}
+												alt="feature preview"
+											/>
 										</div>
-										<div class=" marquee flex items-stretch em:gap-4 lg:em:gap-6">
-											{#each feature.photos as photo (photo)}
-												<div class=" h-full w-[300px] md:w-[400px] lg:em:w-[600px]">
-													<img
-														class=" h-full w-full object-cover shadow-xl rounded-xl"
-														src={photo}
-														alt="feature preview"
-													/>
-												</div>
-											{/each}
+									{/each}
+								</div>
+								<div class=" marquee flex items-stretch em:gap-4 lg:em:gap-6">
+									{#each feature.photos as photo (photo)}
+										<div class=" h-full w-[300px] md:w-[400px] lg:em:w-[600px]">
+											<img
+												class=" h-full w-full object-cover shadow-xl rounded-xl"
+												src={photo}
+												alt="feature preview"
+											/>
 										</div>
-										<div class=" marquee flex items-stretch em:gap-4 lg:em:gap-6">
-											{#each feature.photos as photo (photo)}
-												<div class=" h-full w-[300px] md:w-[400px] lg:em:w-[600px]">
-													<img
-														class=" h-full w-full object-cover shadow-xl rounded-xl"
-														src={photo}
-														alt="feature preview"
-													/>
-												</div>
-											{/each}
-										</div>
-									</div>
-								{:else if feature.photos.length === 1}
-									<div class=" em:mt-4 mx-auto w-full lg:em:w-[800px] rounded-none">
-										<img
-											class=" w-full object-cover shadow-xl rounded-none md:rounded-xl"
-											src={feature.photos.at(0)}
-											alt="feature preview"
-										/>
-									</div>
-								{/if}
+									{/each}
+								</div>
 							</div>
-						{/key}
-					{/snippet}
-				</Intersection>
-			{/each}
-		</div>
-	</div>
+						{:else if feature.photos.length === 1}
+							<div class=" em:mt-4 mx-auto w-full lg:em:w-[800px] rounded-none">
+								<img
+									class=" w-full object-cover shadow-xl rounded-none md:rounded-xl"
+									src={feature.photos.at(0)}
+									alt="feature preview"
+								/>
+							</div>
+						{/if}
+					</div>
+				{/key}
+			{/snippet}
+		</Intersection>
+	{/each}
+	<!-- <div class=" snap-end w-full flex flex-col em:gap-10 items-center">
+		<h2 class=" font-medium em:text-xl lg:em:text-3xl underline underline-offset-8">Feature</h2>
+		<div class="sections w-full flex flex-col em:gap-8 snap-y snap-mandatory"></div>
+	</div> -->
 </div>
 
 <style>
