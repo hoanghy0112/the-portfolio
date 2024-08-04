@@ -7,6 +7,7 @@
 	import StatisticField from './StatisticField.svelte';
 	import type { PortfolioStatistic } from '$lib/types/portfolio-statistic';
 	import OptionButton from './OptionButton.svelte';
+	import PortFolioVisitTimePieChart from './PortFolioVisitTimePieChart.svelte';
 
 	type Props = { portfolio: Portfolio };
 
@@ -38,30 +39,33 @@
 			{#await getStatisticData()}
 				<p>Loading...</p>
 			{:then data}
-				<StatisticField
-					title="visitors"
-					number={data.users}
-					unit=""
-					icon="solar:user-rounded-broken"
-					backgroundClass=" bg-purple-200 dark:bg-purple-700"
-					primaryClass=" text-purple-600 dark:text-purple-100"
-				/>
-				<StatisticField
-					title="views"
-					number={data.views}
-					unit=""
-					icon="solar:eye-broken"
-					backgroundClass=" bg-green-200 dark:bg-green-700"
-					primaryClass=" text-green-600 dark:text-green-100"
-				/>
-				<StatisticField
-					title="average visit time"
-					number={(data.averageAccessTime / 1000).toFixed(1)}
-					unit="s"
-					icon="solar:clock-circle-broken"
-					backgroundClass=" bg-cyan-200 dark:bg-cyan-700"
-					primaryClass=" text-cyan-600 dark:text-cyan-100"
-				/>
+				<PortFolioVisitTimePieChart data={data.visitTimeOfEachProject} />
+				<div class=" flex flex-col gap-6">
+					<StatisticField
+						title="visitors"
+						number={data.users}
+						unit=""
+						icon="solar:user-rounded-broken"
+						backgroundClass=" bg-purple-200 dark:bg-purple-700"
+						primaryClass=" text-purple-600 dark:text-purple-100"
+					/>
+					<StatisticField
+						title="views"
+						number={data.views}
+						unit=""
+						icon="solar:eye-broken"
+						backgroundClass=" bg-green-200 dark:bg-green-700"
+						primaryClass=" text-green-600 dark:text-green-100"
+					/>
+					<StatisticField
+						title="average visit time"
+						number={(data.averageAccessTime / 1000).toFixed(1)}
+						unit="s"
+						icon="solar:clock-circle-broken"
+						backgroundClass=" bg-cyan-200 dark:bg-cyan-700"
+						primaryClass=" text-cyan-600 dark:text-cyan-100"
+					/>
+				</div>
 			{/await}
 		</div>
 		<div class=" absolute top-5 right-5">
