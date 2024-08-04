@@ -37,7 +37,6 @@
 	}}
 	onEscape={() => {
 		timer += new Date().getTime() - focusTime.getTime();
-		console.log({ timer });
 	}}
 >
 	{@render children()}
