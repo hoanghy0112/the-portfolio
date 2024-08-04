@@ -21,10 +21,12 @@
 		};
 
 		window.addEventListener('beforeunload', unload);
-
-		return () => {
-			window.removeEventListener('beforeunload', unload);
-		};
+		window.addEventListener('focus', () => {
+			focusTime = new Date();
+		});
+		window.addEventListener('blur', () => {
+			timer += new Date().getTime() - focusTime.getTime();
+		});
 	});
 </script>
 

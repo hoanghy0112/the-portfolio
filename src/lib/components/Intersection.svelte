@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount, untrack, type Snippet } from 'svelte';
+	import { untrack, type Snippet } from 'svelte';
 
 	type Props = {
 		intersecting?: boolean;
