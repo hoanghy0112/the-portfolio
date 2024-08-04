@@ -40,7 +40,7 @@
 				<p>Loading...</p>
 			{:then data}
 				<PortFolioVisitTimePieChart data={data.visitTimeOfEachProject} />
-				<div class=" flex flex-col gap-6">
+				<div class=" flex flex-col justify-between gap-8">
 					<StatisticField
 						title="visitors"
 						number={data.users}
